@@ -1,4 +1,4 @@
-# GeneAccord#
+# GeneAccord #
 
 This R package has functions to detect significant subclonal exclusivity or co-occurrence patterns of altered genes or pathways in
 a cohort of tumor samples.
