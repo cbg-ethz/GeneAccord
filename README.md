@@ -1,7 +1,7 @@
 # GeneAccord #
 
 This R package has functions to detect significant subclonal exclusivity or co-occurrence patterns of altered genes or pathways in
-a cohort of tumor samples.
+a cohort of cancer patients.
 
 ### Dependencies ###
 GeneAccord has been developed with R version 3.4.3. 
