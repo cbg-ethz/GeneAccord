@@ -1,0 +1,909 @@
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 580 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 01.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 01 has mean rate 0.006, median rate 0, and the rate is zero in 16 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 01, and 29 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 200 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 02.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 02 has mean rate 0.184, median rate 0.156, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 02, and 10 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 04.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 04 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 04, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 58 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 05.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 05 has mean rate 0.3, median rate 0.333, and the rate is zero in 2 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 05, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 18, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 419 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 06.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 06 has mean rate 0.038, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 06, and 21 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 240 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 07.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 07 has mean rate 0.005, median rate 0, and the rate is zero in 18 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 07, and 12 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 400 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 08.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 08 has mean rate 0.012, median rate 0, and the rate is zero in 16 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 08, and 20 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 200 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 09.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 09 has mean rate 0.2, median rate 0.2, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 09, and 10 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 360 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 10.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 10 has mean rate 0.054, median rate 0.052, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 10, and 18 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 139 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 11.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 11 has mean rate 0.024, median rate 0, and the rate is zero in 15 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 11, and 7 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 240 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 12.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 12 has mean rate 0.004, median rate 0, and the rate is zero in 15 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 12, and 12 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 360 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 13.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 13 has mean rate 0.092, median rate 0.092, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 13, and 18 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 299 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 14.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 14 has mean rate 0.069, median rate 0.057, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 14, and 15 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 200 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 15.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 15 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 15, and 10 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 3 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 1322 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 16.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 16 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 16, and 68 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 19, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 200 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 17.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 17 has mean rate 0.267, median rate 0.267, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 17, and 10 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 40 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 18.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 18 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 18, and 2 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 19.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 19 has mean rate 0.11, median rate 0.2, and the rate is zero in 9 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 19, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 140 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 20.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 20 has mean rate 0.029, median rate 0, and the rate is zero in 18 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 20, and 7 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 21.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 21 has mean rate 0.14, median rate 0.133, and the rate is zero in 10 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 21, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 220 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 22.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 22 has mean rate 0.011, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 22, and 11 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 98 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 23.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 23 has mean rate 0.392, median rate 0.5, and the rate is zero in 1 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 23, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 6 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 24.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 24 has mean rate 0.41, median rate 0.4, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 24, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 2 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 25.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 25 has mean rate 0.34, median rate 0.3, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 25, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1.5 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 160 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 26.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 26 has mean rate 0.021, median rate 0, and the rate is zero in 16 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 26, and 8 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 40 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 27.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 27 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 27, and 2 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 140 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 28.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 28 has mean rate 0.031, median rate 0, and the rate is zero in 16 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 28, and 7 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 29.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 29 has mean rate 0.6, median rate 0.667, and the rate is zero in 1 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 29, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 15 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 30.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 30 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 30, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 140 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 31.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 31 has mean rate 0.005, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 31, and 7 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 32.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 32 has mean rate 0.055, median rate 0, and the rate is zero in 17 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 32, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 33.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 33 has mean rate 0.217, median rate 0.167, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 33, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 180 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 35.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 35 has mean rate 0.018, median rate 0.028, and the rate is zero in 9 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 35, and 9 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 220 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 36.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 36 has mean rate 0.151, median rate 0.091, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 36, and 11 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 37.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 37 has mean rate 0.093, median rate 0, and the rate is zero in 13 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 37, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 38.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 38 has mean rate 0.4, median rate 0.4, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 38, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 39.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 39 has mean rate 0.017, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 39, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 40.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 40 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 40, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 41.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 41 has mean rate 0.163, median rate 0.133, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 41, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 42.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 42 has mean rate 0.075, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 42, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 43.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 43 has mean rate 0.15, median rate 0, and the rate is zero in 13 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 43, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 3.5 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 44.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 44 has mean rate 0.233, median rate 0.333, and the rate is zero in 7 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 44, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 3 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 45.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 45 has mean rate 0.675, median rate 0.75, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 45, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 15 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 46.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 46 has mean rate 0.09, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 46, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 47.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 47 has mean rate 0.155, median rate 0, and the rate is zero in 14 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 47, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 3 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 48.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 48 has mean rate 0.15, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 48, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1.5 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 220 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 49.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 49 has mean rate 0.18, median rate 0.164, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 49, and 11 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 79 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 50.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 50 has mean rate 0.167, median rate 0.167, and the rate is zero in 2 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 50, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 19.5, and 0.5 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 2 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 220 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 52.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 52 has mean rate 0.084, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 52, and 11 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 54.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 54 has mean rate 0.063, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 54, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 480 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 55.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 55 has mean rate 0.076, median rate 0.076, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 55, and 24 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 180 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 56.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 56 has mean rate 0.226, median rate 0.167, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 56, and 9 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 2 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 1119 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 57.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 57 has mean rate 0.017, median rate 0, and the rate is zero in 16 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 57, and 56 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 59.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 59 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 59, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 40 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 60.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 60 has mean rate 0.45, median rate 0, and the rate is zero in 11 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 60, and 2 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 9 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 40 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 61.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 61 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 61, and 2 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 62.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 62 has mean rate 0.03, median rate 0, and the rate is zero in 18 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 62, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 63.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 63 has mean rate 0.033, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 63, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 1 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 64.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 64 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 64, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 160 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 66.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 66 has mean rate 0.004, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 66, and 8 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 67.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 67 has mean rate 0.017, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 67, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 68.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 68 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 68, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 69.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 69 has mean rate 0.133, median rate 0.167, and the rate is zero in 9 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 69, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0.5 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 70.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 70 has mean rate 0.145, median rate 0.1, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 70, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 71.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 71 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 71, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 72.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 72 has mean rate 0.147, median rate 0.133, and the rate is zero in 3 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 72, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 160 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 73.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 73 has mean rate 0.143, median rate 0.107, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 73, and 8 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 74.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 74 has mean rate 0.333, median rate 0.333, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 74, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 75.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 75 has mean rate 0.167, median rate 0, and the rate is zero in 14 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 75, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 4 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 180 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 76.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 76 has mean rate 0.171, median rate 0.167, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 76, and 9 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 77.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 77 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 77, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 78.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 78 has mean rate 0.005, median rate 0, and the rate is zero in 19 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 78, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 240 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 79.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 79 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 79, and 12 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 80 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 80.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 80 has mean rate 0.05, median rate 0, and the rate is zero in 14 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 80, and 4 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 198 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 81.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 81 has mean rate 0.19, median rate 0.133, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 81, and 10 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 1 gene that is missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 82.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 82 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 82, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 60 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 83.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 83 has mean rate 0, median rate 0, and the rate is zero in 20 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 83, and 3 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 158 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 84.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 84 has mean rate 0.143, median rate 0.143, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 84, and 8 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 100 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 85.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 85 has mean rate 0.3, median rate 0.3, and the rate is zero in 0 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 85, and 5 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 180 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 86.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 86 has mean rate 0.022, median rate 0, and the rate is zero in 14 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 86, and 9 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 120 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 88.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 88 has mean rate 0.097, median rate 0.133, and the rate is zero in 8 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 88, and 6 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+Found a collection of tree inferences of 20 input files.
+Removed 0 genes that are missing in more than 2 of gene-to-clone assignments.
+Found 139 altered genes/pathways in total, which are from 20 gene-to-clone assignments.
+Found 20 different tree instances in the gene-to-clone tibble from patient 89.
+Will compute the rate of clonal exclusivity for each of these...
+...done
+Current patient 89 has mean rate 0.052, median rate 0.048, and the rate is zero in 2 out of 20 trees.
+Found 20 different tree instances in the gene-to-clone tibble from patient 89, and 7 different mutated genes/pathways in total.
+Will compute the histograms for all pairs of how often they occur across tree instances, and how often they are clonally exclusive...
+...done
+The median value for how often a gene pair occurs across the trees is 20, and 0 is the median value for the pairs being clonally exclusive.
+There were 82 rates of average clonal exclusivity provided.
+The average rates will be distorted with a beta distribution and M = alpha + beta = 1000
+Additionally, from the 82 patients, the values from the data for all pairs of # clon. excl./ # occurrence across all trees is provided.
+From those, it will be sampled 1e+05 times to obtain the test statistic under the null.
+This procedure is done for num_patients = 2, ... 3
+Generate ECDF for the case where a gene pair is mutated together in 2 patient(s).
+Generate ECDF for the case where a gene pair is mutated together in 3 patient(s).

@@ -1,0 +1,16 @@
+
+
+# Ensembl2Reactome_homo_sapiens.txt:
+# from https://reactome.org/download-data:
+# Identifier mapping files
+# Mapping files link the source database identifier to the lowest level pathway diagram or subset of the pathway, all levels of the pathway hierarchy or database identifier to all reactions. Read more about the format.
+
+# Lowest level pathway diagram / Subset of the pathway # this can be used to map genes to pathways and do GeneAccord on the lowest pathway hierarchy level
+# --> ENSEMBL to pathways
+# wget https://reactome.org/download/current/Ensembl2Reactome.txt
+# cat Ensembl2Reactome.txt | grep "Homo sapiens" > Ensembl2Reactome_homo_sapiens.txt
+
+
+# to prepare the patient data that is stored as an example in the data folder:
+# Rscript prepare_patient_data_all.R `pwd` >> prepare_patient_data_all.log 2>&1
+
