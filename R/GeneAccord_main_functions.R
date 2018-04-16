@@ -12,7 +12,7 @@
 #' 'patient_id', 'altered_entity', 'clone1', 'clone2', ... up to the maximal number of clones (Default: until 'clone7'), and
 #' 'tree_id'. Note that the labelling of the clones does not matter and only needs to stay fixed within each patient and
 #' tree inference. There is also the option to test two-sided, meaning that also pairs will be tested that tend to occur more
-#' often together in the same clones. Hence it also allows to detect significant clonal co-occurrence. An additional option is
+#' often together in the same clones or separate in different clones. Hence it also allows to detect significant clonal co-occurrence. An additional option is
 #' to test only a specific subset of genes.
 #'
 #' @title Detection of clonally exclusive gene or pathway pairs in a cohort of cancer patients
@@ -46,12 +46,12 @@
 #' tibble
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -67,7 +67,8 @@
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
 #' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-#'                              list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim)
+#'                              list_of_clon_excl_all_pats, num_pat_pair_max, 
+#'                              num_pairs_sim)
 #' alternative <- "greater"
 #' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative)
 #' alternative <- "two.sided"

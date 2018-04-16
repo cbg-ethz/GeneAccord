@@ -24,12 +24,12 @@ that shows in how many patients the pairs are mutated in.
 }
 \examples{
 clone_tbl <- tibble::as_tibble(cbind("file_name" =
-                                   rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-                                   "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-                                   "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-                                   "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-                                   "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-                                   "tree_id" = c(rep(5, 6), rep(10, 6))))
+                               rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+                               "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+                               "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+                               "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+                               "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+                               "tree_id" = c(rep(5, 6), rep(10, 6))))
 pairs_in_patients_hist(clone_tbl)
 }
 \author{

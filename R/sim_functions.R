@@ -28,12 +28,12 @@
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -151,12 +151,12 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats, lis
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -288,7 +288,8 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats, lis
 #' tibble
 #' @examples
 #' avg_rates_m = c(0.4, 0.3)
-#' list_of_clon_excl_frac_trees_all_pats <- list(list(c(5, 4, 5), c(5, 4)), list(c(4, 4, 3), c(3, 2)))
+#' list_of_clon_excl_frac_trees_all_pats <- list(list(c(5, 4, 5), c(5, 4)), 
+#'                                               list(c(4, 4, 3), c(3, 2)))
 #' sim_pairs <- build_null_test_statistic(avg_rates_m,
 #'              list_of_clon_excl_frac_trees_all_pats, 2, 100, beta_distortion = 100)
 #' ecdf_test_stat <- ecdf(as.numeric(as.character(sim_pairs$test_statistic)))

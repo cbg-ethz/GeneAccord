@@ -16,7 +16,7 @@
   \item{end_position}{the nucleotide end position of the gene as an integer}
 }}
 \source{
-The tibble can be generated with \code{\link{create_ensembl_gene_tbl_hg}}, which uses the R-package
+The tibble can be generated with \code{\link{create_ensembl_gene_tbl_hg}()}, which uses the R-package
 \code{biomaRt} and the Ensembl data base \url{www.ensembl.org}.
 }
 \usage{

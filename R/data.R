@@ -15,7 +15,7 @@
 #'   \item{start_position}{the nucleotide start position of the gene as an integer}
 #'   \item{end_position}{the nucleotide end position of the gene as an integer}
 #' }
-#' @source The tibble can be generated with \code{\link{create_ensembl_gene_tbl_hg}}, which uses the R-package
+#' @source The tibble can be generated with \code{\link{create_ensembl_gene_tbl_hg}()}, which uses the R-package
 #' \code{biomaRt} and the Ensembl data base \url{www.ensembl.org}.
 "all_genes_tbl"
 
@@ -27,7 +27,7 @@
 #' are from the lowest level in the hierarchy ("Lowest level pathway diagram / Subset of the pathway"), 
 #' and were obtained by download from the Reactome website (\url{https://reactome.org/download-data}; "ENSEMBL to pathways").
 #' The following commands were used:
-#' wget https://reactome.org/download/current/Ensembl2Reactome.txt
+#' wget https://reactome.org/download/current/Ensembl2Reactome.txt; 
 #' cat Ensembl2Reactome.txt | grep "Homo sapiens" > Ensembl2Reactome_homo_sapiens.txt
 #' 
 #' @format A tibble with 46'141 rows and six variables:
@@ -40,18 +40,16 @@
 #'   \item{species}{the species}
 #' }
 #' @source The tibble was created as follows: 
-#' library(dplyr)
+#' library(dplyr);
 #' ensg_path_map_raw <- read.csv("Ensembl2Reactome_homo_sapiens.txt", header = F, sep = "\\t", 
-#'     comment.char = "", check.names = FALSE, skip = 0)
-#' stopifnot(dim(ensg_path_map_raw)[1] == 46141)
-#' stopifnot(dim(ensg_path_map_raw)[2] == 6)
-#' colnames(ensg_path_map_raw) <- c("ensembl_gene_id", "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species")
-#' # convert this to a tbl
-#' ensg_path_map_raw <- dplyr::as.tbl(ensg_path_map_raw)
+#'     comment.char = "", check.names = FALSE, skip = 0);
+#' stopifnot(dim(ensg_path_map_raw)[1] == 46141);
+#' stopifnot(dim(ensg_path_map_raw)[2] == 6);
+#' colnames(ensg_path_map_raw) <- c("ensembl_gene_id", "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
+#' # convert this to a tbl';
+#' ensg_path_map_raw <- dplyr::as.tbl(ensg_path_map_raw);
 #' # filter such that only ensembl gene id's are in there, and only homo sapiens
-#' ensg_reactome_path_map <- ensg_path_map_raw %>% 
-#'   filter(grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)) %>%
-#'   filter(species == "Homo sapiens")
+#' ensg_reactome_path_map <- filter(filter(ensg_path_map_raw, grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)), species == "Homo sapiens")
 "ensg_reactome_path_map"
 
 

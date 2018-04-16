@@ -171,12 +171,12 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents = 0.9, max_num
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                        rep("fn1", 10),
-#'                                    "patient_id" = rep("pat1", 10),
-#'                                    "altered_entity" = paste0("gene", LETTERS[1:10]),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
-#'                                    "tree_id" = c(rep(1, 5), rep(2, 5))))
+#'                                rep("fn1", 10),
+#'                                "patient_id" = rep("pat1", 10),
+#'                                "altered_entity" = paste0("gene", LETTERS[1:10]),
+#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
+#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
+#'                                "tree_id" = c(rep(1, 5), rep(2, 5))))
 #' compute_rates_clon_excl(clone_tbl)
 compute_rates_clon_excl <- function(pat_tbl){
   tree_id <- file_name <- patient_id <- NULL
@@ -731,11 +731,11 @@ extract_num_clones_tbl <- function(clone_tbl) {
 #' tibble
 #' @examples
 #' clone_tbl <- tibble::tibble(file_name = rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    tree_id = c(rep(5, 6), rep(10, 6)))
+#'                            patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                            altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                            clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                            clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                            tree_id = c(rep(5, 6), rep(10, 6)))
 #' pairs_of_interest <- tibble::tibble(entity_A = c("geneA", "geneB"), entity_B = c("geneB", "geneC"))
 #' take_pairs_and_get_patients(clone_tbl, pairs_of_interest)
 take_pairs_and_get_patients <- function(clone_tbl_all_trees, pairs_of_interest_tbl){
@@ -1005,12 +1005,12 @@ write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m, tsv_file, num_digits
 #' utils
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                    rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' pairs_in_patients_hist(clone_tbl)
 pairs_in_patients_hist <- function(clone_tbl){
   patient_id <- altered_entity <- file_name <- tree_id <- pairs <- n <- pairs_count <- patient_count <- NULL

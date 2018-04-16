@@ -29,11 +29,11 @@ pair was mutated, and in which of these patients the pair was clonally exclusive
 }
 \examples{
 clone_tbl <- tibble::tibble(file_name = rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-                                   patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-                                   altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
-                                   clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-                                   clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-                                   tree_id = c(rep(5, 6), rep(10, 6)))
+                           patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+                           altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
+                           clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+                           clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+                           tree_id = c(rep(5, 6), rep(10, 6)))
 pairs_of_interest <- tibble::tibble(entity_A = c("geneA", "geneB"), entity_B = c("geneB", "geneC"))
 take_pairs_and_get_patients(clone_tbl, pairs_of_interest)
 }

@@ -43,7 +43,8 @@ pairs are mutated in are randomly selected proportional to the number of pairs i
 }
 \examples{
 avg_rates_m = c(0.4, 0.3)
-list_of_clon_excl_frac_trees_all_pats <- list(list(c(5, 4, 5), c(5, 4)), list(c(4, 4, 3), c(3, 2)))
+list_of_clon_excl_frac_trees_all_pats <- list(list(c(5, 4, 5), c(5, 4)), 
+                                              list(c(4, 4, 3), c(3, 2)))
 sim_pairs <- build_null_test_statistic(avg_rates_m,
              list_of_clon_excl_frac_trees_all_pats, 2, 100, beta_distortion = 100)
 ecdf_test_stat <- ecdf(as.numeric(as.character(sim_pairs$test_statistic)))
