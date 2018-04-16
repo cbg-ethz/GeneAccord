@@ -8,8 +8,9 @@ GeneAccord has been developed with R version 3.4.3.
 
 ### Functionality ###
 
+
 <p align="center">
-	<img src="inst/ext/Cartoon_GeneAccordAlgorithm_Rpackage.png" alt="Schematic overview of the procedure of GeneAccord"/>
+	<img src="inst/extdata/Cartoon_GeneAccordAlgorithm_Rpackage.png?raw=true" alt="Schematic overview of the procedure of GeneAccord"/>
 </p>
 
 The input data are the mutated gene-clone assignments from a cohort of cancer patients and from a collection of tree inferences to take into account uncertainty in the phylogenetic tree inference. The first step is to compute the overall rates of clonal exclusivity for all gene pairs for each patient separately. These rates reflect the expected prevalence of the clonal exclusivity pattern in each patient and for each gene or pathway pair. From these, the distribution of the test statistic under the null hypothesis of the likelihood ratio test is computed. For each gene pair, a paramater is computed that indicates whether the pair tends to be mutated in different clones more often than expected. Such pairs can be selected and tested for significance. Significant pairs may indicate synergistic effects between the co-existing clones.
