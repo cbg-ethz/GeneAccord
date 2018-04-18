@@ -41,8 +41,11 @@ clone_tbl <- tibble::tibble(file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
                            altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
                            clone1 = c(0, 1, 1, 0),
                            clone2 = c(1, 0, 0, 1))
-all_genes_tbl <- create_ensembl_gene_tbl_hg()
-heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl)
+\dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
+all_genes_tbl_example <- tibble::tibble(ensembl_gene_id = 
+                              c("ENSG00000181555", "ENSG00000163930"),
+                           hgnc_symbol = c("SETD2", "BAP1"))
+heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl_example)
 }
 \author{
 Ariane L. Moore

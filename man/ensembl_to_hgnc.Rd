@@ -23,9 +23,9 @@ hgnc gene symbol. The tibble with all genes can be generated with
 \code{\link{create_ensembl_gene_tbl_hg}}.
 }
 \examples{
-all_genes_tbl <- create_ensembl_gene_tbl_hg()
+\dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()
 ensembl_to_hgnc("ENSG00000134086", all_genes_tbl)
-ensembl_to_hgnc("ENSG00000141510", all_genes_tbl)
+ensembl_to_hgnc("ENSG00000141510", all_genes_tbl)}
 }
 \author{
 Ariane L. Moore

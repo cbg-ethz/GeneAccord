@@ -23,9 +23,9 @@ For a hgnc gene symbol and a tibble with all genes as input, this function retur
 ensembl gene id. The tibble with all genes can be generated with \code{\link{create_ensembl_gene_tbl_hg}}.
 }
 \examples{
-all_genes_tbl <- create_ensembl_gene_tbl_hg()
+\dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()
 hgnc_to_ensembl("VHL", all_genes_tbl)
-hgnc_to_ensembl("PBRM1", all_genes_tbl)
+hgnc_to_ensembl("PBRM1", all_genes_tbl)}
 }
 \author{
 Ariane L. Moore

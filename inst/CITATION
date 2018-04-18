@@ -1,7 +1,7 @@
 citHeader("If you use GeneAccord in published research, please cite:")
 
 citEntry(entry = "Article",
-  title        = "Intra-tumor heterogeneity and co-occurring clones in renal cell carcinoma",
+  title        = "Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma",
   author       = "Ariane L. Moore, Jack Kuipers, Jochen Singer, Elodie Burcklen, Peter Schraml, Christian Beisel, Holger Moch, Niko Beerenwinkel",
   journal      = "bioRxiv",
   year         = "2018",
@@ -10,7 +10,7 @@ citEntry(entry = "Article",
 
   textVersion  =
   paste("Ariane L. Moore, Jack Kuipers, Jochen Singer, Elodie Burcklen, Peter Schraml, Christian Beisel, Holger Moch, Niko Beerenwinkel
-Intra-tumor heterogeneity and co-occurring clones in renal cell carcinoma (2018)
+Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma (2018)
 bioRxiv number; doi: doi")
 )
 

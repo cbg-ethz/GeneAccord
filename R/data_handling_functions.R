@@ -853,10 +853,10 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees, pairs_of_interest_t
 #' dplyr
 #' tibble
 #' @examples
-#' pairs_of_interest <- tibble::tibble(entity_A = c("ENSG00000181143", "ENSG00000163939"),
+#' \dontrun{pairs_of_interest <- tibble::tibble(entity_A = c("ENSG00000181143", "ENSG00000163939"),
 #'                                     entity_B = c("ENSG00000141510", "ENSG00000163930"))
 #' all_genes_tbl <- create_ensembl_gene_tbl_hg()
-#' map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)
+#' map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)}
 map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl, all_genes_tbl){
   entity_A <- entity_B  <- ensembl_gene_id <- hgnc_symbol <-  NULL
   stopifnot(dplyr::is.tbl(pairs_of_interest_tbl))

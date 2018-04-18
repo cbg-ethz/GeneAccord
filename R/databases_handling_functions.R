@@ -19,7 +19,7 @@
 #' biomaRt
 #' dplyr
 #' @examples
-#' create_ensembl_gene_tbl_hg()
+#' \dontrun{create_ensembl_gene_tbl_hg()}
 create_ensembl_gene_tbl_hg <- function(GRCh = 37, ensembl_version = 88) {
   message(paste("GRCh version: ", GRCh, ", and Ensembl Genes version: ", ensembl_version, sep = ""))
   message("Obtain a tibble with various gene id's and their genomic coordinates...")
@@ -84,9 +84,9 @@ create_ensembl_gene_tbl_hg <- function(GRCh = 37, ensembl_version = 88) {
 #' @import 
 #' dplyr
 #' @examples
-#' all_genes_tbl <- create_ensembl_gene_tbl_hg()
+#' \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()
 #' ensembl_to_hgnc("ENSG00000134086", all_genes_tbl)
-#' ensembl_to_hgnc("ENSG00000141510", all_genes_tbl)
+#' ensembl_to_hgnc("ENSG00000141510", all_genes_tbl)}
 ensembl_to_hgnc <- function(this_ensembl, all_genes_tbl){
   ensembl_gene_id <- hgnc_symbol <- NULL
   stopifnot(is.character(this_ensembl))
@@ -138,9 +138,9 @@ ensembl_to_hgnc <- function(this_ensembl, all_genes_tbl){
 #' @import 
 #' dplyr
 #' @examples
-#' all_genes_tbl <- create_ensembl_gene_tbl_hg()
+#' \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()
 #' hgnc_to_ensembl("VHL", all_genes_tbl)
-#' hgnc_to_ensembl("PBRM1", all_genes_tbl)
+#' hgnc_to_ensembl("PBRM1", all_genes_tbl)}
 hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
   ensembl_gene_id <- hgnc_symbol <- NULL
   stopifnot(is.character(this_hgnc))

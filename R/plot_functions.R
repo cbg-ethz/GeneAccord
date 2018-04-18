@@ -325,8 +325,11 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf = "direct"){
 #'                            altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
 #'                            clone1 = c(0, 1, 1, 0),
 #'                            clone2 = c(1, 0, 0, 1))
-#' all_genes_tbl <- create_ensembl_gene_tbl_hg()
-#' heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl)
+#' \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
+#' all_genes_tbl_example <- tibble::tibble(ensembl_gene_id = 
+#'                               c("ENSG00000181555", "ENSG00000163930"),
+#'                            hgnc_symbol = c("SETD2", "BAP1"))
+#' heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl_example)
 heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl, all_genes_tbl, first_clone_is_N = FALSE, output_pdf = "direct"){
   file_name <- patient_id <- entity_A <- entity_B <- variable <- altered_entity <- value <- n <- NULL
   stopifnot(dplyr::is.tbl(pairs_of_interest))

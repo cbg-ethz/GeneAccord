@@ -42,7 +42,7 @@ Ariane L. Moore ( ariane.moore __ bsse.ethz.ch )
 ### Citation ###
 
 Ariane L. Moore, Jack Kuipers, Jochen Singer, Elodie Burcklen, Peter Schraml, Christian Beisel, Holger Moch, Niko Beerenwinkel
-Intra-tumor heterogeneity and co-occurring clones in renal cell carcinoma (2018)
+Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma (2018)
 bioRxiv number; doi: doi
 
 
