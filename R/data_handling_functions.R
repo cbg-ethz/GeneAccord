@@ -1029,7 +1029,7 @@ pairs_in_patients_hist <- function(clone_tbl){
   
   # get the pairs from each patient separately, and then check which pairs re-occur across at least two patients
   list_all_pairs_all_pats <- lapply(all_pats, function(x){
-    clone_tbl_this_pat <- clone_tbl %>% filter(patient_id == x)
+    clone_tbl_this_pat <- clone_tbl %>% dplyr::filter(patient_id == x)
     all_ents_this_pat <- unique(as.character(clone_tbl_this_pat$altered_entity))
     num_ents_this_pat <- length(all_ents_this_pat)
     num_pairs_this_pat <- num_ents_this_pat*(num_ents_this_pat-1)/2

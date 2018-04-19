@@ -26,7 +26,7 @@ Open R and input:
 install.packages("devtools")
 
 # to install its dependencies
-install.packages(c("biomaRt", "caTools", "dplyr", "ggplot2", "graphics", "grDevices", "gtools", "ggpubr", "magrittr", "maxLik", "RColorBrewer", "reshape2", "stats", "tibble", "utils"))
+install.packages(c("biomaRt", "caTools", "dplyr", "ggplot2", "gtools", "ggpubr", "magrittr", "maxLik", "RColorBrewer", "reshape2", "tibble"))
 
 library(devtools)
 
