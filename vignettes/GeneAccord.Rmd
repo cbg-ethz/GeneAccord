@@ -55,7 +55,7 @@ So to analyze your own data, you need to set a vector with all gene-to-clone ass
 head(read.csv(input_files_01[1]))
 ```
 
-The first column lists the altered genes or pathways. In this manual, we will use the term genes, even if it can be also a pathway. The columns that come after the gene indicate in which clone the gene is mutated. In this package, data tables or csv-files are stored and used as tibbles. Tibbles are a novel way to represent data frames. Please refer to the R package `tibble` [[5](https://CRAN.R-project.org/package=tibble)] for more information. Now we read in the patient's gene-to-clone assignments from the collection of tree inferences to obtain it in a tibble format.
+The first column lists the altered genes or pathways. In this manual, we will use the term genes, even if the altered entities can also be pathways. The columns that come after the gene indicate in which clone the gene is mutated. In this package, data tables or csv-files are stored and used as tibbles. Tibbles are a novel way to represent data frames. Please refer to the R package `tibble` [[5](https://CRAN.R-project.org/package=tibble)] for more information. Now we read in the patient's gene-to-clone assignments from the collection of tree inferences to obtain it in a tibble format.
 
 ```{r}
 clone_tbl_01_all_trees <- create_tbl_tree_collection(input_files_01)
@@ -68,7 +68,7 @@ Let's look at the tibble:
 clone_tbl_01_all_trees
 ```
 
-The column `file_name` indicates from which csv-file the information comes. The patient identifier is stored in `patient_id`, and the column `altered_entity` lists the mutated gene. The gene-to-clone assignments are in the columns `clone1`, `clone2`, ..., up to, by default `clone7`. Even is this patient had fewer clones in the assignment the additional clone columns make sure that all data from all patients can be stored in the same tibble. The additional clone columns are just always zero, if a patient had fewer clones. If you know that you have more than seven clones at maximum across all patients and trees, the parameter `max_num_clones` of `create_tbl_tree_collection` can be set accordingly. The last column in the tibble `tree_id` indicates from which of the tree inference the respective gene-to-clone assignment comes. In this tibble, we have 20 different tree identifiers, because we use the gene-to-clone assignments from 20 tree inferences.
+The column `file_name` indicates from which csv-file the information comes. The patient identifier is stored in `patient_id`, and the column `altered_entity` lists the mutated gene. The gene-to-clone assignments are in the columns `clone1`, `clone2`, ..., up to, by default `clone7`. Even if this patient had fewer clones in the assignment, the additional clone columns make sure that all data from all patients can be stored in the same tibble. The additional clone columns are just always zero, if a patient had fewer clones. If you know that you have more than seven clones at maximum across all patients and trees, the parameter `max_num_clones` of `create_tbl_tree_collection` can be set accordingly. The last column in the tibble `tree_id` indicates from which of the tree inference the respective gene-to-clone assignment comes. In this tibble, we have 20 different tree identifiers, because we use the gene-to-clone assignments from 20 tree inferences.
 
 ```{r}
 # print all 20 tree id's
@@ -168,7 +168,7 @@ The herewith generated `avg_rates_m`, `list_of_num_trees_all_pats`, `list_of_clo
 
 ## 2. Generate null distribution of test statistic
 
-In order to generate the null distribution of the test statistic, the empirical cumulative distribution function (ECDF) of the test statistic is computed. The null hypothesis is that the gene pair of interest exhibits the pattern of clonal exclusivity as often as expected by chance when assuming independent occurrence of mutations. The function to compute the ECDF of the test statistic under the null `generate_ecdf_test_stat` takes as input from all patients the data computed in step 1, namely the average rate of clonal exclusivity, as well as the histogram of how often pairs occur in the tree, and how often they were clonally exclusive. Here, it is assumed that step 1 of this vignette was run for all patients, and that you have the parameters `avg_rates_m`, `list_of_num_trees_all_pats`, `list_of_clon_excl_all_pats`, and `clone_tbl_all_pats_all_trees`. If not, you can load the precomputed data.
+In order to generate the null distribution of the test statistic, the empirical cumulative distribution function (ECDF) of the test statistic is computed. The null hypothesis assumes independence of mutations, and therefore states that the gene pairs occur across the cohort in the clonal exclusivity pattern as often as expected by chance according to the overall rates of clonal exclusivity. The function to compute the ECDF of the test statistic under the null `generate_ecdf_test_stat` takes as input from all patients the data computed in step 1, namely the average rate of clonal exclusivity, as well as the histogram of how often pairs occur in the tree, and how often they were clonally exclusive. Here, it is assumed that step 1 of this vignette was run for all patients, and that you have the parameters `avg_rates_m`, `list_of_num_trees_all_pats`, `list_of_clon_excl_all_pats`, and `clone_tbl_all_pats_all_trees`. If not, you can load the precomputed data.
 
 ```{r}
 # load the data as generated in step 1 from all 82 patients
@@ -212,7 +212,7 @@ In this data set, a total of 5'945 pairs are mutated in just one patient, and 27
 num_pat_pair_max <- 3
 ```
 
-The following command will generate the ECDF of the test statistic under the null for this data set. The number of pairs that are simulated is set to 1'000. This step may take quite some time. 
+The following command will generate the ECDF of the test statistic under the null for this data set. The number of pairs that are simulated is set to 1,000. This step may take quite some time. 
 
 ```{r}
 set.seed(1234)
@@ -220,7 +220,7 @@ set.seed(1234)
 ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim = 1000)
 ```
 
-In practice, it is recommended that the parameter `num_pairs_sim` is set to a higher value, to get most accurate results. Here, as a demonstration, it was set to 1'000 such that it runs faster. However, we advice to choose rather a higher number in your analysis, e.g. 100'000. The function then takes much more time, but it could be run over night on a computing cluster. For the purpose of this vignette, the pre-computed ECDF can be loaded, which was run with `num_pairs_sim = 100000`.
+In practice, it is recommended that the parameter `num_pairs_sim` is set to a higher value, to get most accurate results. Here, as a demonstration, it was set to 1,000 such that it runs faster. However, we advice to choose rather a higher number in your analysis, e.g. 100,000. The function then takes much more time, but it could be run over night on a computing cluster. For the purpose of this vignette, the pre-computed ECDF can be loaded, which was run with `num_pairs_sim = 100000`.
 
 ```{r}
 data("ecdf_list")
@@ -242,7 +242,7 @@ res_pairs <- GeneAccord(clone_tbl_all_pats_all_trees, avg_rates_m, ecdf_list)
 
 ## 4. Examining and visualizing results
 
-The results tibble now contains all pairs of genes that are mutated togetehr in at least two patients, and whose delta parameter was greater zero, indicating that they tend to be clonally exclusive. See [1] for more details about the parameter delta. We can extract the significant pairs using the pipe command `%>%` from the R package `magrittr` [[9](https://CRAN.R-project.org/package=magrittr)], and using the function `filter` from the R package `dplyr` [[12](https://CRAN.R-project.org/package=dplyr)].
+The results tibble now contains all pairs of genes that are mutated together in at least two patients, and whose delta parameter was greater zero, indicating that they tend to be clonally exclusive. See [1] for more details about the parameter delta. We can extract the significant pairs using the pipe command `%>%` from the R package `magrittr` [[9](https://CRAN.R-project.org/package=magrittr)], and using the function `filter` from the R package `dplyr` [[12](https://CRAN.R-project.org/package=dplyr)].
 
 ```{r}
 library(magrittr)
@@ -319,9 +319,9 @@ Using functions from the R package `dplyr` [[12](https://CRAN.R-project.org/pack
 res_pairs %>% select(num_patients) %>% group_by(num_patients) %>% tally()
 ```
 
-We observe that most pairs are just mutated in two patients, and a few are mutated in three patients.
+We observe that most pairs are just mutated in two patients, and a few are mutated in three patients. These pairs in the results tibble were those mutated in more than one patient and who tend to be clonally exclusive.
 
-The average rates of clonal exclusivity can also be visualized with the function `plot_rates_clon_excl`, which makes use of functionalities from the `ggplot2` R package [13]. 
+The average rates of clonal exclusivity can also be visualized with the function `plot_rates_clon_excl`, which makes use of functionalities from the `ggplot2` R package [[13](https://cran.r-project.org/web/packages/ggplot2/index.html)]. 
 
 ```{r, fig.height=10, fig.width=5}
 plot_rates_clon_excl(avg_rates_m, clone_tbl_all_pats_all_trees)
@@ -419,19 +419,19 @@ sessionInfo()
 ***
 
 ## References:
-[1] Moore AL, Kuipers J, Singer J, Burcklen E, Schraml P, Beisel C, Moch H, Beerenwinkel N. Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma. (2018). bioRxiv number. doi: doi
-[2] Benjamini Y, Hochberg Y. Controlling the false discovery rate: a practical and 26 powerful approach to multiple testing. Journal of the royal statistical society Series B 27 (Methodological). 1995:289-300 %@ 0035-9246.
-[3] Beerenwinkel N, Schwarz RF, Gerstung M, Markowetz F. Cancer evolution: mathematical models and computational inference. Syst Biol. 2015;64(1):e1-25.
-[4] Marass F, Mouliere F, Yuan K, Rosenfeld N, Markowetz F. A phylogenetic latent feature model for clonal deconvolution. The Annals of Applied Statistics. 2016;10(4):2377-404 %@ 1932-6157.
-[5] Kirill Müller and Hadley Wickham (2018). tibble: Simple Data Frames. R package version 1.4.2. https://CRAN.R-project.org/package=tibble
-[6] Jarek Tuszynski (2014). caTools: Tools: moving window statistics, GIF, Base64, ROC AUC, etc.. R package version 1.17.1. https://CRAN.R-project.org/package=caTools
-[7] Gregory R. Warnes, Ben Bolker and Thomas Lumley (2015). gtools: Various R Programming Tools. R package version 3.5.0. https://CRAN.R-project.org/package=gtools
-[8] Arne Henningsen and Ott Toomet (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
-[9] Stefan Milton Bache and Hadley Wickham (2014). magrittr: A Forward-Pipe Operator for R. R package version 1.5. https://CRAN.R-project.org/package=magrittr
-[10] Durinck S, Moreau Y, Kasprzyk A, Davis S, De Moor B, Brazma A and Huber W (2005). "BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis." Bioinformatics, 21, pp. 3439-3440.
-[11] Durinck S, Spellman P, Birney E and Huber W (2009). "Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt." Nature Protocols, 4, pp. 1184-1191.
-[12] Hadley Wickham, Romain Francois, Lionel Henry and Kirill Müller (2017). dplyr: A Grammar of Data Manipulation. R package version 0.7.4. https://CRAN.R-project.org/package=dplyr
-[13] H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2009.
-[14] Alboukadel Kassambara (2017). ggpubr: 'ggplot2' Based Publication Ready Plots. R package version 0.1.6. https://CRAN.R-project.org/package=ggpubr
-[15] Hadley Wickham (2007). Reshaping Data with the reshape Package. Journal of Statistical Software, 21(12), 1-20. URL http://www.jstatsoft.org/v21/i12/.
-[16] Matthews L, Gopinath G, Gillespie M, Caudy M, Croft D, de Bono B, et al. Reactome knowledgebase of human biological pathways and processes. Nucleic acids research. 2009;37(Database issue):D619-22.
+[1] Moore AL, Kuipers J, Singer J, Burcklen E, Schraml P, Beisel C, Moch H, Beerenwinkel N. Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma. (2018). bioRxiv number. doi: doi  
+[2] Benjamini Y, Hochberg Y. Controlling the false discovery rate: a practical and 26 powerful approach to multiple testing. Journal of the royal statistical society Series B 27 (Methodological). 1995:289-300 %@ 0035-9246.  
+[3] Beerenwinkel N, Schwarz RF, Gerstung M, Markowetz F. Cancer evolution: mathematical models and computational inference. Syst Biol. 2015;64(1):e1-25.  
+[4] Marass F, Mouliere F, Yuan K, Rosenfeld N, Markowetz F. A phylogenetic latent feature model for clonal deconvolution. The Annals of Applied Statistics. 2016;10(4):2377-404 %@ 1932-6157.  
+[5] Kirill Müller and Hadley Wickham (2018). tibble: Simple Data Frames. R package version 1.4.2. https://CRAN.R-project.org/package=tibble  
+[6] Jarek Tuszynski (2014). caTools: Tools: moving window statistics, GIF, Base64, ROC AUC, etc.. R package version 1.17.1. https://CRAN.R-project.org/package=caTools  
+[7] Gregory R. Warnes, Ben Bolker and Thomas Lumley (2015). gtools: Various R Programming Tools. R package version 3.5.0. https://CRAN.R-project.org/package=gtools  
+[8] Arne Henningsen and Ott Toomet (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.  
+[9] Stefan Milton Bache and Hadley Wickham (2014). magrittr: A Forward-Pipe Operator for R. R package version 1.5. https://CRAN.R-project.org/package=magrittr  
+[10] Durinck S, Moreau Y, Kasprzyk A, Davis S, De Moor B, Brazma A and Huber W (2005). "BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis." Bioinformatics, 21, pp. 3439-3440.  
+[11] Durinck S, Spellman P, Birney E and Huber W (2009). "Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt." Nature Protocols, 4, pp. 1184-1191.  
+[12] Hadley Wickham, Romain Francois, Lionel Henry and Kirill Müller (2017). dplyr: A Grammar of Data Manipulation. R package version 0.7.4. https://CRAN.R-project.org/package=dplyr  
+[13] H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2009.  
+[14] Alboukadel Kassambara (2017). ggpubr: 'ggplot2' Based Publication Ready Plots. R package version 0.1.6. https://CRAN.R-project.org/package=ggpubr  
+[15] Hadley Wickham (2007). Reshaping Data with the reshape Package. Journal of Statistical Software, 21(12), 1-20. URL http://www.jstatsoft.org/v21/i12/.  
+[16] Matthews L, Gopinath G, Gillespie M, Caudy M, Croft D, de Bono B, et al. Reactome knowledgebase of human biological pathways and processes. Nucleic acids research. 2009;37(Database issue):D619-22.  
