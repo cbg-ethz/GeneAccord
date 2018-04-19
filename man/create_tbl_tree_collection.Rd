@@ -40,8 +40,8 @@ columns it has either zeros or ones, indicating in which clone the respective ge
 ext_data_dir <- system.file('extdata', package = 'GeneAccord')
 this_patient <- "01"
 input_files_01 <- paste(ext_data_dir, 
-                   "/clonal_genotypes/cloe_seed", seq(5, 100, by = 5), "/", 
-                   this_patient, ".csv", sep = "") 
+                   "/clonal_genotypes/cloe_seed", seq(5, 100, by = 5), 
+                   "/", this_patient, ".csv", sep = "") 
 create_tbl_tree_collection(input_files_01)
 }
 \author{

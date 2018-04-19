@@ -23,13 +23,13 @@ at least one gene/pathway assigned to the clone.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
-                       file_name = c(rep("fn1", 2), rep("fn2", 2)),
-                       patient_id = c(rep("pat1", 2), rep("pat2", 2)),
-                       altered_entity = c("pw1", "pw2", "pw1", "pw3"),
-                       clone1 = c(0, 0, 0, 0),
-                       clone2 = c(0, 1, 0, 1),
-                       clone3 = c(1, 1, 0, 1),
-                       clone4 = c(1, 0, 0, 0))))
+                     file_name = c(rep("fn1", 2), rep("fn2", 2)),
+                     patient_id = c(rep("pat1", 2), rep("pat2", 2)),
+                     altered_entity = c("pw1", "pw2", "pw1", "pw3"),
+                     clone1 = c(0, 0, 0, 0),
+                     clone2 = c(0, 1, 0, 1),
+                     clone3 = c(1, 1, 0, 1),
+                     clone4 = c(1, 0, 0, 0))))
 extract_num_clones_tbl(clone_tbl)
 }
 \author{

@@ -32,7 +32,8 @@ columns it has either zeros or ones, indicating in which clone the respective ge
 }
 \examples{
 ext_data_dir <- system.file('extdata', package = 'GeneAccord')
-create_tbl_ent_clones(paste(ext_data_dir, "/clonal_genotypes/cloe_seed5/01.csv", sep = ""))
+create_tbl_ent_clones(paste(ext_data_dir, 
+                      "/clonal_genotypes/cloe_seed5/01.csv", sep = ""))
 }
 \author{
 Ariane L. Moore

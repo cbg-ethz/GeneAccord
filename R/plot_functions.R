@@ -11,18 +11,19 @@
 #' @param output_pdf The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 #' generated directly and not to a pdf. Default: "direct"
 #' @author Ariane L. Moore
+#' @return None, the function plots the average rates of clonal exclusivity.
 #' @import 
 #' dplyr
 #' ggplot2
 #' tibble
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                        rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                    "tree_id" = c(rep(1, 6), rep(2, 6))))
+#' clone_tbl <- tibble::as_tibble(cbind(
+#'                   "file_name" = rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                   "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                   "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                   "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                   "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                   "tree_id" = c(rep(1, 6), rep(2, 6))))
 #' avg_rates_m <- c(pat1 = 0.014, pat2 = 0.3)
 #' plot_rates_clon_excl(avg_rates_m, clone_tbl)
 plot_rates_clon_excl <- function(avg_rates_m, clone_tbl, output_pdf = "direct") {
@@ -112,6 +113,7 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl, output_pdf = "direct") 
 #' @param output_pdf The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 #' generated directly and not to a pdf. Default: "direct".
 #' @author Ariane L. Moore
+#' @return None, the function plots ecdf curves.
 #' @import 
 #' graphics
 #' @examples
@@ -122,8 +124,11 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl, output_pdf = "direct") 
 #'                                    pat3 = c(18, 12, 0), pat4 = c(0, 2, 0))
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
-#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-#'                                      list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim)
+#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
+#'                                      list_of_num_trees_all_pats, 
+#'                                      list_of_clon_excl_all_pats, 
+#'                                      num_pat_pair_max, 
+#'                                      num_pairs_sim)
 #' plot_ecdf_test_stat(ecdf_list, plot_idx = 2)
 plot_ecdf_test_stat <- function(ecdf_list, plot_idx = c(2,3), num_panel_rows = 1, output_pdf = "direct"){
   stopifnot(is.list(ecdf_list))
@@ -195,11 +200,13 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx = c(2,3), num_panel_rows = 1
 #' @param output_pdf The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 #' generated directly and not to a pdf. Default: "direct"
 #' @author Ariane L. Moore
+#' @return None, the function plots a p-value histogram.
 #' @import 
 #' dplyr
 #' RColorBrewer
 #' @examples
-#' res_sim <- tibble::tibble(num_patients = c(rep(2,100), rep(3,100), rep(4,100)),
+#' res_sim <- tibble::tibble(num_patients = c(rep(2,100), 
+#'                           rep(3,100), rep(4,100)),
 #'                           pval = c(runif(300)))
 #' vis_pval_distr_num_pat(res_sim)
 vis_pval_distr_num_pat <- function(res_sim, output_pdf = "direct"){
@@ -252,7 +259,7 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf = "direct"){
 
   # Potential other num_patients
   if(number_different_patients > 1){
-    for(i in 2:number_different_patients){
+    for(i in seq(2, number_different_patients)){
       this_num_patients <- as.numeric(num_patients_tally[i,1])
       this_num_pat_pvals <- as.numeric(as.vector(as.data.frame(res_sim %>% dplyr::filter(num_patients == this_num_patients) %>%
                                                            dplyr::select(pval))[,1]))
@@ -310,8 +317,8 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf = "direct"){
 #' 'clone1' etc. Default: FALSE.
 #' @param output_pdf The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 #' generated directly and not to a pdf. Default: "direct"
-
 #' @author Ariane L. Moore
+#' @return None, the function plots a gene-to-clone assignment heatmap.
 #' @import 
 #' dplyr
 #' ggplot2
@@ -320,15 +327,16 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf = "direct"){
 #' @examples
 #' pairs_of_interest <- tibble::tibble(entity_A = "SETD2",
 #'                            entity_B = "BAP1")
-#' clone_tbl <- tibble::tibble(file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
-#'                            patient_id = c("X", "X", "Y", "Y"),
-#'                            altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
-#'                            clone1 = c(0, 1, 1, 0),
-#'                            clone2 = c(1, 0, 0, 1))
+#' clone_tbl <- tibble::tibble(
+#'                    file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
+#'                    patient_id = c("X", "X", "Y", "Y"),
+#'                    altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
+#'                    clone1 = c(0, 1, 1, 0),
+#'                    clone2 = c(1, 0, 0, 1))
 #' \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
-#' all_genes_tbl_example <- tibble::tibble(ensembl_gene_id = 
-#'                               c("ENSG00000181555", "ENSG00000163930"),
-#'                            hgnc_symbol = c("SETD2", "BAP1"))
+#' all_genes_tbl_example <- tibble::tibble(
+#'                  ensembl_gene_id = c("ENSG00000181555", "ENSG00000163930"),
+#'                  hgnc_symbol = c("SETD2", "BAP1"))
 #' heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl_example)
 heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl, all_genes_tbl, first_clone_is_N = FALSE, output_pdf = "direct"){
   file_name <- patient_id <- entity_A <- entity_B <- variable <- altered_entity <- value <- n <- NULL

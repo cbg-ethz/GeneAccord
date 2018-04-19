@@ -20,6 +20,9 @@ ECDF's will be plotted in panels with four rows, and five columns. Default = 1.}
 \item{output_pdf}{The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 generated directly and not to a pdf. Default: "direct".}
 }
+\value{
+None, the function plots ecdf curves.
+}
 \description{
 This function plots the ECDFs of the test statistic under the null hypothesis.
 }
@@ -36,8 +39,11 @@ list_of_clon_excl_all_pats <- list(pat1 = c(5, 0, 1), pat2 = c(10, 2, 0),
                                    pat3 = c(18, 12, 0), pat4 = c(0, 2, 0))
 num_pat_pair_max <- 2
 num_pairs_sim <- 10
-ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-                                     list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim)
+ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
+                                     list_of_num_trees_all_pats, 
+                                     list_of_clon_excl_all_pats, 
+                                     num_pat_pair_max, 
+                                     num_pairs_sim)
 plot_ecdf_test_stat(ecdf_list, plot_idx = 2)
 }
 \author{

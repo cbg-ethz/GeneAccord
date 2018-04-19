@@ -23,12 +23,12 @@ Check for a pair how often it was mutated in the current patient across trees, a
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-                       altered_entity = c(paste("gene", seq(1,10), sep = "")),
-                       clone1 = c(rep(0,10)),
-                       clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-                       clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-                       clone4 = c(sample(c(0,1), 10, replace = TRUE)),
-                       tree_id = c(rep(5, 5), rep(10, 5)) ) ))
+                     altered_entity = c(paste("gene", seq(1,10), sep = "")),
+                     clone1 = c(rep(0,10)),
+                     clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+                     clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+                     clone4 = c(sample(c(0,1), 10, replace = TRUE)),
+                     tree_id = c(rep(5, 5), rep(10, 5)) ) ))
 get_hist_clon_excl_this_pat_this_pair("gene1", "gene2", clone_tbl)
 }
 \author{

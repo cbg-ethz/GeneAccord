@@ -27,13 +27,14 @@ This can be the case, for instance, of two mutated genes are in the same pathway
 }
 \examples{
 clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
-                       file_name = c(rep("fn1", 4)),
-                       patient_id = c(rep("pat1", 4)),
-                       altered_entity = c("pw1", "pw1", "pw2", "pw3"),
-                       clone1 = c(1, 0, 1, 0),
-                       clone2 = c(0, 1, 0, 1),
-                       clone3 = c(1, 1, 0, 1),
-                       clone4 = c(0, 1, 0, 0))))
+                    file_name = c(rep("fn1", 4)),
+                    patient_id = c(rep("pat1", 4)),
+                    altered_entity = c("pw1", "pw1", 
+                                       "pw2", "pw3"),
+                    clone1 = c(1, 0, 1, 0),
+                    clone2 = c(0, 1, 0, 1),
+                    clone3 = c(1, 1, 0, 1),
+                    clone4 = c(0, 1, 0, 0))))
 merge_clones_identical_ents(clone_tbl)
 }
 \author{

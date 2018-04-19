@@ -34,7 +34,8 @@ sig_pairs <- tibble::tibble(hgnc_gene_A = c("VHL", "BAP1"),
                             pval = c(0.001, 0.002),
                             qval = c(0.01, 0.02),
                             mutated_in = c("pat1; pat2", "pat1; pat2"),
-                            clonally_exclusive_in = c("pat1; pat2", "pat2"))
+                            clonally_exclusive_in = c("pat1; pat2", 
+                                                      "pat2"))
 avg_rates_m <- c(pat1 = 0.0034, pat2 = 0.0021)
 write_res_pairs_to_disk(sig_pairs, avg_rates_m, "test.tsv")
 file.remove("test.tsv")

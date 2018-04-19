@@ -46,12 +46,12 @@
 #' tibble
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                       rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                       "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                       "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                       "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                       "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                       "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -74,9 +74,11 @@
 #' alternative <- "two.sided"
 #' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative)
 #' genes_of_interest <- c("geneB", "geneC")
-#' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative, genes_of_interest)
+#' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, 
+#'             alternative, genes_of_interest)
 #' AND_OR = "AND"
-#' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative, genes_of_interest, AND_OR)
+#' GeneAccord(clone_tbl, avg_rates_m, ecdf_list, 
+#'             alternative, genes_of_interest, AND_OR)
 GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list, 
                        alternative = "greater", genes_of_interest = "ALL", AND_OR = "OR"){
   patient_id <- altered_entity <- file_name <- tree_id <- qval <- pval <- mle_delta <- num_patients <- pairs <- n <- NULL
@@ -161,7 +163,7 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
   
   message(paste0("Found in total ", num_ents, " different mutated genes/pathways in the provided tibble.\n",
                  "Found ", num_pats, " different patient id's in the provided tibble.\n",
-                 "A total of", num_pairs, " pairs of genes/pathways is mutated in at least one patient.\n",
+                 "A total of ", num_pairs, " pairs of genes/pathways is mutated in at least one patient.\n",
                  "And ", num_pairs, " pairs of genes/pathways are mutated in at least ", min_num_pat," patients."))
   
   # as an additional safety mechanism, we check what is the maximum n that pairs are mutated in how many patients

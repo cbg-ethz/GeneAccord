@@ -21,16 +21,16 @@ Compute all values of how often gene pairs were clonally exclusive/all trees for
 }
 \details{
 It computes a histogram of the following two values: Amomg all gene/pathway pairs in a patient, the number of trees in which 
-the both entities of a pair are assigned to a clone at all, and the number of trees in which the pair is clonally exclusive. It
+the both entities of a pair are assigned to a clone at all, and the number of trees in which the pair is clonally exclusive.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-                       altered_entity = c(paste("gene", seq(1,10), sep = "")),
-                       clone1 = c(rep(0,10)),
-                       clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-                       clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-                       clone4 = c(sample(c(0,1), 10, replace = TRUE)),
-                       tree_id = c(rep(5, 5), rep(10, 5)) ) ))
+                     altered_entity = c(paste("gene", seq(1,10), sep = "")),
+                     clone1 = c(rep(0,10)),
+                     clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+                     clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+                     clone4 = c(sample(c(0,1), 10, replace = TRUE)),
+                     tree_id = c(rep(5, 5), rep(10, 5)) ) ))
 get_hist_clon_excl(clone_tbl)
 }
 \author{

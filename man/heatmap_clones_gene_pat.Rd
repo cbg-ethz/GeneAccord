@@ -26,6 +26,9 @@ clone. In that case, it will have the name 'N', and all other columns will be on
 \item{output_pdf}{The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 generated directly and not to a pdf. Default: "direct"}
 }
+\value{
+None, the function plots a gene-to-clone assignment heatmap.
+}
 \description{
 This function plots the heatmaps of final gene clone matrices.
 }
@@ -36,15 +39,16 @@ heatmap for significant gene pairs.
 \examples{
 pairs_of_interest <- tibble::tibble(entity_A = "SETD2",
                            entity_B = "BAP1")
-clone_tbl <- tibble::tibble(file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
-                           patient_id = c("X", "X", "Y", "Y"),
-                           altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
-                           clone1 = c(0, 1, 1, 0),
-                           clone2 = c(1, 0, 0, 1))
+clone_tbl <- tibble::tibble(
+                   file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
+                   patient_id = c("X", "X", "Y", "Y"),
+                   altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
+                   clone1 = c(0, 1, 1, 0),
+                   clone2 = c(1, 0, 0, 1))
 \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
-all_genes_tbl_example <- tibble::tibble(ensembl_gene_id = 
-                              c("ENSG00000181555", "ENSG00000163930"),
-                           hgnc_symbol = c("SETD2", "BAP1"))
+all_genes_tbl_example <- tibble::tibble(
+                 ensembl_gene_id = c("ENSG00000181555", "ENSG00000163930"),
+                 hgnc_symbol = c("SETD2", "BAP1"))
 heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl_example)
 }
 \author{

@@ -13,6 +13,9 @@ and 'pval', and can be generated with \code{\link{generate_test_stat_hist}} and 
 \item{output_pdf}{The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
 generated directly and not to a pdf. Default: "direct"}
 }
+\value{
+None, the function plots a p-value histogram.
+}
 \description{
 This function visualizes the distribution of p-values.
 }
@@ -25,7 +28,8 @@ i.e. the number of patients the simulated pairs are mutated in. The input tibble
 Right panel: ecdf of the p-values with different colors for different numbers of patients that the pairs were mutated in.
 }
 \examples{
-res_sim <- tibble::tibble(num_patients = c(rep(2,100), rep(3,100), rep(4,100)),
+res_sim <- tibble::tibble(num_patients = c(rep(2,100), 
+                            rep(3,100), rep(4,100)),
                           pval = c(runif(300)))
 vis_pval_distr_num_pat(res_sim)
 }

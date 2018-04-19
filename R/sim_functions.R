@@ -28,12 +28,12 @@
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                    rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                    "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                    "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                    "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                    "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                    "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -48,8 +48,9 @@
 #'                                    pat2=values_clon_excl_num_trees_pat2[[2]])
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
-#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-#'                                list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim)
+#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
+#'                 list_of_num_trees_all_pats, list_of_clon_excl_all_pats,
+#'                 num_pat_pair_max, num_pairs_sim)
 #' plot(ecdf_list[[2]])
 generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats, list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim, beta_distortion = 1000){
   test_statistic <- NULL
@@ -151,12 +152,12 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats, lis
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                      rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                      "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                      "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                      "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                      "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                      "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -171,8 +172,9 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats, lis
 #'                                    pat2=values_clon_excl_num_trees_pat2[[2]])
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
-#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-#'                                     list_of_clon_excl_all_pats, num_pat_pair_max, num_pairs_sim)
+#' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
+#'                            list_of_num_trees_all_pats, list_of_clon_excl_all_pats,
+#'                            num_pat_pair_max, num_pairs_sim)
 #' sim_res <- generate_test_stat_hist(avg_rates_m, list_of_num_trees_all_pats, 
 #'                                   list_of_clon_excl_all_pats, ecdf_list, 
 #'                                   num_pat_pair_max, num_pairs_sim)
@@ -339,7 +341,7 @@ build_null_test_statistic <- function(avg_rates_m, list_of_clon_excl_frac_trees_
   # randomly for each of the pairs
   # these indices indicate in which patients the pairs are mutated in
   pairs_indices_pats_list <- vapply(pairs_num_pat, function(x){
-    #sample(these_rates_m, x, replace = TRUE)
+    #sample(these_rates_m, x, replace = T)
     stopifnot(x == num_pat_pair)
     #sample(num_pats_real, x) # sample without replacement
     sample(num_pats_real, x, prob = num_pairs_per_pat) # sample without replacement and by weighting the pats according to their num pairs
@@ -499,7 +501,7 @@ build_null_test_statistic <- function(avg_rates_m, list_of_clon_excl_frac_trees_
     all_pairs_num_pat <- unlist(lapply(lr_test_res_list, function(x){x[[3]]}))
 
     # get the general rates of clonal exclusivity
-    for(i in 1:num_pat_pair){
+    for(i in seq(1, num_pat_pair)){
       all_pairs_pat_rates[[i]] <- unlist(lapply(lr_test_res_list, function(x){x[[4]][i]}))
       all_pairs_num_trees[[i]] <-  unlist(lapply(lr_test_res_list, function(x){x[[5]][i]}))
       all_pairs_num_clon_excl[[i]] <- unlist(lapply(lr_test_res_list, function(x){x[[6]][i]}))
@@ -517,28 +519,28 @@ build_null_test_statistic <- function(avg_rates_m, list_of_clon_excl_frac_trees_
   res_all_pairs <- dplyr::as.tbl(data.frame(test_statistic = all_pairs_test_stat,
                                             mle_delta = all_pairs_delta))
   # now add the num_pat_pair columns with the rates of average clonal exclusivity
-  for(i in 1:num_pat_pair){
+  for(i in seq(1, num_pat_pair)){
     col_name <- paste("pat", i, sep = "")
     res_all_pairs <- res_all_pairs %>%
       tibble::add_column(new_col = all_pairs_pat_rates[[i]])
     names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
   }
   # now add the all_pairs_num_trees columns with the number of trees the pairs were mutated
-  for(i in 1:num_pat_pair){
+  for(i in seq(1, num_pat_pair)){
     col_name <- paste("pat", i, "_num_trees", sep = "")
     res_all_pairs <- res_all_pairs %>%
       tibble::add_column(new_col = all_pairs_num_trees[[i]])
     names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
   }
   # now add the all_pairs_num_clon_excl columns with the number of times the pair was clonally exclusive across trees
-  for(i in 1:num_pat_pair){
+  for(i in seq(1, num_pat_pair)){
     col_name <- paste("pat", i, "_num_clon_excl", sep = "")
     res_all_pairs <- res_all_pairs %>%
       tibble::add_column(new_col = all_pairs_num_clon_excl[[i]])
     names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
   }
   # now add the num_pat_pair columns with the rates of average clonal exclusivity that were distorted by the beta distribution
-  for(i in 1:num_pat_pair){
+  for(i in seq(1, num_pat_pair)){
     col_name <- paste("pat", i, "_beta_distorted", sep = "")
     res_all_pairs <- res_all_pairs %>%
       tibble::add_column(new_col = all_pairs_pat_rates_beta_distorted[[i]])

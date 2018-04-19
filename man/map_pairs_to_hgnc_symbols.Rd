@@ -25,10 +25,13 @@ assumed that the current gene identifier of the pairs are ensembl gene ids. They
 hgnc symbols.
 }
 \examples{
-\dontrun{pairs_of_interest <- tibble::tibble(entity_A = c("ENSG00000181143", "ENSG00000163939"),
-                                    entity_B = c("ENSG00000141510", "ENSG00000163930"))
+\dontrun{
+pairs_of_interest <- tibble::tibble(
+          entity_A = c("ENSG00000181143", "ENSG00000163939"),
+          entity_B = c("ENSG00000141510", "ENSG00000163930"))
 all_genes_tbl <- create_ensembl_gene_tbl_hg()
-map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)}
+map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)
+}
 }
 \author{
 Ariane L. Moore

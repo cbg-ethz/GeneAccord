@@ -29,7 +29,9 @@ This is done for the human genes from the human genome version \code{hg19}/\code
 Ensembl Genes version 88. The user can also specify other human genome or ensembl versions.
 }
 \examples{
-\dontrun{create_ensembl_gene_tbl_hg()}
+\dontrun{
+create_ensembl_gene_tbl_hg()
+}
 }
 \author{
 Ariane L. Moore

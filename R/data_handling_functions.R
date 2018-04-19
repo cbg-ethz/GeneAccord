@@ -22,7 +22,8 @@
 #' tibble
 #' @examples
 #' ext_data_dir <- system.file('extdata', package = 'GeneAccord')
-#' create_tbl_ent_clones(paste(ext_data_dir, "/clonal_genotypes/cloe_seed5/01.csv", sep = ""))
+#' create_tbl_ent_clones(paste(ext_data_dir, 
+#'                       "/clonal_genotypes/cloe_seed5/01.csv", sep = ""))
 create_tbl_ent_clones <- function(path_to_file, max_num_clones = 7){
   stopifnot(is.character(path_to_file))
   stopifnot(is.numeric(max_num_clones))
@@ -42,7 +43,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones = 7){
   # minus the columns for file_name, patient_id, and altered_entity
   num_clones <- dim(this_csv)[2] - 1
   # now add the columns with the clone assignments
-  for(i in 1:num_clones){
+  for(i in seq(1, num_clones)){
     clone_name <- paste("clone", i, sep = "")
     this_clone_tbl <- this_clone_tbl %>%
                          tibble::add_column(new_col = as.integer(this_csv[,(i+1)]))
@@ -54,7 +55,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones = 7){
   # is less than 'max_num_clones'
   if(num_clones < max_num_clones){
     next_clone <- num_clones+1
-    for(i in next_clone:max_num_clones){
+    for(i in seq(next_clone, max_num_clones)){
       clone_name <- paste("clone", i, sep = "")
       this_clone_tbl <- this_clone_tbl %>%
                            tibble::add_column(new_col = as.integer(rep(0, num_mutated_ents)))
@@ -104,8 +105,8 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones = 7){
 #' ext_data_dir <- system.file('extdata', package = 'GeneAccord')
 #' this_patient <- "01"
 #' input_files_01 <- paste(ext_data_dir, 
-#'                    "/clonal_genotypes/cloe_seed", seq(5, 100, by = 5), "/", 
-#'                    this_patient, ".csv", sep = "") 
+#'                    "/clonal_genotypes/cloe_seed", seq(5, 100, by = 5), 
+#'                    "/", this_patient, ".csv", sep = "") 
 #' create_tbl_tree_collection(input_files_01)
 create_tbl_tree_collection <- function(input_files, no_noisy_ents = 0.9, max_num_clones = 7){
   altered_entity <- n <- NULL
@@ -171,12 +172,12 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents = 0.9, max_num
 #' dplyr
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                rep("fn1", 10),
-#'                                "patient_id" = rep("pat1", 10),
-#'                                "altered_entity" = paste0("gene", LETTERS[1:10]),
-#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
-#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
-#'                                "tree_id" = c(rep(1, 5), rep(2, 5))))
+#'                            rep("fn1", 10),
+#'                            "patient_id" = rep("pat1", 10),
+#'                            "altered_entity" = paste0("gene", LETTERS[1:10]),
+#'                            "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
+#'                            "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
+#'                            "tree_id" = c(rep(1, 5), rep(2, 5))))
 #' compute_rates_clon_excl(clone_tbl)
 compute_rates_clon_excl <- function(pat_tbl){
   tree_id <- file_name <- patient_id <- NULL
@@ -238,11 +239,11 @@ compute_rates_clon_excl <- function(pat_tbl){
 #' dplyr
 #' @examples
 #' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-#'                        altered_entity = c(paste("gene", seq(1,10), sep = "")),
-#'                        clone1 = c(rep(0,10)),
-#'                        clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
+#'                    altered_entity = c(paste("gene", seq(1,10), sep = "")),
+#'                    clone1 = c(rep(0,10)),
+#'                    clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                    clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                    clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
 #' get_rate_diff_branch_ent_pair(clone_tbl)
 get_rate_diff_branch_ent_pair <- function(clone_tbl) {
   altered_entity <- NULL
@@ -312,11 +313,11 @@ get_rate_diff_branch_ent_pair <- function(clone_tbl) {
 #' dplyr
 #' @examples
 #' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-#'                        altered_entity = c(paste("gene", seq(1,10), sep = "")),
-#'                        clone1 = c(rep(0,10)),
-#'                        clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
+#'                     altered_entity = c(paste("gene", seq(1,10), sep = "")),
+#'                     clone1 = c(rep(0,10)),
+#'                     clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                     clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                     clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
 #' is_diff_branch_ent_pair("gene1", "gene2", clone_tbl)
 is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
   altered_entity <- NULL
@@ -358,8 +359,8 @@ is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
 #' Compute all values of how often gene pairs were clonally exclusive/all trees for a patient.
 #' 
 #' It computes a histogram of the following two values: Amomg all gene/pathway pairs in a patient, the number of trees in which 
-#' the both entities of a pair are assigned to a clone at all, and the number of trees in which the pair is clonally exclusive. It
-#'
+#' the both entities of a pair are assigned to a clone at all, and the number of trees in which the pair is clonally exclusive.
+#' 
 #' @title Compute all values of how often gene pairs were clonally exclusive across all trees for a patient.
 #' @param clone_tbl A tibble containing the columns 'altered_entity', and then a column for each clone
 #' in the tumor, e.g. 'clone1', 'clone2', 'clone3'. It also contains the column 'tree_id', which specifies
@@ -373,12 +374,12 @@ is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
 #' dplyr
 #' @examples
 #' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-#'                        altered_entity = c(paste("gene", seq(1,10), sep = "")),
-#'                        clone1 = c(rep(0,10)),
-#'                        clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone4 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        tree_id = c(rep(5, 5), rep(10, 5)) ) ))
+#'                      altered_entity = c(paste("gene", seq(1,10), sep = "")),
+#'                      clone1 = c(rep(0,10)),
+#'                      clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      clone4 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      tree_id = c(rep(5, 5), rep(10, 5)) ) ))
 #' get_hist_clon_excl(clone_tbl)
 get_hist_clon_excl <- function(clone_tbl) {
   altered_entity <- tree_id <- patient_id <- file_name <- NULL
@@ -474,12 +475,12 @@ get_hist_clon_excl <- function(clone_tbl) {
 #' dplyr
 #' @examples
 #' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-#'                        altered_entity = c(paste("gene", seq(1,10), sep = "")),
-#'                        clone1 = c(rep(0,10)),
-#'                        clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        clone4 = c(sample(c(0,1), 10, replace = TRUE)),
-#'                        tree_id = c(rep(5, 5), rep(10, 5)) ) ))
+#'                      altered_entity = c(paste("gene", seq(1,10), sep = "")),
+#'                      clone1 = c(rep(0,10)),
+#'                      clone2 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      clone3 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      clone4 = c(sample(c(0,1), 10, replace = TRUE)),
+#'                      tree_id = c(rep(5, 5), rep(10, 5)) ) ))
 #' get_hist_clon_excl_this_pat_this_pair("gene1", "gene2", clone_tbl)
 get_hist_clon_excl_this_pat_this_pair <- function(entA, entB, clone_tbl){
   altered_entity <- tree_id <- NULL
@@ -556,13 +557,14 @@ get_hist_clon_excl_this_pat_this_pair <- function(entA, entB, clone_tbl){
 #' tibble
 #' @examples
 #' clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
-#'                        file_name = c(rep("fn1", 4)),
-#'                        patient_id = c(rep("pat1", 4)),
-#'                        altered_entity = c("pw1", "pw1", "pw2", "pw3"),
-#'                        clone1 = c(1, 0, 1, 0),
-#'                        clone2 = c(0, 1, 0, 1),
-#'                        clone3 = c(1, 1, 0, 1),
-#'                        clone4 = c(0, 1, 0, 0))))
+#'                     file_name = c(rep("fn1", 4)),
+#'                     patient_id = c(rep("pat1", 4)),
+#'                     altered_entity = c("pw1", "pw1", 
+#'                                        "pw2", "pw3"),
+#'                     clone1 = c(1, 0, 1, 0),
+#'                     clone2 = c(0, 1, 0, 1),
+#'                     clone3 = c(1, 1, 0, 1),
+#'                     clone4 = c(0, 1, 0, 0))))
 #' merge_clones_identical_ents(clone_tbl)
 merge_clones_identical_ents <- function(clone_tbl) {
   patient_id <- file_name <- altered_entity <- NULL
@@ -615,7 +617,7 @@ merge_clones_identical_ents <- function(clone_tbl) {
       patient_id = this_pat,
       altered_entity = x)))
     # for each clone, add the column with the merged profile
-    for(i in 1:num_clones){
+    for(i in seq(1, num_clones)){
       clone_name <- paste("clone", i, sep = "")
       this_ent_merged_tbl <- this_ent_merged_tbl %>%
         tibble::add_column(new_col = as.integer(merged_clone_profile[i]))
@@ -656,13 +658,13 @@ merge_clones_identical_ents <- function(clone_tbl) {
 #' dplyr
 #' @examples
 #' clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
-#'                        file_name = c(rep("fn1", 2), rep("fn2", 2)),
-#'                        patient_id = c(rep("pat1", 2), rep("pat2", 2)),
-#'                        altered_entity = c("pw1", "pw2", "pw1", "pw3"),
-#'                        clone1 = c(0, 0, 0, 0),
-#'                        clone2 = c(0, 1, 0, 1),
-#'                        clone3 = c(1, 1, 0, 1),
-#'                        clone4 = c(1, 0, 0, 0))))
+#'                      file_name = c(rep("fn1", 2), rep("fn2", 2)),
+#'                      patient_id = c(rep("pat1", 2), rep("pat2", 2)),
+#'                      altered_entity = c("pw1", "pw2", "pw1", "pw3"),
+#'                      clone1 = c(0, 0, 0, 0),
+#'                      clone2 = c(0, 1, 0, 1),
+#'                      clone3 = c(1, 1, 0, 1),
+#'                      clone4 = c(1, 0, 0, 0))))
 #' extract_num_clones_tbl(clone_tbl)
 extract_num_clones_tbl <- function(clone_tbl) {
   patient_id <- altered_entity <- file_name <- NULL
@@ -731,12 +733,13 @@ extract_num_clones_tbl <- function(clone_tbl) {
 #' tibble
 #' @examples
 #' clone_tbl <- tibble::tibble(file_name = rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                            patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                            altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                            clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                            clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                            tree_id = c(rep(5, 6), rep(10, 6)))
-#' pairs_of_interest <- tibble::tibble(entity_A = c("geneA", "geneB"), entity_B = c("geneB", "geneC"))
+#'                    patient_id = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                    altered_entity = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                    clone1 = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                    clone2 = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                    tree_id = c(rep(5, 6), rep(10, 6)))
+#' pairs_of_interest <- tibble::tibble(entity_A = c("geneA", "geneB"), 
+#'                                     entity_B = c("geneB", "geneC"))
 #' take_pairs_and_get_patients(clone_tbl, pairs_of_interest)
 take_pairs_and_get_patients <- function(clone_tbl_all_trees, pairs_of_interest_tbl){
   entity_A <- entity_B <- patient_id <- tree_id <- file_name <- n <- altered_entity <- NULL
@@ -853,10 +856,13 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees, pairs_of_interest_t
 #' dplyr
 #' tibble
 #' @examples
-#' \dontrun{pairs_of_interest <- tibble::tibble(entity_A = c("ENSG00000181143", "ENSG00000163939"),
-#'                                     entity_B = c("ENSG00000141510", "ENSG00000163930"))
+#' \dontrun{
+#' pairs_of_interest <- tibble::tibble(
+#'           entity_A = c("ENSG00000181143", "ENSG00000163939"),
+#'           entity_B = c("ENSG00000141510", "ENSG00000163930"))
 #' all_genes_tbl <- create_ensembl_gene_tbl_hg()
-#' map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)}
+#' map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)
+#' }
 map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl, all_genes_tbl){
   entity_A <- entity_B  <- ensembl_gene_id <- hgnc_symbol <-  NULL
   stopifnot(dplyr::is.tbl(pairs_of_interest_tbl))
@@ -913,7 +919,8 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl, all_genes_tbl){
 #'                             pval = c(0.001, 0.002),
 #'                             qval = c(0.01, 0.02),
 #'                             mutated_in = c("pat1; pat2", "pat1; pat2"),
-#'                             clonally_exclusive_in = c("pat1; pat2", "pat2"))
+#'                             clonally_exclusive_in = c("pat1; pat2", 
+#'                                                       "pat2"))
 #' avg_rates_m <- c(pat1 = 0.0034, pat2 = 0.0021)
 #' write_res_pairs_to_disk(sig_pairs, avg_rates_m, "test.tsv")
 #' file.remove("test.tsv")
@@ -982,7 +989,7 @@ write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m, tsv_file, num_digits
   # write it to disk
   utils::write.table(table_to_save,
             file = tsv_file,
-            quote=F, col.names = T, row.names = F, sep = "\t")
+            quote = FALSE, col.names = TRUE, row.names = FALSE, sep = "\t")
   return(table_to_save)
 }
 
@@ -1005,12 +1012,12 @@ write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m, tsv_file, num_digits
 #' utils
 #' @examples
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
-#'                                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-#'                                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-#'                                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-#'                                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-#'                                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'                                "tree_id" = c(rep(5, 6), rep(10, 6))))
+#'                rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+#'                "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+#'                "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
+#'                "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+#'                "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+#'                "tree_id" = c(rep(5, 6), rep(10, 6))))
 #' pairs_in_patients_hist(clone_tbl)
 pairs_in_patients_hist <- function(clone_tbl){
   patient_id <- altered_entity <- file_name <- tree_id <- pairs <- n <- pairs_count <- patient_count <- NULL
