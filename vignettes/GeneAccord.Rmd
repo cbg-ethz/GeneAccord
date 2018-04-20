@@ -272,7 +272,7 @@ data("all_genes_tbl")
 sig_pairs <- map_pairs_to_hgnc_symbols(sig_pairs, all_genes_tbl)
 
 # print the top pairs - here just showing the hgnc gene symbols and not the ensembl gene id's 
-sig_pairs[order(sig_pairs$pval),] %>% select(-entity_A, entity_B)
+sig_pairs[order(sig_pairs$pval),] %>% select(-entity_A, -entity_B, -num_patients)
 ```
 
 The HGNC gene symbols are now displayed in two additional columns. We are also interested in which patients these pairs are mutated and clonally exclusive.
@@ -282,7 +282,7 @@ The HGNC gene symbols are now displayed in two additional columns. We are also i
 sig_pairs <- take_pairs_and_get_patients(clone_tbl_all_pats_all_trees, sig_pairs)
 
 # print the top pairs
-sig_pairs[order(sig_pairs$pval),] %>% select(-entity_A, entity_B, -mle_delta, -test_statistic)
+sig_pairs[order(sig_pairs$pval),] %>% select(-entity_A, -entity_B, -mle_delta, -test_statistic, -num_patients)
 ```
 
 The top pair is mutated in patients 05 and 81, and is clonally exclusive in both of them. The results tibble can be saved as a tab-separated file.
@@ -295,10 +295,11 @@ sig_pairs_table <- write_res_pairs_to_disk(sig_pairs, avg_rates_m, sig_pairs_tsv
 ```
 
 ```{r, echo=FALSE, results='asis'}
+rownames(sig_pairs_table) <- NULL
 knitr::kable(sig_pairs_table)
 ```
 
-```{r, echo=F, message=F}
+```{r, echo=F, message=F, results='hide'}
 if(file.exists(sig_pairs_tsv)){
   suppressMessages(file.remove(sig_pairs_tsv))
 }
@@ -306,7 +307,7 @@ if(file.exists(sig_pairs_tsv)){
 
 The ECDF's of the test statistic under the null hypothesis can also be visualized.
 
-```{r, fig.height=4, fig.width=12}
+```{r, fig.height=5, fig.width=12}
 # plot the ECDF of the test statistic under the null
 plot_ecdf_test_stat(ecdf_list)
 
@@ -420,18 +421,33 @@ sessionInfo()
 
 ## References:
 [1] Moore AL, Kuipers J, Singer J, Burcklen E, Schraml P, Beisel C, Moch H, Beerenwinkel N. Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma. (2018). bioRxiv number. doi: doi  
+
 [2] Benjamini Y, Hochberg Y. Controlling the false discovery rate: a practical and 26 powerful approach to multiple testing. Journal of the royal statistical society Series B 27 (Methodological). 1995:289-300 %@ 0035-9246.  
+
 [3] Beerenwinkel N, Schwarz RF, Gerstung M, Markowetz F. Cancer evolution: mathematical models and computational inference. Syst Biol. 2015;64(1):e1-25.  
+
 [4] Marass F, Mouliere F, Yuan K, Rosenfeld N, Markowetz F. A phylogenetic latent feature model for clonal deconvolution. The Annals of Applied Statistics. 2016;10(4):2377-404 %@ 1932-6157.  
-[5] Kirill Müller and Hadley Wickham (2018). tibble: Simple Data Frames. R package version 1.4.2. https://CRAN.R-project.org/package=tibble  
+
+[5] Kirill Mueller and Hadley Wickham (2018). tibble: Simple Data Frames. R package version 1.4.2. https://CRAN.R-project.org/package=tibble  
+
 [6] Jarek Tuszynski (2014). caTools: Tools: moving window statistics, GIF, Base64, ROC AUC, etc.. R package version 1.17.1. https://CRAN.R-project.org/package=caTools  
+
 [7] Gregory R. Warnes, Ben Bolker and Thomas Lumley (2015). gtools: Various R Programming Tools. R package version 3.5.0. https://CRAN.R-project.org/package=gtools  
+
 [8] Arne Henningsen and Ott Toomet (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.  
+
 [9] Stefan Milton Bache and Hadley Wickham (2014). magrittr: A Forward-Pipe Operator for R. R package version 1.5. https://CRAN.R-project.org/package=magrittr  
+
 [10] Durinck S, Moreau Y, Kasprzyk A, Davis S, De Moor B, Brazma A and Huber W (2005). "BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis." Bioinformatics, 21, pp. 3439-3440.  
+
 [11] Durinck S, Spellman P, Birney E and Huber W (2009). "Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt." Nature Protocols, 4, pp. 1184-1191.  
-[12] Hadley Wickham, Romain Francois, Lionel Henry and Kirill Müller (2017). dplyr: A Grammar of Data Manipulation. R package version 0.7.4. https://CRAN.R-project.org/package=dplyr  
+
+[12] Hadley Wickham, Romain Francois, Lionel Henry and Kirill Mueller (2017). dplyr: A Grammar of Data Manipulation. R package version 0.7.4. https://CRAN.R-project.org/package=dplyr  
+
 [13] H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2009.  
+
 [14] Alboukadel Kassambara (2017). ggpubr: 'ggplot2' Based Publication Ready Plots. R package version 0.1.6. https://CRAN.R-project.org/package=ggpubr  
+
 [15] Hadley Wickham (2007). Reshaping Data with the reshape Package. Journal of Statistical Software, 21(12), 1-20. URL http://www.jstatsoft.org/v21/i12/.  
+
 [16] Matthews L, Gopinath G, Gillespie M, Caudy M, Croft D, de Bono B, et al. Reactome knowledgebase of human biological pathways and processes. Nucleic acids research. 2009;37(Database issue):D619-22.  
