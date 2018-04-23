@@ -420,7 +420,7 @@ sessionInfo()
 ***
 
 ## References:
-[1] Moore AL, Kuipers J, Singer J, Burcklen E, Schraml P, Beisel C, Moch H, Beerenwinkel N. Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma. (2018). bioRxiv number. doi: doi  
+[1] Moore AL, Kuipers J, Singer J, Burcklen E, Schraml P, Beisel C, Moch H, Beerenwinkel N. Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma. (2018). bioRxiv 305623. doi: https://doi.org/10.1101/305623
 
 [2] Benjamini Y, Hochberg Y. Controlling the false discovery rate: a practical and 26 powerful approach to multiple testing. Journal of the royal statistical society Series B 27 (Methodological). 1995:289-300 %@ 0035-9246.  
 

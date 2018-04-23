@@ -5,12 +5,12 @@ citEntry(entry = "Article",
   author       = "Ariane L. Moore, Jack Kuipers, Jochen Singer, Elodie Burcklen, Peter Schraml, Christian Beisel, Holger Moch, Niko Beerenwinkel",
   journal      = "bioRxiv",
   year         = "2018",
-  number       = "TODO",
-  url          = "TODO",
+  number       = "305623",
+  url          = "https://doi.org/10.1101/305623",
 
   textVersion  =
   paste("Ariane L. Moore, Jack Kuipers, Jochen Singer, Elodie Burcklen, Peter Schraml, Christian Beisel, Holger Moch, Niko Beerenwinkel
 Intra-tumor heterogeneity and clonal exclusivity in renal cell carcinoma (2018)
-bioRxiv number; doi: doi")
+bioRxiv 305623; doi: https://doi.org/10.1101/305623")
 )
 
