@@ -174,7 +174,7 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents = 0.9, max_num
 #' clone_tbl <- tibble::as_tibble(cbind("file_name" =
 #'                            rep("fn1", 10),
 #'                            "patient_id" = rep("pat1", 10),
-#'                            "altered_entity" = paste0("gene", LETTERS[1:10]),
+#'                            "altered_entity" = paste0("gene", LETTERS[seq(1, 10)]),
 #'                            "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
 #'                            "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
 #'                            "tree_id" = c(rep(1, 5), rep(2, 5))))
@@ -605,7 +605,7 @@ merge_clones_identical_ents <- function(clone_tbl) {
     this_ent_tbl <- clone_tbl %>% dplyr::filter(altered_entity == x) %>%
       dplyr::select(-file_name, -patient_id, -altered_entity)
     # make sure that the clone indicators 0 and 1 are integers and not factors
-    this_ent_tbl <- sapply(this_ent_tbl[,1:num_clones], function(x){as.numeric(as.character(x))})
+    this_ent_tbl <- sapply(this_ent_tbl[, seq(1, num_clones)], function(x){as.numeric(as.character(x))})
     # this is to make sure that the sum over columns works in case there is just one row
     this_ent_tbl <- rbind(this_ent_tbl, c(rep(0, num_clones))) 
     # sum up the rows, i.e. the clone profiles
@@ -690,7 +690,7 @@ extract_num_clones_tbl <- function(clone_tbl) {
     this_pat_clone_tbl <- clone_tbl %>% dplyr::filter(patient_id == x) %>%
           dplyr::select(-file_name, -patient_id, -altered_entity)
     # make sure that the clone indicators 0 and 1 are integers and not factors
-    this_pat_clone_tbl <- sapply(this_pat_clone_tbl[,1:num_clones_upper_bound], function(x){as.numeric(as.character(x))})
+    this_pat_clone_tbl <- sapply(this_pat_clone_tbl[, seq(1, num_clones_upper_bound)], function(x){as.numeric(as.character(x))})
     # this is to make sure that the sum over columns works in case there is just one row
     this_pat_clone_tbl <- rbind(this_pat_clone_tbl, c(rep(0, num_clones_upper_bound))) 
     clones_summary <- apply(this_pat_clone_tbl, 2, sum)
