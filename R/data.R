@@ -132,6 +132,8 @@
 #' The following commands were used:
 #' wget https://reactome.org/download/current/Ensembl2Reactome.txt; 
 #' cat Ensembl2Reactome.txt | grep "Mus musculus" > Ensembl2Reactome_mus_musculus.txt
+#' # and then Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt was created from this by just
+#' # replacing the greek 'omega'-symbol in pathway "R-MMU-9027604" with the word 'omega'.
 #' 
 #' @format A tibble with 28,630 rows and six variables:
 #' \describe{
@@ -144,7 +146,7 @@
 #' }
 #' @source The tibble was created as follows: 
 #' library(dplyr);
-#' ensmusg_path_map_raw <- read.csv("Ensembl2Reactome_mus_musculus.txt", header = F, sep = "\\t", 
+#' ensmusg_path_map_raw <- read.csv("Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt", header = F, sep = "\\t", 
 #'     comment.char = "", check.names = F, skip = 0);
 #' stopifnot(dim(ensmusg_path_map_raw)[1] == 28696);
 #' stopifnot(dim(ensmusg_path_map_raw)[2] == 6);
