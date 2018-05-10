@@ -156,4 +156,3 @@
 #' stopifnot(dim(ensmusg_reactome_path_map)[1] == 28630)
 "ensmusg_reactome_path_map"
 
-
