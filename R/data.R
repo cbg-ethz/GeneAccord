@@ -123,3 +123,35 @@
 #' that the following parameter was set as \code{num_pairs_sim = 100000}.
 "ecdf_list"
 
+
+#' Ensembl gene id's and the Reactome pathways - for mouse!
+#'
+#' This is a tibble that contains mappings between mouse ensembl gene id's and reactome pathways. The reactome pathways
+#' are from the lowest level in the hierarchy ("Lowest level pathway diagram / Subset of the pathway"), 
+#' and were obtained by download from the Reactome website (\url{https://reactome.org/download-data}; "ENSEMBL to pathways").
+#' The following commands were used:
+#' wget https://reactome.org/download/current/Ensembl2Reactome.txt; 
+#' cat Ensembl2Reactome.txt | grep "Mus musculus" > Ensembl2Reactome_mus_musculus.txt
+#' 
+#' @format A tibble with 28,630 rows and six variables:
+#' \describe{
+#'   \item{ensembl_gene_id}{the Ensembl gene id as a character}
+#'   \item{reactome_pw_id}{the Reactome pathway stable identifier}
+#'   \item{url}{The url leading to the pathway graph}
+#'   \item{reactome_pw_name}{the name of the Reactome pathway}
+#'   \item{evidence_code}{the evidence code}
+#'   \item{species}{the species}
+#' }
+#' @source The tibble was created as follows: 
+#' library(dplyr);
+#' ensmusg_path_map_raw <- read.csv("Ensembl2Reactome_mus_musculus.txt", header = F, sep = "\\t", 
+#'     comment.char = "", check.names = F, skip = 0);
+#' stopifnot(dim(ensmusg_path_map_raw)[1] == 28696);
+#' stopifnot(dim(ensmusg_path_map_raw)[2] == 6);
+#' colnames(ensmusg_path_map_raw) <- c("ensembl_gene_id", "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
+#' ensmusg_path_map_raw <- dplyr::as.tbl(ensmusg_path_map_raw);
+#' ensmusg_reactome_path_map <- filter(filter(ensmusg_path_map_raw, grepl("ENSMUSG", ensmusg_path_map_raw$ensembl_gene_id)), species == "Mus musculus")
+#' stopifnot(dim(ensmusg_reactome_path_map)[1] == 28630)
+"ensmusg_reactome_path_map"
+
+
