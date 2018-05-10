@@ -226,9 +226,9 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl, ensg_reactome_p
 
   # sanity check: to see whether the entities really are ensembl gene id's
   all_unique_ents <- unique(mutated_gene_tbl$altered_entity)
-  which_ones_ENSG <- sum(vapply(all_unique_ents, function(x){grep("ENSG", x)}, integer(length = 1)))
+  which_ones_ENS <- sum(vapply(all_unique_ents, function(x){grep("ENS", x)}, integer(length = 1)))
   num_all_unique_ents <- length(all_unique_ents)
-  stopifnot(which_ones_ENSG == num_all_unique_ents)
+  stopifnot(which_ones_ENS == num_all_unique_ents)
   
   # make sure that this is just from one patient
   this_pat <- unique(as.character(mutated_gene_tbl$patient_id))
@@ -250,7 +250,7 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl, ensg_reactome_p
     suppressMessages(ensembl_to_reactome(x, ensg_reactome_path_map))
   })
 
-  num_unmapped <- sum(grepl("ENSG", unlist(ensembl_to_pw_list)))
+  num_unmapped <- sum(grepl("ENS", unlist(ensembl_to_pw_list)))
   message(paste("", num_unmapped, " could not be mapped to a reactome pathway.", sep = ""))
 
   # convert each row of the gene tibble to a tibble itself where the gene id is replaced by the
@@ -280,14 +280,14 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl, ensg_reactome_p
   merged_converted_tbl <- suppressMessages(merge_clones_identical_ents(converted_tbl))
 
   # sanity check how many ensembl id's could not be mapped
-  num_unmapped_ids <- dim(merged_converted_tbl %>% dplyr::filter(grepl("ENSG", altered_entity))
+  num_unmapped_ids <- dim(merged_converted_tbl %>% dplyr::filter(grepl("ENS", altered_entity))
                           %>% dplyr::select(altered_entity) %>% dplyr::distinct())[1]
   stopifnot(num_unmapped_ids == num_unmapped)
 
   # message to user
-  num_pws_unique <- dim(merged_converted_tbl %>% dplyr::filter(!grepl("ENSG", altered_entity))
+  num_pws_unique <- dim(merged_converted_tbl %>% dplyr::filter(!grepl("ENS", altered_entity))
                         %>% dplyr::select(altered_entity) %>% dplyr::distinct())[1]
-  num_pws <- dim(merged_converted_tbl %>% dplyr::filter(!grepl("ENSG", altered_entity))
+  num_pws <- dim(merged_converted_tbl %>% dplyr::filter(!grepl("ENS", altered_entity))
                  %>% dplyr::select(altered_entity))[1]
   message(paste("The remaining ", num_all_unique_ents-num_unmapped_ids, " different Ensembl gene id's were",
                 " mapped to ", num_pws_unique, " different reactome pathways.",
