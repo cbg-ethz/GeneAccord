@@ -7,26 +7,34 @@
 compute_test_stat_avg_rate(avg_rates_m, num_trees_pair, num_clon_excl)
 }
 \arguments{
-\item{avg_rates_m}{The vector of average rates of clonal exclusivity of each patient the pair is mutated in. It was computed for each patient
-separately, and is averaged over all gene pairs and all trees. Expected to be in the same (patient) order as the other inputs to this function.}
+\item{avg_rates_m}{The vector of average rates of clonal exclusivity of 
+each patient the pair is mutated in. It was computed for each patient
+separately, and is averaged over all gene pairs and all trees. Expected 
+to be in the same (patient) order as the other inputs to this function.}
 
-\item{num_trees_pair}{The vector with the number of tree inferences in which the pair was occurring in. Has to be the same order
+\item{num_trees_pair}{The vector with the number of tree inferences in 
+which the pair was occurring in. Has to be the same order
 as \code{avg_rates_m}.}
 
-\item{num_clon_excl}{The vector with the number of times the pair was clonally exclusive in the trees in each patient.
+\item{num_clon_excl}{The vector with the number of times the pair was 
+clonally exclusive in the trees in each patient.
 Has to be the same order as \code{avg_rates_m}.}
 }
 \value{
-A list with the test statistic of the clonal exclusivity test (lrtest), and the maximum likelihood estimate
-of delta.
+A list with the test statistic of the clonal exclusivity test 
+(lrtest), and the maximum likelihood estimate of delta.
 }
 \description{
-Compute test statistic that is based on the average rates of clonal exclusivity of a patient, and the observed
-number of times a pair was clonally exclusive across several trees of the tree inference.
+Compute test statistic that is based on the average rates of clonal 
+exclusivity of a patient, and the observed
+number of times a pair was clonally exclusive across several trees of 
+the tree inference.
 }
 \details{
-For a given gene/pathway pair, this function takes as input: the average rates of clonal exclusivity of all patients
-in which the pair is mutated, the number of trees among the trees in the collection of trees from each patient in which
+For a given gene/pathway pair, this function takes as input: the average 
+rates of clonal exclusivity of all patients
+in which the pair is mutated, the number of trees among the trees in the 
+collection of trees from each patient in which
 the pair was occurring, and the number of times it was clonally exclusive
 }
 \examples{

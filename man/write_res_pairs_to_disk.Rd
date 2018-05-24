@@ -7,36 +7,44 @@
 write_res_pairs_to_disk(sig_pairs, avg_rates_m, tsv_file, num_digits = 2)
 }
 \arguments{
-\item{sig_pairs}{The tibble containing the significant pairs of mutated genes/pathways.}
+\item{sig_pairs}{The tibble containing the significant pairs 
+of mutated genes/pathways.}
 
-\item{avg_rates_m}{The average rates of clonal exclusivity for each patient. The name of each rate is the respective 
+\item{avg_rates_m}{The average rates of clonal exclusivity for 
+each patient. The name of each rate is the respective 
 patient identifier.}
 
-\item{tsv_file}{The path to the tsv-file to which the results should be written.}
+\item{tsv_file}{The path to the tsv-file to which the results 
+should be written.}
 
-\item{num_digits}{The number of digits after the comma of the average rate m, the p-value and the q-value (adjusted p-value). 
+\item{num_digits}{The number of digits after the comma of the 
+average rate m, the p-value and the q-value (adjusted p-value). 
 Default: 2.}
 }
 \value{
-The tibble that is written to disk. It has the columns 'Gene A', 'Gene B', 'P-value', 'Adjusted p-value', 
+The tibble that is written to disk. It has the columns 'Gene A', 
+'Gene B', 'P-value', 'Adjusted p-value', 
 'Mutated in (rate)', 'Clonally exclusive in'.
 }
 \description{
-Write the resulting significant pairs tibble to disk as a tab-separated file.
+Write the resulting significant pairs tibble to disk as 
+a tab-separated file.
 }
 \details{
-After having extracted the significant pairs. The tibble can be saved as a tab-separated file. It is assumed that the
-input tibble has the columns 'hgnc_gene_A', 'hgnc_gene_B', 'pval', 'qval', 'mutated_in', 'clonally_exclusive_in'.
+After having extracted the significant pairs. The tibble 
+can be saved as a tab-separated file. It is assumed that the
+input tibble has the columns 'hgnc_gene_A', 'hgnc_gene_B', 
+'pval', 'qval', 'mutated_in', 'clonally_exclusive_in'.
 }
 \examples{
-sig_pairs <- tibble::tibble(hgnc_gene_A = c("VHL", "BAP1"),
-                            hgnc_gene_B = c("PTEN", "KIT"),
-                            pval = c(0.001, 0.002),
-                            qval = c(0.01, 0.02),
-                            mutated_in = c("pat1; pat2", "pat1; pat2"),
-                            clonally_exclusive_in = c("pat1; pat2", 
-                                                      "pat2"))
-avg_rates_m <- c(pat1 = 0.0034, pat2 = 0.0021)
+sig_pairs <- tibble::tibble(hgnc_gene_A=c("VHL", "BAP1"),
+    hgnc_gene_B=c("PTEN", "KIT"),
+    pval=c(0.001, 0.002),
+    qval=c(0.01, 0.02),
+    mutated_in=c("pat1; pat2", "pat1; pat2"),
+    clonally_exclusive_in=c("pat1; pat2", 
+    "pat2"))
+avg_rates_m <- c(pat1=0.0034, pat2=0.0021)
 write_res_pairs_to_disk(sig_pairs, avg_rates_m, "test.tsv")
 file.remove("test.tsv")
 }

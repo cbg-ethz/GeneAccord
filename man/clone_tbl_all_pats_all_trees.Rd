@@ -3,29 +3,40 @@
 \docType{data}
 \name{clone_tbl_all_pats_all_trees}
 \alias{clone_tbl_all_pats_all_trees}
-\title{The tibble with gene-to-clone assignments from all patients and all trees}
+\title{The tibble with gene-to-clone assignments from all patients 
+and all trees}
 \format{A tibble containing the following columns:
 \describe{
   \item{file_name}{the name of the csv-file from which the data was read}
   \item{patient_id}{the patient identifier}
   \item{altered_entity}{ensembl gene identifier of the mutated gene}
-  \item{clone1}{the indication whether the current gene is mutated in this clone}
-  \item{clone2}{the indication whether the current gene is mutated in this clone}
-  \item{clone3}{the indication whether the current gene is mutated in this clone}
-  \item{clone4}{the indication whether the current gene is mutated in this clone}
-  \item{clone5}{the indication whether the current gene is mutated in this clone}
-  \item{clone6}{the indication whether the current gene is mutated in this clone}
-  \item{clone7}{the indication whether the current gene is mutated in this clone}
-  \item{tree_id}{the identifier that tells from which tree this gene-to-clone assignment comes}
+  \item{clone1}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone2}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone3}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone4}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone5}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone6}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{clone7}{the indication whether the current gene is 
+  mutated in this clone}
+  \item{tree_id}{the identifier that tells from which tree 
+  this gene-to-clone assignment comes}
 }}
 \source{
-The tibble can be generated for each patient separately with \code{\link{create_tbl_tree_collection}} as 
+The tibble can be generated for each patient separately 
+with \code{\link{create_tbl_tree_collection}} as 
 demonstrated in the vignette.
 }
 \usage{
 clone_tbl_all_pats_all_trees
 }
 \description{
-This is a tibble that contains the information, which gene is mutated in which clone from which patient.
+This is a tibble that contains the information, which 
+gene is mutated in which clone from which patient.
 }
 \keyword{datasets}

@@ -2,7 +2,8 @@
 % Please edit documentation in R/databases_handling_functions.R
 \name{create_ensembl_gene_tbl_hg}
 \alias{create_ensembl_gene_tbl_hg}
-\title{Get a tibble of all gene ensembl id's, gene names (hgnc), entrez gene id's, uniprot/swissprot
+\title{Get a tibble of all gene ensembl id's, gene names (hgnc), 
+entrez gene id's, uniprot/swissprot
 gene id's and genomic coordinates.}
 \usage{
 create_ensembl_gene_tbl_hg(GRCh = 37, ensembl_version = 88)
@@ -13,20 +14,27 @@ create_ensembl_gene_tbl_hg(GRCh = 37, ensembl_version = 88)
 \item{ensembl_version}{The version of the ensembl data base. Default: 88.}
 }
 \value{
-A tibble with the following columns: \code{ensembl_gene_id}, \code{hgnc_symbol},
-\code{entrezgene}, \code{uniprotswissprot}, \code{chromosome_name}, \code{start_position},
-\code{end_position}. The entrez gene id, as well as the start and end positions are numeric, and
-the other columns are characters. The chromosome is specified without "chr", i.e. the chromosome
+A tibble with the following columns: 
+\code{ensembl_gene_id}, \code{hgnc_symbol},
+\code{entrezgene}, \code{uniprotswissprot}, 
+\code{chromosome_name}, \code{start_position},
+\code{end_position}. The entrez gene id, as well as the start 
+and end positions are numeric, and
+the other columns are characters. The chromosome is specified 
+without "chr", i.e. the chromosome
 13 for example, would be specified with "13".
 }
 \description{
 Retrieve a mapping between different gene identifiers.
 }
 \details{
-This function retrieves the ensembl gene id's from biomart together with the hgnc gene symbol,
-the entrez gene id, the uniprot/swissprot gene id, as well as chromosome, start and end position.
-This is done for the human genes from the human genome version \code{hg19}/\code{GRCh37}, and
-Ensembl Genes version 88. The user can also specify other human genome or ensembl versions.
+This function retrieves the ensembl gene id's from biomart 
+together with the hgnc gene symbol, the entrez gene id, the 
+uniprot/swissprot gene id, as well as chromosome, start and end 
+position. This is done for the human genes from the human 
+genome version \code{hg19}/\code{GRCh37}, and Ensembl Genes 
+version 88. The user can also specify other human genome or 
+ensembl versions.
 }
 \examples{
 \dontrun{

@@ -3,18 +3,23 @@
 \docType{data}
 \name{list_of_clon_excl_all_pats}
 \alias{list_of_clon_excl_all_pats}
-\title{The list with the histogram of how often pairs are clonally exclusive across the collection of trees}
-\format{A list whose entries are named after the patient, and they contain vectors with the numbers of
-how often the pairs in this patient are clonally exclusive accross trees.}
+\title{The list with the histogram of how often pairs are clonally 
+exclusive across the collection of trees}
+\format{A list whose entries are named after the patient, and they 
+contain vectors with the numbers of
+how often the pairs in this patient are clonally exclusive accross 
+trees.}
 \source{
-The histogram can be generated for each patient separately with \code{\link{get_hist_clon_excl}} as 
+The histogram can be generated for each patient separately 
+with \code{\link{get_hist_clon_excl}} as 
 demonstrated in the vignette.
 }
 \usage{
 list_of_clon_excl_all_pats
 }
 \description{
-This is a named list whose entries for each patient are the histograms of how often pairs are clonally 
+This is a named list whose entries for each patient are the 
+histograms of how often pairs are clonally 
 exclusive in all trees of a patient.
 }
 \keyword{datasets}

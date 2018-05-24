@@ -8,22 +8,33 @@ heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl,
   first_clone_is_N = FALSE, output_pdf = "direct")
 }
 \arguments{
-\item{pairs_of_interest}{The tibble containing the pairs of genes/pathways that should be visualized in the heatmap.
-This may be, e.g. the gene pairs were mle_delta > 0, qval < 0.1, and num_patients > 1. It contains the columns 'entity_A',
-and 'entity_B', and can be generated with \code{\link{GeneAccord}}. For the plot, the function will attempt
-to map the gene ID's from ensembl ID to gene name. However, if the input genes are not ensembl IDs, it does not matter.}
+\item{pairs_of_interest}{The tibble containing the pairs of 
+genes/pathways that should be visualized in the heatmap.
+This may be, e.g. the gene pairs were mle_delta > 0, qval < 0.1, 
+and num_patients > 1. It contains the columns 'entity_A',
+and 'entity_B', and can be generated with \code{\link{GeneAccord}}. 
+For the plot, the function will attempt
+to map the gene ID's from ensembl ID to gene name. However, if the 
+input genes are not ensembl IDs, it does not matter.}
 
-\item{clone_tbl}{The tibble containing the information of which gene/pathway is mutated in which
-clone from which patient. Here, it is assumed that only one tree from the collection of trees was chosen per
+\item{clone_tbl}{The tibble containing the information of which 
+gene/pathway is mutated in which
+clone from which patient. Here, it is assumed that only one tree 
+from the collection of trees was chosen per
 patient.}
 
-\item{all_genes_tbl}{A tibble with all genes ensembl id's and hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
+\item{all_genes_tbl}{A tibble with all genes ensembl id's and 
+hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
 
-\item{first_clone_is_N}{Logical indicating whether the first clone column is actually representing the normal or germline, and is not a tumor
-clone. In that case, it will have the name 'N', and all other columns will be one clone number smaller, e.g. 'clone2' is then actually
+\item{first_clone_is_N}{Logical indicating whether the first 
+clone column is actually representing the normal or germline, 
+and is not a tumor
+clone. In that case, it will have the name 'N', and all other 
+columns will be one clone number smaller, e.g. 'clone2' is then actually
 'clone1' etc. Default: FALSE.}
 
-\item{output_pdf}{The name of the pdf to be generated. Or if output_pdf is "direct", then the plot is
+\item{output_pdf}{The name of the pdf to be generated. Or if 
+output_pdf is "direct", then the plot is
 generated directly and not to a pdf. Default: "direct"}
 }
 \value{
@@ -33,23 +44,26 @@ None, the function plots a gene-to-clone assignment heatmap.
 This function plots the heatmaps of final gene clone matrices.
 }
 \details{
-After running the \code{\link{GeneAccord}}, one may want to visualize the gene clone
+After running the \code{\link{GeneAccord}}, one may want to visualize 
+the gene clone
 heatmap for significant gene pairs.
 }
 \examples{
-pairs_of_interest <- tibble::tibble(entity_A = "SETD2",
-                           entity_B = "BAP1")
+pairs_of_interest <- tibble::tibble(entity_A="SETD2",
+                           entity_B="BAP1")
 clone_tbl <- tibble::tibble(
-                   file_name = c("X.csv", "X.csv", "Y.csv", "Y.csv"),
-                   patient_id = c("X", "X", "Y", "Y"),
-                   altered_entity = c("SETD2", "BAP1", "SETD2", "BAP1"),
-                   clone1 = c(0, 1, 1, 0),
-                   clone2 = c(1, 0, 0, 1))
+               file_name=c("X.csv", "X.csv", "Y.csv", "Y.csv"),
+               patient_id=c("X", "X", "Y", "Y"),
+               altered_entity=c("SETD2", "BAP1", "SETD2", "BAP1"),
+               clone1=c(0, 1, 1, 0),
+               clone2=c(1, 0, 0, 1))
 \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
 all_genes_tbl_example <- tibble::tibble(
-                 ensembl_gene_id = c("ENSG00000181555", "ENSG00000163930"),
-                 hgnc_symbol = c("SETD2", "BAP1"))
-heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, all_genes_tbl_example)
+                 ensembl_gene_id=c("ENSG00000181555", 
+                 "ENSG00000163930"),
+                 hgnc_symbol=c("SETD2", "BAP1"))
+heatmap_clones_gene_pat(pairs_of_interest, clone_tbl, 
+all_genes_tbl_example)
 }
 \author{
 Ariane L. Moore

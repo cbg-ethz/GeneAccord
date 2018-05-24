@@ -7,30 +7,35 @@
 get_rate_diff_branch_ent_pair(clone_tbl)
 }
 \arguments{
-\item{clone_tbl}{A tibble containing the columns 'altered_entity', and then a column for each clone}
+\item{clone_tbl}{A tibble containing the columns 'altered_entity', and then 
+a column for each clone}
 }
 \value{
-The rate of occurrence of mutated gene/pathway pairs being in different clones.
+The rate of occurrence of mutated gene/pathway pairs being in 
+different clones.
 }
 \description{
 Compute the rate of mutated gene/pathway pairs being in different branches.
 }
 \details{
-Given the output of a tool that identifies clones within tumors and their phylogenetic
-history, this function computes the rate of mutated gene/pathway pairs being in different branches.
-That is, it will calculate the number of times mutated gene/pathway pairs are in different branches/clones
-divided by the total number of all mutated gene/pathway pairs.
+Given the output of a tool that identifies clones within tumors and their 
+phylogenetic history, this function computes the rate of mutated 
+gene/pathway pairs being in different branches. That is, it will calculate 
+the number of times mutated gene/pathway pairs are in different 
+branches/clones divided by the total number of all mutated gene/pathway 
+pairs.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-                   altered_entity = c(paste("gene", seq(1,10), sep = "")),
-                   clone1 = c(rep(0,10)),
-                   clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-                   clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-                   clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
+    altered_entity=c(paste("gene", seq(1,10), sep="")),
+    clone1=c(rep(0,10)),
+    clone2=c(sample(c(0,1), 10, replace=TRUE)),
+    clone3=c(sample(c(0,1), 10, replace=TRUE)),
+    clone4=c(sample(c(0,1), 10, replace=TRUE))) ) )
 get_rate_diff_branch_ent_pair(clone_tbl)
 }
 \author{
 Ariane L. Moore
-in the tumor, e.g. 'clone1', 'clone2', 'clone3'. This tibble can be generated e.g. from the \code{Cloe} output.
+in the tumor, e.g. 'clone1', 'clone2', 'clone3'. This tibble can be 
+generated e.g. from the \code{Cloe} output.
 }

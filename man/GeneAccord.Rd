@@ -2,87 +2,121 @@
 % Please edit documentation in R/GeneAccord_main_functions.R
 \name{GeneAccord}
 \alias{GeneAccord}
-\title{Detection of clonally exclusive gene or pathway pairs in a cohort of cancer patients}
+\title{Detection of clonally exclusive gene or pathway pairs in 
+a cohort of cancer patients}
 \usage{
 GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative = "greater",
   genes_of_interest = "ALL", AND_OR = "OR")
 }
 \arguments{
-\item{clone_tbl}{The tibble containing the information of which gene/pathway is mutated in which
-clone from which patient and in which tree from the collection of trees. Can be generated with \code{\link{create_tbl_tree_collection}}
+\item{clone_tbl}{The tibble containing the information of which 
+gene/pathway is mutated in which
+clone from which patient and in which tree from the collection of 
+trees. Can be generated with \code{\link{create_tbl_tree_collection}}
 for each patient separately and then appended.}
 
-\item{avg_rates_m}{The average rates of clonal exclusivity for each patient as computed with
-\code{\link{compute_rates_clon_excl}}. The name of each rate is the respective patient id. The rates are assumed to be the average
+\item{avg_rates_m}{The average rates of clonal exclusivity for each 
+patient as computed with
+\code{\link{compute_rates_clon_excl}}. The name of each rate is the 
+respective patient id. The rates are assumed to be the average
 over all tree inferences from a patient.}
 
-\item{ecdf_list}{The list of ECDF's of the test statistic under the null distribution. Can be generated with
+\item{ecdf_list}{The list of ECDF's of the test statistic under the 
+null distribution. Can be generated with
 \code{\link{generate_ecdf_test_stat}}.}
 
-\item{alternative}{The character indicating whether pairs should only be tested if delta > 0 or if all pairs should be tested.
+\item{alternative}{The character indicating whether pairs should only 
+be tested if delta > 0 or if all pairs should be tested.
 Can be one of "greater" or "two.sided". Default: "greater".}
 
-\item{genes_of_interest}{A character vector of genes to test for clonal exclusivity. The genes have to be in the same identifier as 
+\item{genes_of_interest}{A character vector of genes to test for 
+clonal exclusivity. The genes have to be in the same identifier as 
 the one in the tibble. Per default, all genes are tested. Default: "ALL".}
 
-\item{AND_OR}{If \code{genes_of_interest} is specified, this indicator tells whether to test only pairs within the \code{genes_of_interest} (AND),
-or whether all pairs involving at least one of these genes should be tested (OR). I.e. can be one of "AND", "OR". Default: "OR". If 
-\code{genes_of_interest} is "ALL", then all gene pairs will be tested and this parameter is ignored.}
+\item{AND_OR}{If \code{genes_of_interest} is specified, this indicator 
+tells whether to test only pairs within the \code{genes_of_interest} 
+(AND), or whether all pairs involving at least one of these genes should 
+be tested (OR). I.e. can be one of "AND", "OR". Default: "OR". If 
+\code{genes_of_interest} is "ALL", then all gene pairs will be tested 
+and this parameter is ignored.}
 }
 \value{
-A tibble containing the test result for each pair of mutated genes/pathways that was tested. More precisely, it contains the columns
-'entity_A', 'entity_B', 'num_patients', 'pval', 'mle_delta', 'test_statistic', and 'qval'.
-Each row is then a gene or pathway pair which is specified with 'entity_A', and 'entity_B'. Note that the test is symmetric,
-hence switching the labels A and B does not change the results. The column 'num_patients' contains the information in how
-many patients both of the genes/pathways were mutated and hence how many patients' rates were used for the test. The 'pval' is 
-the p-value of the clonal exclusivity test. The 'mlde_delta' is the maximum likelihood estimate of the delta for the elevated clonal exclusivity 
-rate in the alternative model. The column 'test_statistic' is the likelihood ratio test statistic. The 'qval' is the adjusted p-value after multiple testing
+A tibble containing the test result for each pair of mutated 
+genes/pathways that was tested. More precisely, it contains the columns
+'entity_A', 'entity_B', 'num_patients', 'pval', 'mle_delta', 
+'test_statistic', and 'qval'.
+Each row is then a gene or pathway pair which is specified with 
+'entity_A', and 'entity_B'. Note that the test is symmetric,
+hence switching the labels A and B does not change the results. 
+The column 'num_patients' contains the information in how
+many patients both of the genes/pathways were mutated and hence how 
+many patients' rates were used for the test. The 'pval' is 
+the p-value of the clonal exclusivity test. The 'mlde_delta' is the 
+maximum likelihood estimate of the delta for the elevated clonal 
+exclusivity 
+rate in the alternative model. The column 'test_statistic' is the 
+likelihood ratio test statistic. The 'qval' is the adjusted p-value 
+after multiple testing
 correction with Benjamini-Hochberg.
 }
 \description{
-Method to detect clonally exclusive gene or pathway pairs in a cohort of cancer patients
+Method to detect clonally exclusive gene or pathway pairs in a cohort of 
+cancer patients
 }
 \details{
-After running a tool such as \code{Cloe} that identifies clones in a tumor and infers the phylogenetic history,
-the user has for each tumor a list of alterations and their clone assignments. Since the tree inference includes
-uncertainty, it may be run several times. Given a tibble containing the information of which genes/pathways are mutated
-in which patient and clone and from which tree, this function systematically tests the data for significant
-clonal exclusivities. That is, it checks for each gene/pathway pair whether the number of clonal exclusivities
-is significantly different from what would be expected by chance. Such a tibble can be generated with
-\code{\link{create_tbl_tree_collection}}, and then adding the additional column 'tree_id' to indicate which tree of the tree
-inference was used. For instance, if the tree inference tool was run several times using different seeds, the column
-'tree_id' may contain the seed of the respective tree. Hence, the tibble is expected to have the columns 'file_name',
-'patient_id', 'altered_entity', 'clone1', 'clone2', ... up to the maximal number of clones (Default: until 'clone7'), and
-'tree_id'. Note that the labelling of the clones does not matter and only needs to stay fixed within each patient and
-tree inference. There is also the option to test two-sided, meaning that also pairs will be tested that tend to occur more
-often together in the same clones or separate in different clones. Hence it also allows to detect significant clonal co-occurrence. An additional option is
-to test only a specific subset of genes.
+After running a tool such as \code{Cloe} that identifies clones in a 
+tumor and infers the phylogenetic history, the user has for each tumor 
+a list of alterations and their clone assignments. Since the tree 
+inference includes uncertainty, it may be run several times. Given a 
+tibble containing the information of which genes/pathways are mutated
+in which patient and clone and from which tree, this function 
+systematically tests the data for significant clonal exclusivities. 
+That is, it checks for each gene/pathway pair whether the number of 
+clonal exclusivities is significantly different from what would be 
+expected by chance. Such a tibble can be generated with 
+\code{\link{create_tbl_tree_collection}}, and then adding the 
+additional column 'tree_id' to indicate which tree of the tree 
+inference was used. For instance, if the tree inference tool was 
+run several times using different seeds, the column 'tree_id' may 
+contain the seed of the respective tree. Hence, the tibble is 
+expected to have the columns 'file_name', 'patient_id', 
+'altered_entity', 'clone1', 'clone2', ... up to the maximal number 
+of clones (Default: until 'clone7'), and 'tree_id'. Note that the 
+labelling of the clones does not matter and only needs to stay fixed 
+within each patient and tree inference. There is also the option to 
+test two-sided, meaning that also pairs will be tested that tend to 
+occur more often together in the same clones or separate in different 
+clones. Hence it also allows to detect significant clonal co-occurrence.
+An additional option is to test only a specific subset of genes.
 }
 \examples{
-clone_tbl <- tibble::as_tibble(cbind("file_name" =
-                      rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-                      "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-                      "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-                      "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-                      "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-                      "tree_id" = c(rep(5, 6), rep(10, 6))))
+clone_tbl <- tibble::as_tibble(cbind("file_name"=
+   rep(c(rep(c("fn1", "fn2"), each=3)), 2),
+   "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
+   "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
+   "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+   "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+   "tree_id"=c(rep(5, 6), rep(10, 6))))
 clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
 rates_exmpl_2 <- compute_rates_clon_excl(clone_tbl_pat2)
 avg_rates_m <- apply(cbind(rates_exmpl_1, rates_exmpl_2), 2, mean)
-names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
+names(avg_rates_m) <- c(names(rates_exmpl_1)[1], 
+names(rates_exmpl_2)[1])
 values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-list_of_num_trees_all_pats <- list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-                                   pat2=values_clon_excl_num_trees_pat2[[1]])
-list_of_clon_excl_all_pats <- list(pat1=values_clon_excl_num_trees_pat1[[2]],
-                                   pat2=values_clon_excl_num_trees_pat2[[2]])
+list_of_num_trees_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+                             pat2=values_clon_excl_num_trees_pat2[[1]])
+list_of_clon_excl_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[2]],
+                             pat2=values_clon_excl_num_trees_pat2[[2]])
 num_pat_pair_max <- 2
 num_pairs_sim <- 10
-ecdf_list <- generate_ecdf_test_stat(avg_rates_m, list_of_num_trees_all_pats, 
-                             list_of_clon_excl_all_pats, num_pat_pair_max, 
-                             num_pairs_sim)
+ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
+  list_of_num_trees_all_pats, 
+  list_of_clon_excl_all_pats, 
+  num_pat_pair_max, 
+  num_pairs_sim)
 alternative <- "greater"
 GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative)
 alternative <- "two.sided"
@@ -90,7 +124,7 @@ GeneAccord(clone_tbl, avg_rates_m, ecdf_list, alternative)
 genes_of_interest <- c("geneB", "geneC")
 GeneAccord(clone_tbl, avg_rates_m, ecdf_list, 
             alternative, genes_of_interest)
-AND_OR = "AND"
+AND_OR <- "AND"
 GeneAccord(clone_tbl, avg_rates_m, ecdf_list, 
             alternative, genes_of_interest, AND_OR)
 }

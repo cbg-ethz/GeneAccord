@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_handling_functions.R
 \name{get_hist_clon_excl_this_pat_this_pair}
 \alias{get_hist_clon_excl_this_pat_this_pair}
-\title{Check for a pair how often it was mutated in the current patient across trees, and how often also clonally exclusive.}
+\title{Check for a pair how often it was mutated in the current 
+patient across trees, and how often also clonally exclusive.}
 \usage{
 get_hist_clon_excl_this_pat_this_pair(entA, entB, clone_tbl)
 }
@@ -11,24 +12,29 @@ get_hist_clon_excl_this_pat_this_pair(entA, entB, clone_tbl)
 
 \item{entB}{The other gene/pathway of the pair}
 
-\item{clone_tbl}{A tibble containing the columns 'altered_entity', and then a column for each clone
-in the tumor, e.g. 'clone1', 'clone2', 'clone3'. It also contains the column 'tree_id', which specifies
-which tree of the collection of tree inferences was used. This tibble can be generated e.g. from the \code{Cloe} output.}
+\item{clone_tbl}{A tibble containing the columns 'altered_entity', 
+and then a column for each clone
+in the tumor, e.g. 'clone1', 'clone2', 'clone3'. It also contains 
+the column 'tree_id', which specifies
+which tree of the collection of tree inferences was used. This 
+tibble can be generated e.g. from the \code{Cloe} output.}
 }
 \value{
-A vector with the values of in how many trees the pair was mutated, and in how many of those it was clonally exclusive.
+A vector with the values of in how many trees the pair 
+was mutated, and in how many of those it was clonally exclusive.
 }
 \description{
-Check for a pair how often it was mutated in the current patient across trees, and how often also clonally exclusive.
+Check for a pair how often it was mutated in the current patient 
+across trees, and how often also clonally exclusive.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-                     altered_entity = c(paste("gene", seq(1,10), sep = "")),
-                     clone1 = c(rep(0,10)),
-                     clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-                     clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-                     clone4 = c(sample(c(0,1), 10, replace = TRUE)),
-                     tree_id = c(rep(5, 5), rep(10, 5)) ) ))
+    altered_entity=c(paste("gene", seq(1,10), sep="")),
+    clone1=c(rep(0,10)),
+    clone2=c(sample(c(0,1), 10, replace=TRUE)),
+    clone3=c(sample(c(0,1), 10, replace=TRUE)),
+    clone4=c(sample(c(0,1), 10, replace=TRUE)),
+    tree_id=c(rep(5, 5), rep(10, 5)) ) ))
 get_hist_clon_excl_this_pat_this_pair("gene1", "gene2", clone_tbl)
 }
 \author{

@@ -3,18 +3,22 @@
 \docType{data}
 \name{avg_rates_m}
 \alias{avg_rates_m}
-\title{The average rates of clonal exclusivity of the example data set used in the vignette}
-\format{A vector with the average rates of clonal exclusivity of each patient. The names
+\title{The average rates of clonal exclusivity of the example data set 
+used in the vignette}
+\format{A vector with the average rates of clonal exclusivity 
+of each patient. The names
 of each element is the respective patient name.}
 \source{
-The rates can be generated for each patient separately with \code{\link{compute_rates_clon_excl}}, and then taking
+The rates can be generated for each patient separately 
+with \code{\link{compute_rates_clon_excl}}, and then taking
 the mean(). This is demonstrated in the vignette.
 }
 \usage{
 avg_rates_m
 }
 \description{
-This is a named vector that contains the average rate of clonal exclusivity for each 
-of the 82 patients as described in the vignette.
+This is a named vector that contains the average rate of clonal 
+exclusivity for each of the 82 patients as described in 
+the vignette.
 }
 \keyword{datasets}

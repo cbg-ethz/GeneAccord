@@ -8,7 +8,7 @@ library(magrittr)
 
 # source the functions necessary
 packageDir <- paste0(ext_data_dir, "/../../")
-for (file in list.files(paste0(packageDir, "/R"), full.names = T)) {source(file)}
+for (file in list.files(paste0(packageDir, "/R"), full.names = TRUE)) {source(file)}
 
 # define the output RData file
 dataToSave_clone_tbl_all_pats_all_trees <- paste0(packageDir, "/data/clone_tbl_all_pats_all_trees.RData")

@@ -16,23 +16,31 @@
 \source{
 The tibble was created as follows: 
 library(dplyr);
-ensg_path_map_raw <- read.csv("Ensembl2Reactome_homo_sapiens.txt", header = F, sep = "\\t", 
+ensg_path_map_raw <- 
+read.csv("Ensembl2Reactome_homo_sapiens.txt", header = F, sep = "\\t", 
     comment.char = "", check.names = F, skip = 0);
 stopifnot(dim(ensg_path_map_raw)[1] == 46141);
 stopifnot(dim(ensg_path_map_raw)[2] == 6);
-colnames(ensg_path_map_raw) <- c("ensembl_gene_id", "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
+colnames(ensg_path_map_raw) <- c("ensembl_gene_id", 
+ "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
 ensg_path_map_raw <- dplyr::as.tbl(ensg_path_map_raw);
-ensg_reactome_path_map <- filter(filter(ensg_path_map_raw, grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)), species == "Homo sapiens")
+ensg_reactome_path_map <- 
+filter(filter(ensg_path_map_raw, grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)), 
+species == "Homo sapiens")
 }
 \usage{
 ensg_reactome_path_map
 }
 \description{
-This is a tibble that contains mappings between ensembl gene id's and reactome pathways. The reactome pathways
-are from the lowest level in the hierarchy ("Lowest level pathway diagram / Subset of the pathway"), 
-and were obtained by download from the Reactome website (\url{https://reactome.org/download-data}; "ENSEMBL to pathways").
+This is a tibble that contains mappings between ensembl 
+gene id's and reactome pathways. The reactome pathways
+are from the lowest level in the hierarchy ("Lowest level 
+pathway diagram / Subset of the pathway"), 
+and were obtained by download from the Reactome website 
+(\url{https://reactome.org/download-data}; "ENSEMBL to pathways").
 The following commands were used:
 wget https://reactome.org/download/current/Ensembl2Reactome.txt; 
-cat Ensembl2Reactome.txt | grep "Homo sapiens" > Ensembl2Reactome_homo_sapiens.txt
+cat Ensembl2Reactome.txt | grep "Homo sapiens" > 
+Ensembl2Reactome_homo_sapiens.txt
 }
 \keyword{datasets}

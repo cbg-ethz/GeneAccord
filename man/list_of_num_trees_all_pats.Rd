@@ -3,18 +3,22 @@
 \docType{data}
 \name{list_of_num_trees_all_pats}
 \alias{list_of_num_trees_all_pats}
-\title{The list with the histogram of how often pairs are occurring across the collection of trees}
-\format{A list whose entries are named after the patient, and they contain vectors with the numbers of
+\title{The list with the histogram of how often pairs are occurring 
+across the collection of trees}
+\format{A list whose entries are named after the patient, and 
+they contain vectors with the numbers of
 how often the pairs in this patient occur accross trees.}
 \source{
-The histogram can be generated for each patient separately with \code{\link{get_hist_clon_excl}} as 
+The histogram can be generated for each patient 
+separately with \code{\link{get_hist_clon_excl}} as 
 demonstrated in the vignette.
 }
 \usage{
 list_of_num_trees_all_pats
 }
 \description{
-This is a named list whose entries for each patient are the histograms of how often pairs occurr in all 
+This is a named list whose entries for each patient are the 
+histograms of how often pairs occurr in all 
 trees of a patient.
 }
 \keyword{datasets}

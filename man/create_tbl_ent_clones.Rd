@@ -7,33 +7,41 @@
 create_tbl_ent_clones(path_to_file, max_num_clones = 7)
 }
 \arguments{
-\item{path_to_file}{The path to the file with the table of altered genes/pathways and their clone affiliation.}
+\item{path_to_file}{The path to the file with the table of altered 
+genes/pathways and their clone affiliation.}
 
-\item{max_num_clones}{The upper bound for the number of clones that were found per tumor. Default: 7.}
+\item{max_num_clones}{The upper bound for the number of clones that 
+were found per tumor. Default: 7.}
 }
 \value{
-The tibble containing the information of which gene/pathway is altered in which clone in a patient.
-Has the columns 'file_name', 'patient_id', 'altered_entity', 'clone1', 'clone2', ... up to the maximal number
-of clones (Default: until 'clone7'). Note that the labelling of the clones does not matter and only needs
-to stay fixed within each patient and tree inference.
+The tibble containing the information of which gene/pathway is 
+altered in which clone in a patient. Has the columns 'file_name', 
+'patient_id', 'altered_entity', 'clone1', 'clone2', ... up to the maximal 
+number of clones (Default: until 'clone7'). Note that the labelling 
+of the clones does not matter and only needs to stay fixed within each 
+patient and tree inference.
 }
 \description{
-Creates a tibble containing the information of which genes/pathways are altered in a patient in which clone.
+Creates a tibble containing the information of which genes/pathways are 
+altered in a patient in which clone.
 }
 \details{
-It expects a comma-separated table where the first column is the name of the altered gene
-or pathway. The other columns are for the clones in the respective tumor. Such a table can be generated
-with a tool that identifies clones in tumor samples, e.g. \code{Cloe}.
+It expects a comma-separated table where the first column is the name 
+of the altered gene or pathway. The other columns are for the clones in 
+the respective tumor. Such a table can be generated with a tool that 
+identifies clones in tumor samples, e.g. \code{Cloe}.
 
-The table is expected to be comma-separated and to have the columns 'altered_entity', 'clone1', 'clone2',
-..., 'cloneN', depending on how many clones were detected in the respective tumor. Each row then contains
-in the first column the name of the mutated gene or affected pathway, e.g. "ENSG00000134086", and in the other 
-columns it has either zeros or ones, indicating in which clone the respective gene/pathway is altered.
+The table is expected to be comma-separated and to have the columns 
+'altered_entity', 'clone1', 'clone2', ..., 'cloneN', depending on how 
+many clones were detected in the respective tumor. Each row then contains
+in the first column the name of the mutated gene or affected pathway, 
+e.g. "ENSG00000134086", and in the other columns it has either zeros 
+or ones, indicating in which clone the respective gene/pathway is altered.
 }
 \examples{
-ext_data_dir <- system.file('extdata', package = 'GeneAccord')
+ext_data_dir <- system.file('extdata', package='GeneAccord')
 create_tbl_ent_clones(paste(ext_data_dir, 
-                      "/clonal_genotypes/cloe_seed5/01.csv", sep = ""))
+    "/clonal_genotypes/cloe_seed5/01.csv", sep=""))
 }
 \author{
 Ariane L. Moore

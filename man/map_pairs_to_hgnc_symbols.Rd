@@ -7,28 +7,33 @@
 map_pairs_to_hgnc_symbols(pairs_of_interest_tbl, all_genes_tbl)
 }
 \arguments{
-\item{pairs_of_interest_tbl}{A tibble containing pairs of mutated genes/pathways. More precisely, it contains the columns
+\item{pairs_of_interest_tbl}{A tibble containing pairs of mutated 
+genes/pathways. More precisely, it contains the columns
 'entity_A' and 'entity_B'.}
 
-\item{all_genes_tbl}{A tibble with all genes ensembl id's and hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
+\item{all_genes_tbl}{A tibble with all genes ensembl id's and 
+hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
 }
 \value{
-A tibble similar to the input \code{pairs_of_interest_tbl} but with two additional columns, namely 'hgnc_gene_A', and
-'hgnc_gene_B'. The column 'hgnc_gene_A' contains the hgnc gene symbol of 'entity_A', and the column 'hgnc_gene_B' the one of 'entity_B'.
+A tibble similar to the input \code{pairs_of_interest_tbl} 
+but with two additional columns, namely 'hgnc_gene_A', and 'hgnc_gene_B'. 
+The column 'hgnc_gene_A' contains the hgnc gene symbol of 'entity_A', 
+and the column 'hgnc_gene_B' the one of 'entity_B'.
 }
 \description{
 Map the ensembl gene ids to hgnc symbols from a tibble with pairs.
 }
 \details{
-After having extracted the pairs of interest, it is of interest to know the genes hgnc symbols of the pairs. Here, it is
-assumed that the current gene identifier of the pairs are ensembl gene ids. They will be mapped to the corresponding
-hgnc symbols.
+After having extracted the pairs of interest, it is of interest to 
+know the genes hgnc symbols of the pairs. Here, it is assumed that the 
+current gene identifier of the pairs are ensembl gene ids. They will 
+be mapped to the corresponding hgnc symbols.
 }
 \examples{
 \dontrun{
 pairs_of_interest <- tibble::tibble(
-          entity_A = c("ENSG00000181143", "ENSG00000163939"),
-          entity_B = c("ENSG00000141510", "ENSG00000163930"))
+    entity_A=c("ENSG00000181143", "ENSG00000163939"),
+    entity_B=c("ENSG00000141510", "ENSG00000163930"))
 all_genes_tbl <- create_ensembl_gene_tbl_hg()
 map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)
 }

@@ -7,28 +7,36 @@
 compute_rates_clon_excl(pat_tbl)
 }
 \arguments{
-\item{pat_tbl}{A tibble with the information of which gene/pathway is altered in which clone in the patient, and including this information
-from the collection of trees. Can be created with with \code{\link{create_tbl_tree_collection}}.}
+\item{pat_tbl}{A tibble with the information of which gene/pathway is 
+altered in which clone in the patient, and including this information
+from the collection of trees. Can be created with with 
+\code{\link{create_tbl_tree_collection}}.}
 }
 \value{
-A vector with all rates of clonal exclusivity from all tree inferences.
+A vector with all rates of clonal exclusivity from all tree 
+inferences.
 }
 \description{
-Compute the clonal exclusivity rates for each gene-to-clone-assignment from the collection of tree inferences.
+Compute the clonal exclusivity rates for each gene-to-clone-assignment 
+from the collection of tree inferences.
 }
 \details{
-Takes the gene-to-clone assignment tibble as created with \code{\link{create_tbl_tree_collection}} and computes for each instance from
-the collection of trees the rate of clonal exclusivity. This rate is the fraction of gene/pathway pairs that were on a different branch
-in the tumor phylogeny, i.e. the fraction of pairs that was clonally exclusive.
+Takes the gene-to-clone assignment tibble as created with 
+\code{\link{create_tbl_tree_collection}} and computes for each instance 
+from the collection of trees the rate of clonal exclusivity. This rate 
+is the fraction of gene/pathway pairs that were on a different branch
+in the tumor phylogeny, i.e. the fraction of pairs that was clonally 
+exclusive.
 }
 \examples{
 clone_tbl <- tibble::as_tibble(cbind("file_name" =
-                           rep("fn1", 10),
-                           "patient_id" = rep("pat1", 10),
-                           "altered_entity" = paste0("gene", LETTERS[seq(1, 10)]),
-                           "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
-                           "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
-                           "tree_id" = c(rep(1, 5), rep(2, 5))))
+    rep("fn1", 10),
+    "patient_id"=rep("pat1", 10),
+    "altered_entity"=paste0("gene", 
+    LETTERS[seq(1, 10)]),
+    "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
+    "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
+    "tree_id"=c(rep(1, 5), rep(2, 5))))
 compute_rates_clon_excl(clone_tbl)
 }
 \author{

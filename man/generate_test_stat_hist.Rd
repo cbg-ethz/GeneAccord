@@ -2,59 +2,82 @@
 % Please edit documentation in R/sim_functions.R
 \name{generate_test_stat_hist}
 \alias{generate_test_stat_hist}
-\title{Generate the test statistic and p-values under the null distribution}
+\title{Generate the test statistic and p-values under the null 
+distribution}
 \usage{
 generate_test_stat_hist(avg_rates_m, list_of_num_trees_all_pats,
   list_of_clon_excl_all_pats, ecdf_list, num_pat_pair_max, num_pairs_sim,
   beta_distortion = 1000)
 }
 \arguments{
-\item{avg_rates_m}{The average rates of clonal exclusivity from all the patients in the cohort, and averaged over several trees 
+\item{avg_rates_m}{The average rates of clonal exclusivity from all 
+the patients in the cohort, and averaged over several trees 
 from the collection of tree inferences.}
 
-\item{list_of_num_trees_all_pats}{A named list that contains an entry for each patient which is the vector with the values of the 
-information from each pair in a patient of how often it was mutated across trees. The patient odering in the list has to be the 
+\item{list_of_num_trees_all_pats}{A named list that contains an entry 
+for each patient which is the vector with the values of the 
+information from each pair in a patient of how often it was mutated 
+across trees. The patient odering in the list has to be the 
 same as in \code{avg_rates_m}.}
 
-\item{list_of_clon_excl_all_pats}{A named list with an entry for each patient that is a vector with the values of in how many trees 
-a pair was clonally exclusive. The patient ordering in the list has to be the same as in \code{avg_rates_m}.}
+\item{list_of_clon_excl_all_pats}{A named list with an entry for each 
+patient that is a vector with the values of in how many trees 
+a pair was clonally exclusive. The patient ordering in the list has to 
+be the same as in \code{avg_rates_m}.}
 
-\item{ecdf_list}{The list with ECDF's as generated with \code{\link{generate_ecdf_test_stat}}.}
+\item{ecdf_list}{The list with ECDF's as generated with 
+\code{\link{generate_ecdf_test_stat}}.}
 
-\item{num_pat_pair_max}{The maximum number of patients a pair is mutated in.}
+\item{num_pat_pair_max}{The maximum number of patients a pair is 
+mutated in.}
 
-\item{num_pairs_sim}{The number of simulated gene/pathway pairs to be generated, i.e. the number of times the test statistic
+\item{num_pairs_sim}{The number of simulated gene/pathway pairs to be 
+generated, i.e. the number of times the test statistic
 is computed.}
 
-\item{beta_distortion}{The value \code{M = alpha + beta} for the beta distribution, with which the average rates will be distorted. The bigger the M
-the higher the distribution is peaked around the actual rate. Therefore, the lesser the M, the more distorted the rates will be. Default: 1000.}
+\item{beta_distortion}{The value \code{M=alpha + beta} for the beta 
+distribution, with which the average rates will be distorted. The bigger 
+the M
+the higher the distribution is peaked around the actual rate. Therefore, 
+the lesser the M, the more distorted the rates will be. Default: 1000.}
 }
 \value{
-The return value is a list of tibbles with a tibble for each number of patients, a pair can be mutated in. Each tibble contains the columns
-'test_statistic', 'mle_delta', and then num_pat_pair columns of the rates of each patient 'pat1', 'pat2', ...; as well as num_pat_pair columns with the
-information about each patient, in how many trees the pair was occurring and in how many trees the pair was clonally exclusive. The tibble also contains
-a column 'pval' with the p-value of the simulated pair. The list of tibbles is of length min{num_pat_pair_max, length(avg_rates_m)}.
+The return value is a list of tibbles with a tibble for each number
+ of patients, a pair can be mutated in. Each tibble contains the columns
+'test_statistic', 'mle_delta', and then num_pat_pair columns of the rates 
+of each patient 'pat1', 'pat2', ...; as well as num_pat_pair columns with
+ the information about each patient, in how many trees the pair was 
+ occurring and in how many trees the pair was clonally exclusive. The 
+ tibble also contains a column 'pval' with the p-value of the 
+ simulated pair. The list of tibbles is of length min{num_pat_pair_max, 
+ length(avg_rates_m)}.
 }
 \description{
-Generate the values of the test statistic under the null, and also p-values of the clonal exclusivity test under the null.
-Taking the average rates of clonal exclusivity, as well as sampling from the real data for each patient, in how many trees a 
+Generate the values of the test statistic under the null, and also 
+p-values of the clonal exclusivity test under the null.
+Taking the average rates of clonal exclusivity, as well as sampling 
+from the real data for each patient, in how many trees a 
 pair occurs and is clonally exclusive.
 }
 \details{
-This function takes the computed average rates of clonal exclusivity from the data (m1, ... mN), which are specific to each
-patient and averaged over several trees from the collection of tree inferences. It also takes the histogram for each patient, 
-of the values of how often a pair was clonally exclusive over the number of trees it was mutated in. It also takes the empirical 
-cumulative distribution function (ECDF) which was generated with \code{\link{generate_ecdf_test_stat}}. It then computes the p-value of
+This function takes the computed average rates of clonal exclusivity 
+from the data (m1, ... mN), which are specific to each
+patient and averaged over several trees from the collection of tree 
+inferences. It also takes the histogram for each patient, 
+of the values of how often a pair was clonally exclusive over the number 
+of trees it was mutated in. It also takes the empirical 
+cumulative distribution function (ECDF) which was generated with 
+\code{\link{generate_ecdf_test_stat}}. It then computes the p-value of
 the simulated pairs under the null.
 }
 \examples{
 clone_tbl <- tibble::as_tibble(cbind("file_name" =
-                     rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
-                     "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
-                     "altered_entity" = c(rep(c("geneA", "geneB", "geneC"), 4)),
-                     "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
-                     "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-                     "tree_id" = c(rep(5, 6), rep(10, 6))))
+       rep(c(rep(c("fn1", "fn2"), each=3)), 2),
+       "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
+       "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
+       "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+       "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+       "tree_id"=c(rep(5, 6), rep(10, 6))))
 clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -63,18 +86,24 @@ avg_rates_m <- apply(cbind(rates_exmpl_1, rates_exmpl_2), 2, mean)
 names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
 values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-list_of_num_trees_all_pats <- list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-                                   pat2=values_clon_excl_num_trees_pat2[[1]])
-list_of_clon_excl_all_pats <- list(pat1=values_clon_excl_num_trees_pat1[[2]],
-                                   pat2=values_clon_excl_num_trees_pat2[[2]])
+list_of_num_trees_all_pats <-
+ list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+      pat2=values_clon_excl_num_trees_pat2[[1]])
+list_of_clon_excl_all_pats <- 
+  list(pat1=values_clon_excl_num_trees_pat1[[2]],
+       pat2=values_clon_excl_num_trees_pat2[[2]])
 num_pat_pair_max <- 2
 num_pairs_sim <- 10
 ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
-                           list_of_num_trees_all_pats, list_of_clon_excl_all_pats,
+                           list_of_num_trees_all_pats, 
+                           list_of_clon_excl_all_pats,
                            num_pat_pair_max, num_pairs_sim)
-sim_res <- generate_test_stat_hist(avg_rates_m, list_of_num_trees_all_pats, 
-                                  list_of_clon_excl_all_pats, ecdf_list, 
-                                  num_pat_pair_max, num_pairs_sim)
+sim_res <- generate_test_stat_hist(avg_rates_m, 
+                                 list_of_num_trees_all_pats, 
+                                  list_of_clon_excl_all_pats, 
+                                  ecdf_list, 
+                                  num_pat_pair_max, 
+                                  num_pairs_sim)
 }
 \author{
 Ariane L. Moore

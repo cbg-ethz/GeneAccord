@@ -11,28 +11,33 @@ is_diff_branch_ent_pair(ent1, ent2, clone_tbl)
 
 \item{ent2}{The other mutated gene/pathway from the pair.}
 
-\item{clone_tbl}{A tibble containing the columns 'altered_entity', and then a column for each clone
-in the tumor, e.g. 'clone1', 'clone2', 'clone3'. This tibble can be generated e.g. from the \code{Cloe} output.}
+\item{clone_tbl}{A tibble containing the columns 
+'altered_entity', and then a column for each clone
+in the tumor, e.g. 'clone1', 'clone2', 'clone3'. This tibble 
+can be generated e.g. from the \code{Cloe} output.}
 }
 \value{
-\code{TRUE} or \code{FALSE} for whether or not the pair is mutated in different clones/in different
+\code{TRUE} or \code{FALSE} for whether or not the 
+pair is mutated in different clones/in different
 branches of the tree.
 }
 \description{
-Check whether a given pair of mutated genes/pathways is in different branches/clones.
+Check whether a given pair of mutated genes/pathways is in 
+different branches/clones.
 }
 \details{
-Given two mutated genes or pathways and the clone tibble as described in
-\code{\link{get_rate_diff_branch_ent_pair}}, this function returns \code{TRUE} or \code{FALSE}
-for whether the pair is mutated in different branches/clones.
+Given two mutated genes or pathways and the clone tibble as 
+described in \code{\link{get_rate_diff_branch_ent_pair}}, 
+this function returns \code{TRUE} or \code{FALSE} for whether 
+the pair is mutated in different branches/clones.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-                    altered_entity = c(paste("gene", seq(1,10), sep = "")),
-                    clone1 = c(rep(0,10)),
-                    clone2 = c(sample(c(0,1), 10, replace = TRUE)),
-                    clone3 = c(sample(c(0,1), 10, replace = TRUE)),
-                    clone4 = c(sample(c(0,1), 10, replace = TRUE))) ) )
+    altered_entity=c(paste("gene", seq(1,10), sep="")),
+    clone1=c(rep(0,10)),
+    clone2=c(sample(c(0,1), 10, replace=TRUE)),
+    clone3=c(sample(c(0,1), 10, replace=TRUE)),
+    clone4=c(sample(c(0,1), 10, replace=TRUE))) ) )
 is_diff_branch_ent_pair("gene1", "gene2", clone_tbl)
 }
 \author{

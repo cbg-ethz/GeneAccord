@@ -9,22 +9,30 @@
   \item{ensembl_gene_id}{the Ensembl gene id as a character}
   \item{hgnc_symbol}{the HGNC gene symbol as a character}
   \item{entrezgene}{the Entrez gene id as an integer}
-  \item{uniprotswissprot}{the UniProtKB/Swiss-Prot gene id's as a character}
-  \item{chromosome_name}{the name of the chromosome where the gene is located as a character,
-                          e.g. "3" for chromosome three}
-  \item{start_position}{the nucleotide start position of the gene as an integer}
-  \item{end_position}{the nucleotide end position of the gene as an integer}
+  \item{uniprotswissprot}{the UniProtKB/Swiss-Prot gene id's as 
+   a character}
+  \item{chromosome_name}{the name of the chromosome where the 
+  gene is located as a character,
+  e.g. "3" for chromosome three}
+  \item{start_position}{the nucleotide start position 
+  of the gene as an integer}
+  \item{end_position}{the nucleotide end position of 
+  the gene as an integer}
 }}
 \source{
-The tibble can be generated with \code{\link{create_ensembl_gene_tbl_hg}()}, which uses the R-package
+The tibble can be generated with 
+\code{\link{create_ensembl_gene_tbl_hg}()}, 
+which uses the R-package
 \code{biomaRt} and the Ensembl data base \url{www.ensembl.org}.
 }
 \usage{
 all_genes_tbl
 }
 \description{
-This is a tibble that contains mappings between different gene identifiers. It can be created with the
-function \code{\link{create_ensembl_gene_tbl_hg}}. These are the human genes from the human genome
+This is a tibble that contains mappings between different gene 
+identifiers. It can be created with the
+function \code{\link{create_ensembl_gene_tbl_hg}}. These are the 
+human genes from the human genome
 version \code{hg19}/\code{GRCh37}, and Ensembl Genes version 88.
 }
 \keyword{datasets}

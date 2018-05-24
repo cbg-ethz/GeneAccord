@@ -9,18 +9,22 @@ hgnc_to_ensembl(this_hgnc, all_genes_tbl)
 \arguments{
 \item{this_hgnc}{The hgnc gene symbol of a gene.}
 
-\item{all_genes_tbl}{A tibble with all genes ensembl id's and hgnc gene symbols.}
+\item{all_genes_tbl}{A tibble with all genes ensembl id's 
+and hgnc gene symbols.}
 }
 \value{
-The matching ensembl gene id. In case several ensembl gene id's were found, they
+The matching ensembl gene id. In case several
+ensembl gene id's were found, they
 are all returned with ";" as a separator.
 }
 \description{
 Map a given hgnc gene symbol to the ensembl gene id.
 }
 \details{
-For a hgnc gene symbol and a tibble with all genes as input, this function returns the matching
-ensembl gene id. The tibble with all genes can be generated with \code{\link{create_ensembl_gene_tbl_hg}}.
+For a hgnc gene symbol and a tibble with all genes as 
+input, this function returns the matching ensembl gene 
+id. The tibble with all genes can be generated with 
+\code{\link{create_ensembl_gene_tbl_hg}}.
 }
 \examples{
 \dontrun{
