@@ -36,7 +36,7 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     stopifnot(is.numeric(avg_rates_m))
     stopifnot(is.numeric(num_trees_pair))
     stopifnot(is.numeric(num_clon_excl))
-  
+    
     num_shared_pats <- length(avg_rates_m)
     stopifnot(num_shared_pats == length(num_trees_pair))
     stopifnot(num_shared_pats == length(num_clon_excl))
@@ -44,13 +44,15 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
         stopifnot(num_clon_excl[i] <= num_trees_pair[i])
         stopifnot(num_trees_pair[i]>0)
     }
-  
-    ## if the rate is 0, but num_clon_excl == num_trees_pair, this will crash
-    ## this should anyways not be the case. If the rate is 0, there should 
+    
+    ## if the rate is 0, but num_clon_excl == num_trees_pair, 
+    ## this will crash this should anyways not be the case. 
+    ## If the rate is 0, there should 
     ## be no pair that is clonally exclusive
     ## at all
     for(i in seq_along(avg_rates_m)){
-        if(avg_rates_m[i] == 0 && num_clon_excl[i] == num_trees_pair[i]){
+        if(avg_rates_m[i] == 0 && 
+            num_clon_excl[i] == num_trees_pair[i]){
             stop("[Function: compute_test_stat_avg_rate]: The rate is 0,",
             "\nbut there is a pair which is clonally ",
             "exclusive across ALL trees,\ni.e. num_clon_excl ==",
@@ -61,21 +63,22 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
             " not distorted too much by the beta distribution.")
         }
     }
-  
+    
     ## compute the test statistic of the log-likelihood ratio test:
-    ## H0=clonal exclusivity just by chance, explained by the general clonal 
-    ## exclusivity rates in
-    ##  the shared patients, likelihood: s_1_{A,B} * s_2_{A,B} * s_3_{A,B} if 
-    ## the current pair {A,B} occurred in patients 1, 2, 3
-    ## each of those s_i_{A,B}=(num_clon_excl/num_trees)*m_i + ((num_trees -
-    ## num_clon_excl)/num_trees)*(1-m_i)
+    ## H0=clonal exclusivity just by chance, explained by the general 
+    ## clonal exclusivity rates in
+    ##  the shared patients, likelihood: s_1_{A,B} * s_2_{A,B} * s_3_{A,B} 
+    ## if the current pair {A,B} occurred in patients 1, 2, 3
+    ## each of those s_i_{A,B}=(num_clon_excl/num_trees)*m_i + 
+    ## ((num_trees - num_clon_excl)/num_trees)*(1-m_i)
     ##
     ## H1=clonal exclusivity at elevated rates, logit(m_star_i)=logit(m_i)
-    ## + delta, likelihood: s_star_1_{A,B} * s_star_2_{A,B} * s_star_3_{A,B}
+    ## + delta, likelihood: 
+    ## s_star_1_{A,B} * s_star_2_{A,B} * s_star_3_{A,B}
     ##  take mle estimate for the delta
-    ## LRTestStatistic ~ Chi^2 with 1 degree of freedom (under H0) OR compare 
-    ## it to the empirical distribution under the null
-  
+    ## LRTestStatistic ~ Chi^2 with 1 degree of freedom (under H0) OR 
+    ## compare it to the empirical distribution under the null
+    
     ## get likelihood of the null:
     ## helper function
     compute_weighted_p <- function(num_cl, num_trees, avg_m){
@@ -96,20 +99,20 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     l_null <- prod(l_null_factors)
     message("l_null=", l_null)
     stopifnot(l_null >= 0 && l_null <= 1)
-  
-  
+    
+    
     ## get likelihood of alternative:
     ## get mle of delta
     ## maximize likelihood over delta
     ## to obtain an estimate for the delta (MLE)
     ## function to get the negative log-likelihood of 
     ## the data for a given delta
-  
+    
     ## get the logits of the m's: logit(m_i)=m_i/(1-m_i)
     logit_avg_rates_m <- gtools::logit(avg_rates_m) 
     ## without the gtools function, this crashes when one 
     ## of the rates is 1.0
-  
+    
     ## They should be identical: i.e. if delta is zero, m and m_star should 
     ## be the same
     if(abs((gtools::inv.logit(logit_avg_rates_m))[1]
@@ -117,22 +120,23 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
         stop("The sanity check with delta=0 did not have the right",
         " result. m should be identical to m_star if delta=0!!")
     }
-  
+    
     ## define the log-likelihood function
     this_LL <- function(this_delta) {
-        avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + this_delta)
+        avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + 
+            this_delta)
         l_alt_factors <- apply(cbind(num_clon_excl, num_trees_pair, 
             avg_rates_m_star), 1, 
             function(x){compute_weighted_p(x[1], x[2], x[3])})
         return(sum(log(l_alt_factors)))
     }
-  
+    
     ## get the mle estimate of the delta
     mle <- maxLik::maxLik(logLik=this_LL, start=c(this_delta=0))
     mle_delta <- stats::coef(mle)
     message("Maximum likelihood estimate of delta given the data is: ", 
         mle_delta)
-  
+    
     ## compute the alternative likelihood
     avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + mle_delta)
     l_alt_factors <- 
@@ -140,13 +144,14 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
         function(x){compute_weighted_p(x[1], x[2], x[3])})
     l_alt <- prod(l_alt_factors)
     message("l_alt=", l_alt)
-  
+    
     ## compute the test statistic
     lr_test_statistic <- -2 * log( l_null / l_alt )
     message("lr_test_statistic=", lr_test_statistic)
     stopifnot(is.numeric(lr_test_statistic))
-  
-    return(list(lr_test_statistic=lr_test_statistic, mle_delta=mle_delta))
+    
+    return(list(lr_test_statistic=lr_test_statistic, 
+        mle_delta=mle_delta))
 }
 
 
@@ -158,9 +163,9 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
 #' Tests whether the observed number of clonal exclusivities of mutated 
 #' entities (genes or pathways)
 #' A and B in clones of patients is significantly different from what would 
-#' be expected given the average clonal exclusivity rates. The observed test 
-#' statistic is compared to the ecdf of the test statistic under the null 
-#' hypothesis.
+#' be expected given the average clonal exclusivity rates. The observed 
+#' test statistic is compared to the ecdf of the test statistic under the 
+#' null hypothesis.
 #'
 #' @title Compare observed likelihood ratio test statistic to its ecdf under 
 #' null.
@@ -243,15 +248,15 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     num_pats <- length(all_pats)
     stopifnot(length(avg_rates_m) == num_pats)
     message("There were ", num_pats, " different patient ids.")
-  
+    
     ## get the number of trees
     all_tree_ids <- unique(as.character(clone_tbl$tree_id))
     num_trees <- length(all_tree_ids)
     message("There were ", num_trees, " different tree inferences.")
     
-    ## check in which patients the current pair is mutated, and in wich trees
-    ## this is the list of trees, where each list entry is the vector of 
-    ## patient ids
+    ## check in which patients the current pair is mutated, and in wich 
+    ## treesthis is the list of trees, where each list entry is the 
+    ## vector of patient ids
     ## in which both of them are mutated
     tree_to_pats_ent_pair <- lapply(all_tree_ids, function(this_tree){
         ## select a specific tree
@@ -269,14 +274,14 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         })
         ## now only those where both of them are mutated
         these_pats_both_ents_mutated <- intersect(these_pats_mutated[[1]], 
-                                                these_pats_mutated[[2]])
+            these_pats_mutated[[2]])
     })
-  
+    
     ## the number of patients in which they are both mutated
     ## (maximum of all trees)
     shared_pats_total <- unique(unlist(tree_to_pats_ent_pair))
     num_shared_pats_total <- length(shared_pats_total)
-  
+    
     ## if there are no patients in which both of them are mutated
     if(num_shared_pats_total == 0){
         message("The current gene/pathway pair: ", entA, ", " , entB,
@@ -291,10 +296,10 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     } else {
         ## if they share enough patient(s)
         ## get the rates of clonal exclusivity from the(se) patient(s)
-        these_shared_pats_rates <- vapply(shared_pats_total, function(x) {
+        these_shared_pats_rates <- vapply(shared_pats_total, function(x){
             avg_rates_m[which(names(avg_rates_m) == x)]
         }, numeric(1))
-  
+        
         ## compute for all patients: number of trees the pair is mutated, 
         ## and number of times it was also clonally exclusive
         num_trees_pair_num_clon_excl <- vapply(shared_pats_total, 
@@ -312,7 +317,7 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         stopifnot(dim(num_trees_pair_num_clon_excl)[1] == 2)
         num_trees_pair <- num_trees_pair_num_clon_excl[1,]
         num_clon_excl <- num_trees_pair_num_clon_excl[2,]
-  
+        
         ## compute the test statistic and the p-value of the likelihood 
         ## ratio test
         ## by comparing the observed test statistic to the ecdf of the test 
@@ -354,15 +359,15 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
             num_shared_pats_total)
             this_ecdf <- ecdf_list[[num_shared_pats_total]]
     
-            ## compute a p-value given the ecdf of the test statistic ecdf(T) 
-            ## from the null distribution
+            ## compute a p-value given the ecdf of the test statistic
+            ## ecdf(T) from the null distribution
             ## p_value=P(T>t | H_0 true)=1-ecdf(t) #### (upper-tailed test)
             message("The value of the ecdf at the test statistic: ", 
             this_ecdf(test_stat))
-    
+            
             p_val <- 1-this_ecdf(test_stat)
             message("p_val=", p_val)
-      
+            
             return(list(p_val=p_val, num_patients=num_shared_pats_total, 
             mle_delta=mle_delta, test_statistic=test_stat))
         }

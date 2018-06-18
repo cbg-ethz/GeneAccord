@@ -517,11 +517,11 @@ build_null_test_statistic <- function(avg_rates_m,
             these_rate_this_pair <- avg_rates_m[x]
             num_pairs_this_pat <-
                 length(list_of_clon_excl_frac_trees_all_pats[[1]][[x]])
-            this_pair_hist_entry <- sample(num_pairs_this_pat, 1)
+            hist_entry <- sample(num_pairs_this_pat, 1)
             num_trees_this_pair <- 
-                list_of_clon_excl_frac_trees_all_pats[[1]][[x]][this_pair_hist_entry]
+            list_of_clon_excl_frac_trees_all_pats[[1]][[x]][hist_entry]
             num_clon_excl_this_pair <- 
-                list_of_clon_excl_frac_trees_all_pats[[2]][[x]][this_pair_hist_entry]
+            list_of_clon_excl_frac_trees_all_pats[[2]][[x]][hist_entry]
             stopifnot(num_clon_excl_this_pair <= num_trees_this_pair)
             
             ## distort the actual rates with a beta distribution that is 
@@ -570,8 +570,8 @@ build_null_test_statistic <- function(avg_rates_m,
             }
             
             this_lr_test_res <- 
-                suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates, 
-                num_trees_this_pair, num_clon_excl_this_pair))
+            suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates, 
+            num_trees_this_pair, num_clon_excl_this_pair))
             this_test_statistic <- this_lr_test_res[[1]]
             this_delta <- this_lr_test_res[[2]]
             
@@ -626,17 +626,18 @@ build_null_test_statistic <- function(avg_rates_m,
         
     } else {
         lr_test_res_list <- apply(pairs_indices_pats_list, 2, function(x){
-            this_num_pat_this_pair <- length(x) ## this means the simulated pair 
+            ## this means the simulated pair
+            this_num_pat_this_pair <- length(x)  
             ## is mutated in the xth patient
             these_rate_this_pair <- avg_rates_m[x]
             this_hist_sample <- vapply(x, function(y){
                 num_pairs_this_pat <-
                     length(list_of_clon_excl_frac_trees_all_pats[[1]][[y]])
-                this_pair_hist_entry <- sample(num_pairs_this_pat, 1)
+                hist_entry <- sample(num_pairs_this_pat, 1)
                 num_trees_this_pair <- 
-                list_of_clon_excl_frac_trees_all_pats[[1]][[y]][this_pair_hist_entry]
+                list_of_clon_excl_frac_trees_all_pats[[1]][[y]][hist_entry]
                 num_clon_excl_this_pair <- 
-                list_of_clon_excl_frac_trees_all_pats[[2]][[y]][this_pair_hist_entry]
+                list_of_clon_excl_frac_trees_all_pats[[2]][[y]][hist_entry]
                 return(c(num_trees_this_pair, num_clon_excl_this_pair))
             }, numeric(2))
             stopifnot(is.matrix(this_hist_sample))
@@ -660,7 +661,8 @@ build_null_test_statistic <- function(avg_rates_m,
                     stopifnot(this_beta_distored_rate >= 0 && 
                         this_beta_distored_rate <= 1)
                     if(this_beta_distored_rate == 0 && 
-                        num_clon_excl_this_pair[cnt] == num_trees_this_pair[cnt]){
+                        num_clon_excl_this_pair[cnt] == 
+                        num_trees_this_pair[cnt]){
                         stop("[Function: build_null_test_statistic]: The beta",
                             " distorted rate is 0,",
                             "\nbut there is a pair which is clonally ",
@@ -671,8 +673,8 @@ build_null_test_statistic <- function(avg_rates_m,
                             " possible since the likelihood is zero. ",
                             "Make sure that the rates\nare not distorted too",
                             " much by the beta distribution.",
-                            "The original rate of\nthe current simulated pair was ",
-                            this_rate)
+                            "The original rate of\nthe current simulated pair ",
+                            "was ", this_rate)
                     } else if (this_beta_distored_rate == 1 && 
                         num_clon_excl_this_pair[cnt] == 0){
                         stop("[Function: build_null_test_statistic]: ",
@@ -685,20 +687,20 @@ build_null_test_statistic <- function(avg_rates_m,
                             " possible since the likelihood is zero. ",
                             "Make sure that the rates\nare not distorted too",
                             " much by the beta distribution.",
-                            "The original rate of\nthe current simulated pair was ",
-                            this_rate)
+                            "The original rate of\nthe current simulated pair ",
+                            "was ", this_rate)
                     }
                     return(this_beta_distored_rate)
             }, numeric(1))
             
             this_lr_test_res <- 
-                suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates, 
-                num_trees_this_pair, 
-                num_clon_excl_this_pair))
+            suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates,
+            num_trees_this_pair, 
+            num_clon_excl_this_pair))
             this_test_statistic <- this_lr_test_res[[1]]
             this_delta <- this_lr_test_res[[2]]
             
-            return(list(this_test_statistic, this_delta, this_num_pat_this_pair, 
+            return(list(this_test_statistic,this_delta,this_num_pat_this_pair,
                 these_rate_this_pair,
                 num_trees_this_pair, num_clon_excl_this_pair, 
                 beta_distorted_rates))
@@ -769,7 +771,7 @@ build_null_test_statistic <- function(avg_rates_m,
     for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_beta_distorted", sep="")
         res_all_pairs <- res_all_pairs %>%
-            tibble::add_column(new_col=all_pairs_pat_rates_beta_distorted[[i]])
+        tibble::add_column(new_col=all_pairs_pat_rates_beta_distorted[[i]])
         names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
     }
     
