@@ -58,13 +58,13 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
         all_trees_num_clones <- all_trees_num_clones + this_tree_num_clones
     }
     all_trees_avg_num_clones <- all_trees_num_clones/num_trees
-   
+    
     ## put it into the right ordering
     avgNumClones <- 
         all_trees_avg_num_clones[order(match(names(all_trees_avg_num_clones), 
         names(avg_rates_m)))]
     stopifnot(is.numeric(avgNumClones))
-  
+    
     ## extract patient id's and make sure that avg_rates_m and avgNumClones 
     ## are in the same order
     pat_ids_rates <- names(avg_rates_m)
@@ -73,7 +73,7 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
     stopifnot(length(setdiff(pat_ids_rates, pat_ids_clones)) == 0)
     avgNumClones <- avgNumClones[match(pat_ids_rates, pat_ids_clones)]
     pat_ids_clones <- pat_ids_clones[match(pat_ids_rates, pat_ids_clones)]
-  
+    
     myOrder <- order(nchar(pat_ids_rates), pat_ids_rates)
     rates_and_clones_tbl <- tibble::tibble(pat_ids_r=pat_ids_rates[myOrder],
         pat_ids_c=pat_ids_clones[myOrder],
@@ -91,7 +91,7 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
         levels=rev(rates_and_clones_tbl$pat_ids_r))
     rates_and_clones_tbl$pat_ids_c <- factor(rates_and_clones_tbl$pat_ids_c, 
         levels=rev(rates_and_clones_tbl$pat_ids_c))
-  
+    
     if(output_pdf != "direct")
         pdf(output_pdf, height=10, width=5)
     
@@ -99,7 +99,7 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
             ggplot2::aes(x=pat_ids_r, 
             y=rates_m, fill=num_c)) +
         ggplot2::geom_bar(stat="identity") +
-        ggplot2::ggtitle("Mean rates of clonal exclusivity in each patient") +
+        ggplot2::ggtitle("Mean rates of clonal exclusivity in each patient")+
         ggplot2::ylab("Rate m") +
         ggplot2::xlab("Patients") +
         ggplot2::scale_fill_gradient(low="lightblue", high="darkblue", 
@@ -170,17 +170,17 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
     stopifnot(is.numeric(plot_idx))
     stopifnot(is.numeric(num_panel_rows))
     stopifnot(is.character(output_pdf))
-  
+    
     num_ecdfs <- length(ecdf_list)
     stopifnot(max(plot_idx) <= num_ecdfs)
     num_ecdfs_to_plot <- length(plot_idx)
     ## the first list entry is just set to NULL!
     real_num_ecdfs <- num_ecdfs-1
     message("Found ", num_ecdfs_to_plot, " ECDF's to plot.")
-  
+    
     stopifnot(num_panel_rows <= num_ecdfs_to_plot)
     stopifnot(num_panel_rows > 0)
-  
+    
     ## plot the ecdf's
     num_panel_cols <- ceiling(num_ecdfs_to_plot/num_panel_rows)
     ## make sure it is an integer
@@ -191,16 +191,16 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
         "be integers and need to multiply to a number which is greater or",
         " equal to the number of ECDF's to plot!")
     }
-  
+    
     if(output_pdf != "direct"){
         this_height <- num_panel_rows*4
         this_width <- (num_panel_cols/num_panel_rows)*this_height
         pdf(output_pdf, height=this_height, width=this_width)
     }
-  
+    
     ## set the number of panel rows and columns
     par(mfrow=c(num_panel_rows, num_panel_cols))
-  
+    
     ## plot ecdf's
     for (i in plot_idx){
         if(i == 1){ ## the first ecdf is just NULL
@@ -216,7 +216,7 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
             sep=""))
         grid()
     }
-  
+    
     if(output_pdf != "direct"){
         dev.off()
         stopifnot(file.exists(output_pdf))
@@ -267,24 +267,25 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     stopifnot(dplyr::is.tbl(res_sim))
     stopifnot("pval" %in% colnames(res_sim))
     stopifnot("num_patients" %in% colnames(res_sim))
-  
+    
     ## extract the p-values
     p_values <- as.numeric(res_sim$pval)
     num_p_values <- length(p_values)
-  
+    
     ## plot the histogram and qqplot
     if(output_pdf != "direct")
         pdf(output_pdf, height=6, width=10)
     par(mfrow=c(1,2), oma=c(3, 3, 3, 3)) 
     ##  make the outer margin at the bottom of the plot large
-  
+    
     ## histogram
     hist(p_values, main="Histogram of p-values", xlab="P-values", 
         breaks=25, xlim=c(0,1))
-  
+    
     ####
     ## qq-plot
-    ## check how many observations there are for the different num_patients
+    ## check how many observations there are for the different 
+    ## num_patients
     num_patients_tally <- res_sim %>% 
         dplyr::select(num_patients) %>% 
         dplyr::group_by(num_patients) %>% 
@@ -296,9 +297,10 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     } else {
         num_patients_colors <- c(RColorBrewer::brewer.pal(8, "Dark2"))
     }
-  
+    
     ## all unqiue numbers of patients, e.g. 2, 3, 4, ...
-    all_unique_num_pats <- unique(as.numeric(as.character(num_patients_tally$num_patients)))
+    all_unique_num_pats <- 
+        unique(as.numeric(as.character(num_patients_tally$num_patients)))
     
     ## first num_patients
     this_num_patients <- all_unique_num_pats[1]
@@ -307,7 +309,7 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
         dplyr::filter(num_patients == this_num_patients) %>%
         dplyr::select(pval))[,1]))
     this_num_p_values <- length(this_num_pat_pvals)
-  
+    
     p_vals_idx <- seq_len(this_num_p_values)
     max_points <- 5000
     if (this_num_p_values > max_points){
@@ -318,9 +320,9 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
         xlab="Theoretical Quantiles",
         ylab="Sample Quantiles", xlim=c(0,1), ylim=c(0,1), 
         col=num_patients_colors[1], pch=".")
-  
+    
     these_num_patients <- c(this_num_patients)
-  
+    
     ## Potential other num_patients
     if(number_different_patients > 1){
         for(i in seq(2, number_different_patients)){
@@ -344,8 +346,8 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     }
     abline(0, 1, col="lightgrey")
     grid()
-  
-  
+    
+    
     ## overlay the entire figure region with a new, single plot. Then call 
     ## legend with the location ("bottom", ...)
     par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), mar=c(0, 0, 0, 0), 
@@ -359,8 +361,8 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     ## horiz=TRUE tells R that I want a horizontal legend
     ## inset=c(x,y) tells R how to move the legend relative to the 
     ## 'bottom' location
-  
-  
+    
+    
     if(output_pdf != "direct"){
         dev.off()
         stopifnot(file.exists(output_pdf))
@@ -392,7 +394,8 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
 #' from the collection of trees was chosen per
 #' patient.
 #' @param all_genes_tbl A tibble with all genes ensembl id's and 
-#' hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.
+#' hgnc symbols. Can be created with 
+#' \code{\link{create_ensembl_gene_tbl_hg}}.
 #' @param first_clone_is_N Logical indicating whether the first 
 #' clone column is actually representing the normal or germline, 
 #' and is not a tumor
@@ -443,14 +446,15 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     stopifnot(is.logical(first_clone_is_N))
     if("tree_id" %in% colnames(clone_tbl)){
         stop("Can only plot for one tree at a time.\nMake sure",
-        " that the clone tbl is just from one tree id, and does not contain the column 'tree_id'")
+        " that the clone tbl is just from one tree id, and does not",
+        " contain the column 'tree_id'")
     }
-  
+    
     ## extract the genes
     all_A <- as.character(pairs_of_interest$entity_A)
     all_B <- as.character(pairs_of_interest$entity_B)
     genes_of_interest <- unique(c(all_A, all_B))
-  
+    
     ## clone columns are renamed
     ## if the column labeled 'clone1' is actually the normal/germline, 
     ## the cancer clone numbers are also reduced by one
@@ -472,35 +476,39 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     }
     colnames(clone_tbl)[grepl("clone", colnames(clone_tbl))] <- 
         new_clone_col_names
-  
+    
     ## here we remove columns that are just clone zero in all patients,
     ## for plotting
     filterd_clone_tbl_just_clones <- clone_tbl %>% 
-       dplyr::select(-file_name, -patient_id, -altered_entity)
+        dplyr::select(-file_name, -patient_id, -altered_entity)
     filterd_clone_tbl_nonzero_clones <- cbind(clone_tbl['patient_id'],
-       clone_tbl['altered_entity'],
-    filterd_clone_tbl_just_clones[, colSums(filterd_clone_tbl_just_clones) > 0])
+        clone_tbl['altered_entity'],
+    filterd_clone_tbl_just_clones[, 
+        colSums(filterd_clone_tbl_just_clones) > 0])
     ## extract from the clone tbl just the entries with the genes of interest
     filterd_clone_tbl_goi <- filterd_clone_tbl_nonzero_clones %>% 
         dplyr::filter(altered_entity %in% genes_of_interest)
-  
-  
+    
+    
     ## map the ensembl gene ID's to the gene names
     these_ens_ids <- as.vector(as.data.frame(filterd_clone_tbl_goi %>% 
         dplyr::select(altered_entity))[,1])
     hgnc_symbols <- c()
     for(this_ens in these_ens_ids){
-        this_hgnc <- suppressMessages(ensembl_to_hgnc(this_ens, all_genes_tbl))
+        this_hgnc <- 
+            suppressMessages(ensembl_to_hgnc(this_ens, all_genes_tbl))
         hgnc_symbols <- c(hgnc_symbols, this_hgnc)
     }
     filterd_clone_tbl_goi_gene_names <- 
         cbind(as.data.frame(filterd_clone_tbl_goi), hgnc_symbols)
-  
+    
     ## plot the heatmap of gene pairs of interest
     
-    ## do the heatmap for each patient separate, and then arrange them together to one plot
+    ## do the heatmap for each patient separate, and 
+    ## then arrange them together to one plot
     all_pats <- 
-        unique(as.character(as.vector(as.data.frame(filterd_clone_tbl_goi_gene_names %>%
+        unique(as.character(as.vector(as.data.frame(
+            filterd_clone_tbl_goi_gene_names %>%
         dplyr::select(patient_id) %>%
         dplyr::group_by(patient_id) %>%
         dplyr::tally() %>%
@@ -512,15 +520,15 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     ## define the pdf output
     if(output_pdf != "direct")
         pdf(output_pdf, width=num_pats_to_plot*5)
-  
+    
     plot_list <- list()
     cnt <- 0
-  
+    
     for (this_pat in all_pats){
         tbl_to_plot <- filterd_clone_tbl_goi_gene_names %>%
         dplyr::filter(patient_id == this_pat) %>%
         dplyr::select(-altered_entity, -patient_id)
-  
+        
         ## here we remove columns from the end that are just clone zero 
         ## in this current patient, for plotting
         tbl_to_plot_just_clones <- tbl_to_plot %>% 
@@ -529,13 +537,13 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
         idx_clones_this_pat <- seq_len(max( which(col_sums_clones != 0 )))
         tbl_to_plot_nonzero_clones <- cbind(tbl_to_plot['hgnc_symbols'],
             tbl_to_plot_just_clones[, idx_clones_this_pat])
-      
-  
+        
+        
         cnt <- cnt + 1
-  
+        
         tbl_to_plot_melted <- 
             suppressMessages(reshape2::melt(tbl_to_plot_nonzero_clones))
-  
+        
         colors <- rev(c("darkblue", "lightblue"))
         this_plot <- ggplot2::ggplot() +
             ggplot2::geom_tile(data=tbl_to_plot_melted, 
@@ -546,7 +554,8 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
                ggplot2::aes(x=hgnc_symbols, 
                y=variable), 
                size=1, fill=NA, color="black") +
-            ggplot2::scale_fill_manual(values=colors, name="Mutation status") +
+            ggplot2::scale_fill_manual(values=colors, 
+                name="Mutation status") +
             ggplot2::theme_minimal() +
             ggplot2::theme(axis.text.x=ggplot2::element_text(angle=90, 
                 vjust=0.5, hjust=1)) + 
@@ -561,7 +570,7 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
             axis.text.y=ggplot2::element_text(size=14))
         plot_list[[cnt]] <- this_plot
     }
-          
+    
     if (cnt > 156) {
         my_letters <- NULL
     } else if(cnt > 26){
@@ -582,8 +591,4 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
         stopifnot(file.exists(output_pdf))
     }
 }
-
-
-
-
 

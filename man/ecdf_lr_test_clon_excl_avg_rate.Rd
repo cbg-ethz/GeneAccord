@@ -31,9 +31,9 @@ tested if delta > 0 or if all pairs should be tested.
 Can be one of "greater" or "two.sided".}
 }
 \value{
-Returns list(p_val, num_patients, mle_delta, test_statistic), i.e. 
-a list with the p-value, the number of patients in which both of the 
-genes/pathways were mutated, the maximum likelihood estimate of
+Returns list(p_val, num_patients, mle_delta, test_statistic), 
+i.e. a list with the p-value, the number of patients in which both of 
+the genes/pathways were mutated, the maximum likelihood estimate of
 the delta, and the test statistic.
 }
 \description{
@@ -62,7 +62,8 @@ clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
 rates_exmpl_2 <- compute_rates_clon_excl(clone_tbl_pat2)
 avg_rates_m <- apply(cbind(rates_exmpl_1, rates_exmpl_2), 2, mean)
-names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
+names(avg_rates_m) <- c(names(rates_exmpl_1)[1], 
+    names(rates_exmpl_2)[1])
 values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
 list_of_num_trees_all_pats <- 

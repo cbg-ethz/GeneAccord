@@ -24,7 +24,8 @@ from the collection of trees was chosen per
 patient.}
 
 \item{all_genes_tbl}{A tibble with all genes ensembl id's and 
-hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
+hgnc symbols. Can be created with 
+\code{\link{create_ensembl_gene_tbl_hg}}.}
 
 \item{first_clone_is_N}{Logical indicating whether the first 
 clone column is actually representing the normal or germline, 

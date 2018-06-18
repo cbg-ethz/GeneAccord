@@ -106,10 +106,12 @@ names(avg_rates_m) <- c(names(rates_exmpl_1)[1],
 names(rates_exmpl_2)[1])
 values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-list_of_num_trees_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-                             pat2=values_clon_excl_num_trees_pat2[[1]])
-list_of_clon_excl_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[2]],
-                             pat2=values_clon_excl_num_trees_pat2[[2]])
+list_of_num_trees_all_pats <-
+    list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+    pat2=values_clon_excl_num_trees_pat2[[1]])
+list_of_clon_excl_all_pats <-
+    list(pat1=values_clon_excl_num_trees_pat1[[2]],
+    pat2=values_clon_excl_num_trees_pat2[[2]])
 num_pat_pair_max <- 2
 num_pairs_sim <- 10
 ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 

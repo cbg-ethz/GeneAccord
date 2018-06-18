@@ -32,7 +32,8 @@
 #' patient that is a vector with the values of in how many trees 
 #' a pair was clonally exclusive. The patient ordering in the list has to 
 #' be the same as in \code{avg_rates_m}.
-#' @param num_pat_pair_max The maximum number of patients a pair is mutated in.
+#' @param num_pat_pair_max The maximum number of patients a pair is 
+#' mutated in.
 #' @param num_pairs_sim The number of simulated gene/pathway pairs to be 
 #' generated, i.e. the number of times the test statistic
 #' is computed. Recommended to choose a big number, e.g. 100000.
@@ -62,10 +63,12 @@
 #' names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
 #' values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 #' values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-#' list_of_num_trees_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-#'                  pat2=values_clon_excl_num_trees_pat2[[1]])
-#' list_of_clon_excl_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[2]],
-#'                  pat2=values_clon_excl_num_trees_pat2[[2]])
+#' list_of_num_trees_all_pats <-
+#'     list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+#'     pat2=values_clon_excl_num_trees_pat2[[1]])
+#' list_of_clon_excl_all_pats <-
+#'     list(pat1=values_clon_excl_num_trees_pat1[[2]],
+#'     pat2=values_clon_excl_num_trees_pat2[[2]])
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
 #' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
@@ -211,15 +214,15 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
 #' the higher the distribution is peaked around the actual rate. Therefore, 
 #' the lesser the M, the more distorted the rates will be. Default: 1000.
 #' @author Ariane L. Moore
-#' @return The return value is a list of tibbles with a tibble for each number
-#'  of patients, a pair can be mutated in. Each tibble contains the columns
-#' 'test_statistic', 'mle_delta', and then num_pat_pair columns of the rates 
-#' of each patient 'pat1', 'pat2', ...; as well as num_pat_pair columns with
-#'  the information about each patient, in how many trees the pair was 
-#'  occurring and in how many trees the pair was clonally exclusive. The 
-#'  tibble also contains a column 'pval' with the p-value of the 
-#'  simulated pair. The list of tibbles is of length min{num_pat_pair_max, 
-#'  length(avg_rates_m)}.
+#' @return The return value is a list of tibbles with a tibble for each 
+#' number of patients, a pair can be mutated in. Each tibble contains the 
+#' columns 'test_statistic', 'mle_delta', and then num_pat_pair columns 
+#' of the rates of each patient 'pat1', 'pat2', ...; as well as 
+#' num_pat_pair columns with the information about each patient, in how 
+#' many trees the pair was occurring and in how many trees the pair was 
+#' clonally exclusive. The tibble also contains a column 'pval' with the
+#' p-value of the simulated pair. The list of tibbles is of length 
+#' min{num_pat_pair_max, length(avg_rates_m)}.
 #' @import 
 #' dplyr
 #' @examples
@@ -323,7 +326,7 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
     for (i in seq(2, num_pat_pair_max)){
         message("Generate ECDF for the case where a gene pair is ",
         "mutated together in ", i, " patient(s).")
-      
+        
         ## generate samples of the test statistic under null for i patients
         this_test_stat_hist <- 
             suppressMessages(build_null_test_statistic(avg_rates_m, 
@@ -331,7 +334,7 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
             num_pat_pair=i, num_pairs_sim=num_pairs_sim,
             beta_distortion=beta_distortion))
         stopifnot(dim(this_test_stat_hist)[2] == (2+i*4))
-      
+        
         stopifnot(dplyr::is.tbl(this_test_stat_hist))
         stopifnot("test_statistic" %in% colnames(this_test_stat_hist))
         stopifnot(dim(this_test_stat_hist)[1] == num_pairs_sim)
@@ -340,7 +343,7 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
         ## for that, the ecdf with num_shared_pats is taken. It is the 
         ## num_shared_pats'th ecdf in the list
         this_ecdf <- ecdf_list[[i]]
-      
+        
         ## compute a p-value given the ecdf of the test statistic ecdf(T) 
         ## from the null distribution
         ## p_value=P(T>t | H_0 true)=1-ecdf(t) #### (upper-tailed test)
@@ -350,11 +353,11 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
         all_pvals <- vapply(all_test_stats, function(x){
             this_pval <- 1-this_ecdf(x)
         }, numeric(1))
-      
+        
         this_test_stat_hist <- this_test_stat_hist %>% 
             dplyr::mutate(pval=unlist(all_pvals)) %>% 
             dplyr::mutate(num_pat_pair=i)
-      
+        
         lrtest_stat_list[[i]] <- this_test_stat_hist
     }
     
@@ -497,7 +500,7 @@ build_null_test_statistic <- function(avg_rates_m,
     ## for each patient, we know their rates, and we have the histogram of
     ## in how many trees a pair was clonally exclusive and in how many trees
     ## it was clonally exclusive.
-  
+    
     lr_test_res_list <- list()
     all_pairs_test_stat <- c()
     all_pairs_delta <- c()
@@ -520,7 +523,7 @@ build_null_test_statistic <- function(avg_rates_m,
             num_clon_excl_this_pair <- 
                 list_of_clon_excl_frac_trees_all_pats[[2]][[x]][this_pair_hist_entry]
             stopifnot(num_clon_excl_this_pair <= num_trees_this_pair)
-  
+            
             ## distort the actual rates with a beta distribution that is 
             ## peaked around the actual rate
             ## this makes sure that the ecdf is smooth
@@ -571,7 +574,7 @@ build_null_test_statistic <- function(avg_rates_m,
                 num_trees_this_pair, num_clon_excl_this_pair))
             this_test_statistic <- this_lr_test_res[[1]]
             this_delta <- this_lr_test_res[[2]]
-  
+            
             return(c(this_test_statistic, 
                 this_delta, 
                 this_num_pat_this_pair,
@@ -581,22 +584,22 @@ build_null_test_statistic <- function(avg_rates_m,
                 beta_distorted_rates))
         }, numeric(7))
         
-      
+        
         stopifnot(dim(lr_test_res_list)[1] == 7)
         stopifnot(dim(lr_test_res_list)[2] == num_pairs_sim)
-  
+        
         ## extract the test statistics
         all_pairs_test_stat <- unlist(lr_test_res_list[1,])
-  
+        
         ## extract the deltas
         all_pairs_delta <- unlist(lr_test_res_list[2,])
-    
+        
         ## extract num_patients, expected_num_co, observed_num_co
         all_pairs_num_pat <- unlist(lr_test_res_list[3,])
         for (this_num in seq_len(num_pairs_sim)){
             stopifnot(all_pairs_num_pat[this_num] == num_pat_pair)
         }
-    
+        
         ## get the general rates of clonal exclusivity
         all_pairs_pat_rates[[1]] <- unlist(lr_test_res_list[4,])
         for (this_rate in seq_len(num_pairs_sim)){
@@ -606,7 +609,7 @@ build_null_test_statistic <- function(avg_rates_m,
         
         ## get the number of times a pair was mutated across trees
         all_pairs_num_trees[[1]] <- unlist(lr_test_res_list[5,])
-    
+        
         ## get the number of times a pair was clonally exclusive across trees
         all_pairs_num_clon_excl[[1]] <- unlist(lr_test_res_list[6,])
         for (this_sim in seq_len(num_pairs_sim)){
@@ -619,8 +622,8 @@ build_null_test_statistic <- function(avg_rates_m,
             stopifnot(all_pairs_pat_rates_beta_distorted[[1]][this_rate] >= 0)
             stopifnot(all_pairs_pat_rates_beta_distorted[[1]][this_rate] <= 1)
         }
-      
-          
+        
+        
     } else {
         lr_test_res_list <- apply(pairs_indices_pats_list, 2, function(x){
             this_num_pat_this_pair <- length(x) ## this means the simulated pair 
@@ -639,10 +642,10 @@ build_null_test_statistic <- function(avg_rates_m,
             stopifnot(is.matrix(this_hist_sample))
             stopifnot(dim(this_hist_sample)[1] == 2)
             stopifnot(dim(this_hist_sample)[2] == this_num_pat_this_pair)
-  
+            
             num_trees_this_pair <- this_hist_sample[1,]
             num_clon_excl_this_pair <- this_hist_sample[2,]
-        
+            
             ## distort the actual rates with a beta distribution that is peaked 
             ## around the actual rate
             ## this makes sure that the ecdf is smooth
@@ -694,25 +697,25 @@ build_null_test_statistic <- function(avg_rates_m,
                 num_clon_excl_this_pair))
             this_test_statistic <- this_lr_test_res[[1]]
             this_delta <- this_lr_test_res[[2]]
-  
+            
             return(list(this_test_statistic, this_delta, this_num_pat_this_pair, 
                 these_rate_this_pair,
                 num_trees_this_pair, num_clon_excl_this_pair, 
                 beta_distorted_rates))
         })
-  
+        
         ## extract the test statistics
         all_pairs_test_stat <- unlist(lapply(lr_test_res_list,
             function(x){x[[1]]}))
-  
+        
         ## extract the deltas
         all_pairs_delta <- unlist(lapply(lr_test_res_list, 
             function(x){x[[2]]}))
-  
+        
         ## extract num_patients, expected_num_co, observed_num_co
         all_pairs_num_pat <- unlist(lapply(lr_test_res_list,
             function(x){x[[3]]}))
-  
+        
         ## get the general rates of clonal exclusivity
         for(i in seq_len(num_pat_pair)){
             all_pairs_pat_rates[[i]] <- unlist(lapply(lr_test_res_list, 
@@ -729,7 +732,7 @@ build_null_test_statistic <- function(avg_rates_m,
     stopifnot(length(all_pairs_test_stat) == num_pairs_sim)
     stopifnot(length(all_pairs_delta) == num_pairs_sim)
     stopifnot(length(all_pairs_num_pat) == num_pairs_sim)
-  
+    
     ## create final tibble to return
     ## contains the columns 'test_statistic',
     ## 'mle_delta', and num_pat_pair columns with the respective rates 

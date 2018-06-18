@@ -92,10 +92,12 @@
 #' names(rates_exmpl_2)[1])
 #' values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 #' values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-#' list_of_num_trees_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-#'                              pat2=values_clon_excl_num_trees_pat2[[1]])
-#' list_of_clon_excl_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[2]],
-#'                              pat2=values_clon_excl_num_trees_pat2[[2]])
+#' list_of_num_trees_all_pats <-
+#'     list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+#'     pat2=values_clon_excl_num_trees_pat2[[1]])
+#' list_of_clon_excl_all_pats <-
+#'     list(pat1=values_clon_excl_num_trees_pat1[[2]],
+#'     pat2=values_clon_excl_num_trees_pat2[[2]])
 #' num_pat_pair_max <- 2
 #' num_pairs_sim <- 10
 #' ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 
@@ -253,7 +255,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
                 " Are you sure that there is no typo in this gene?")
             }
         }
-        ## now filter the pairs according to the genes of interest and the AND_OR
+        ## now filter the pairs according to the genes of interest 
+        ## and the AND_OR
         if(AND_OR == "AND"){
             message("Only pairs will be tested, where both genes are",
             " in the set of genes of interest.")
@@ -305,9 +308,9 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         num_pairs_to_test <- dim(pairs_to_test)[1]
         message("", num_pairs_to_test, 
         " gene/pathway pairs will be processed.")
-      
-        ## then use apply on the pairs with a function that takes both entities, 
-        ## the clone tbl, and
+        
+        ## then use apply on the pairs with a function that takes 
+        ## both entities, the clone tbl, and
         ## the rates of average clonal exclusivity
         ## the function invokes the clonal exclusivity test for the pair
         ## returns a list of lists: list(p_val=p_val, 
@@ -359,7 +362,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
             as.numeric(as.character(res_all_pairs_minNumPat2$mle_delta))
             
         if (alternative == "greater"){
-            ## filter out the pairs where delta <= 0, because they were not tested
+            ## filter out the pairs where delta <= 0, 
+            ## because they were not tested
             final_res_pairs <- res_all_pairs_minNumPat2 %>%
                 dplyr::filter(mle_delta > 0)
             num_pairs_deltaGT0 <- dim(final_res_pairs)[1]
@@ -367,7 +371,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
             " pairs were mutated in more than one patient and for them",
             "the delta was computed.\n",
             "There were ", num_pairs_deltaGT0, 
-            " pairs where delta is > 0 and for which the p-value was computed.")
+            " pairs where delta is > 0 and for which the p-value",
+            " was computed.")
         } else {
             message(num_pairs_in_two_or_more_pats ,
             " pairs were mutated in more than one patient and ",

@@ -62,7 +62,8 @@
 #'  "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
 #' ensg_path_map_raw <- dplyr::as.tbl(ensg_path_map_raw);
 #' ensg_reactome_path_map <- 
-#' filter(filter(ensg_path_map_raw, grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)), 
+#' filter(filter(ensg_path_map_raw, grepl("ENSG", 
+#'     ensg_path_map_raw$ensembl_gene_id)), 
 #' species == "Homo sapiens")
 "ensg_reactome_path_map"
 
@@ -206,7 +207,8 @@
 #' @source The tibble was created as follows: 
 #' library(dplyr);
 #' ensmusg_path_map_raw <- 
-#' read.csv("Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt", header = F, sep = "\\t", 
+#' read.csv("Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt", 
+#'     header = F, sep = "\\t", 
 #'     comment.char = "", check.names = F, skip = 0);
 #' stopifnot(dim(ensmusg_path_map_raw)[1] == 28696);
 #' stopifnot(dim(ensmusg_path_map_raw)[2] == 6);

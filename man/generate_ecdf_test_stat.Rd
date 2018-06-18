@@ -25,7 +25,8 @@ patient that is a vector with the values of in how many trees
 a pair was clonally exclusive. The patient ordering in the list has to 
 be the same as in \code{avg_rates_m}.}
 
-\item{num_pat_pair_max}{The maximum number of patients a pair is mutated in.}
+\item{num_pat_pair_max}{The maximum number of patients a pair is 
+mutated in.}
 
 \item{num_pairs_sim}{The number of simulated gene/pathway pairs to be 
 generated, i.e. the number of times the test statistic
@@ -79,10 +80,12 @@ avg_rates_m <- apply(cbind(rates_exmpl_1, rates_exmpl_2), 2, mean)
 names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
 values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
-list_of_num_trees_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[1]], 
-                 pat2=values_clon_excl_num_trees_pat2[[1]])
-list_of_clon_excl_all_pats <-list(pat1=values_clon_excl_num_trees_pat1[[2]],
-                 pat2=values_clon_excl_num_trees_pat2[[2]])
+list_of_num_trees_all_pats <-
+    list(pat1=values_clon_excl_num_trees_pat1[[1]], 
+    pat2=values_clon_excl_num_trees_pat2[[1]])
+list_of_clon_excl_all_pats <-
+    list(pat1=values_clon_excl_num_trees_pat1[[2]],
+    pat2=values_clon_excl_num_trees_pat2[[2]])
 num_pat_pair_max <- 2
 num_pairs_sim <- 10
 ecdf_list <- generate_ecdf_test_stat(avg_rates_m, 

@@ -42,15 +42,15 @@ the higher the distribution is peaked around the actual rate. Therefore,
 the lesser the M, the more distorted the rates will be. Default: 1000.}
 }
 \value{
-The return value is a list of tibbles with a tibble for each number
- of patients, a pair can be mutated in. Each tibble contains the columns
-'test_statistic', 'mle_delta', and then num_pat_pair columns of the rates 
-of each patient 'pat1', 'pat2', ...; as well as num_pat_pair columns with
- the information about each patient, in how many trees the pair was 
- occurring and in how many trees the pair was clonally exclusive. The 
- tibble also contains a column 'pval' with the p-value of the 
- simulated pair. The list of tibbles is of length min{num_pat_pair_max, 
- length(avg_rates_m)}.
+The return value is a list of tibbles with a tibble for each 
+number of patients, a pair can be mutated in. Each tibble contains the 
+columns 'test_statistic', 'mle_delta', and then num_pat_pair columns 
+of the rates of each patient 'pat1', 'pat2', ...; as well as 
+num_pat_pair columns with the information about each patient, in how 
+many trees the pair was occurring and in how many trees the pair was 
+clonally exclusive. The tibble also contains a column 'pval' with the
+p-value of the simulated pair. The list of tibbles is of length 
+min{num_pat_pair_max, length(avg_rates_m)}.
 }
 \description{
 Generate the values of the test statistic under the null, and also 

@@ -21,7 +21,8 @@
 The tibble was created as follows: 
 library(dplyr);
 ensmusg_path_map_raw <- 
-read.csv("Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt", header = F, sep = "\\t", 
+read.csv("Ensembl2Reactome_mus_musculus_woOmegaSymbol.txt", 
+    header = F, sep = "\\t", 
     comment.char = "", check.names = F, skip = 0);
 stopifnot(dim(ensmusg_path_map_raw)[1] == 28696);
 stopifnot(dim(ensmusg_path_map_raw)[2] == 6);

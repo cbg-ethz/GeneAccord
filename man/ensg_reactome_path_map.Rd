@@ -25,7 +25,8 @@ colnames(ensg_path_map_raw) <- c("ensembl_gene_id",
  "reactome_pw_id", "url", "reactome_pw_name", "evidence_code", "species");
 ensg_path_map_raw <- dplyr::as.tbl(ensg_path_map_raw);
 ensg_reactome_path_map <- 
-filter(filter(ensg_path_map_raw, grepl("ENSG", ensg_path_map_raw$ensembl_gene_id)), 
+filter(filter(ensg_path_map_raw, grepl("ENSG", 
+    ensg_path_map_raw$ensembl_gene_id)), 
 species == "Homo sapiens")
 }
 \usage{

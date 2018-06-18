@@ -21,7 +21,8 @@ profiles would be merged by this function because the pathway is
 affected in the union of clones were the two genes were mutated.
 }
 \description{
-Merge clone profile of identical entities in clone tibble from one patient
+Merge clone profile of identical entities in clone tibble from 
+one patient
 }
 \details{
 Given a clone tibble as created with \code{\link{create_tbl_ent_clones}} 

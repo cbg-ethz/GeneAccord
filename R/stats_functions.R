@@ -89,7 +89,9 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
         return(res)
     }
     ## compute individual factors from each patient
-    l_null_factors <- apply(cbind(num_clon_excl, num_trees_pair, avg_rates_m),
+    l_null_factors <- apply(cbind(num_clon_excl, 
+                                  num_trees_pair, 
+                                  avg_rates_m),
         1, function(x){compute_weighted_p(x[1], x[2], x[3])})
     l_null <- prod(l_null_factors)
     message("l_null=", l_null)
@@ -100,15 +102,18 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     ## get mle of delta
     ## maximize likelihood over delta
     ## to obtain an estimate for the delta (MLE)
-    ## function to get the negative log-likelihood of the data for a given delta
+    ## function to get the negative log-likelihood of 
+    ## the data for a given delta
   
     ## get the logits of the m's: logit(m_i)=m_i/(1-m_i)
     logit_avg_rates_m <- gtools::logit(avg_rates_m) 
-    ## without the gtools function, this crashes when one of the rates is 1.0
+    ## without the gtools function, this crashes when one 
+    ## of the rates is 1.0
   
     ## They should be identical: i.e. if delta is zero, m and m_star should 
     ## be the same
-    if(abs((gtools::inv.logit(logit_avg_rates_m))[1] - avg_rates_m[1]) >= 0.01){
+    if(abs((gtools::inv.logit(logit_avg_rates_m))[1]
+        - avg_rates_m[1]) >= 0.01){
         stop("The sanity check with delta=0 did not have the right",
         " result. m should be identical to m_star if delta=0!!")
     }
@@ -175,9 +180,9 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
 #' tested if delta > 0 or if all pairs should be tested.
 #' Can be one of "greater" or "two.sided".
 #' @author Ariane L. Moore
-#' @return Returns list(p_val, num_patients, mle_delta, test_statistic), i.e. 
-#' a list with the p-value, the number of patients in which both of the 
-#' genes/pathways were mutated, the maximum likelihood estimate of
+#' @return Returns list(p_val, num_patients, mle_delta, test_statistic), 
+#' i.e. a list with the p-value, the number of patients in which both of 
+#' the genes/pathways were mutated, the maximum likelihood estimate of
 #' the delta, and the test statistic.
 #' @import 
 #' dplyr
@@ -194,7 +199,8 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
 #' rates_exmpl_2 <- compute_rates_clon_excl(clone_tbl_pat2)
 #' avg_rates_m <- apply(cbind(rates_exmpl_1, rates_exmpl_2), 2, mean)
-#' names(avg_rates_m) <- c(names(rates_exmpl_1)[1], names(rates_exmpl_2)[1])
+#' names(avg_rates_m) <- c(names(rates_exmpl_1)[1], 
+#'     names(rates_exmpl_2)[1])
 #' values_clon_excl_num_trees_pat1 <- get_hist_clon_excl(clone_tbl_pat1)
 #' values_clon_excl_num_trees_pat2 <- get_hist_clon_excl(clone_tbl_pat2)
 #' list_of_num_trees_all_pats <- 
@@ -249,7 +255,8 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     ## in which both of them are mutated
     tree_to_pats_ent_pair <- lapply(all_tree_ids, function(this_tree){
         ## select a specific tree
-        clone_tbl_this_tree <- clone_tbl %>% dplyr::filter(tree_id == this_tree)
+        clone_tbl_this_tree <- clone_tbl %>% 
+            dplyr::filter(tree_id == this_tree)
       
         these_pats_mutated <- lapply(c(entA, entB), function(this_ent){
             this_ent_pats_tbl <- clone_tbl_this_tree %>%
@@ -288,9 +295,10 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
             avg_rates_m[which(names(avg_rates_m) == x)]
         }, numeric(1))
   
-        ## compute for all patients: number of trees the pair is mutated, and 
-        ## number of times it was also clonally exclusive
-        num_trees_pair_num_clon_excl <- vapply(shared_pats_total, function(x){
+        ## compute for all patients: number of trees the pair is mutated, 
+        ## and number of times it was also clonally exclusive
+        num_trees_pair_num_clon_excl <- vapply(shared_pats_total, 
+        function(x){
         ## take the clone tibble ## just for the current patient
         this_clone_tbl <- clone_tbl %>%                     
             dplyr::filter(patient_id == x) %>%                      
@@ -305,8 +313,8 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         num_trees_pair <- num_trees_pair_num_clon_excl[1,]
         num_clon_excl <- num_trees_pair_num_clon_excl[2,]
   
-        ## compute the test statistic and the p-value of the likelihood ratio 
-        ## test
+        ## compute the test statistic and the p-value of the likelihood 
+        ## ratio test
         ## by comparing the observed test statistic to the ecdf of the test 
         ## statistic under the null
         res_lr_test <- c()
@@ -341,7 +349,8 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
                 "(at least ", num_shared_pats_total,").")
             }
             message("Test statistic is ", test_stat)
-            message("The number of patients in which both genes are mutated: ",
+            message("The number of patients in which both genes ",
+            "are mutated: ",
             num_shared_pats_total)
             this_ecdf <- ecdf_list[[num_shared_pats_total]]
     

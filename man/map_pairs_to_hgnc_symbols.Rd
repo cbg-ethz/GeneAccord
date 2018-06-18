@@ -12,7 +12,8 @@ genes/pathways. More precisely, it contains the columns
 'entity_A' and 'entity_B'.}
 
 \item{all_genes_tbl}{A tibble with all genes ensembl id's and 
-hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.}
+hgnc symbols. Can be created with 
+\code{\link{create_ensembl_gene_tbl_hg}}.}
 }
 \value{
 A tibble similar to the input \code{pairs_of_interest_tbl} 

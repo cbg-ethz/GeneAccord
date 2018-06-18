@@ -58,7 +58,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
         this_clone_tbl <- this_clone_tbl %>%
             tibble::add_column(new_col=as.integer(this_csv[,(i+1)]))
         names(this_clone_tbl)[names(this_clone_tbl) == "new_col"] <- 
-          clone_name
+            clone_name
     }
     stopifnot(num_clones <= max_num_clones)
     ## to make sure that all tibbles from all patients contain the same 
@@ -74,10 +74,10 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
                 tibble::add_column(new_col=as.integer(rep(0, 
                     num_mutated_ents)))
             names(this_clone_tbl)[names(this_clone_tbl) == "new_col"] <-
-              clone_name
+                clone_name
         }
     }
-                         
+    
     final_clone_tbl <- this_clone_tbl
 
     stopifnot(dplyr::is.tbl(final_clone_tbl))
@@ -91,7 +91,8 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
 
 
 
-#' Read in the patient's gene-to-clone assignment across a collection of trees
+#' Read in the patient's gene-to-clone assignment across a collection of 
+#' trees
 #'
 #' Creates a tibble containing the information of which genes/pathways are 
 #' altered in which clone in a patient across a collection of tree inferences. 
@@ -136,29 +137,29 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
 #'     "/", this_patient, ".csv", sep="") 
 #' create_tbl_tree_collection(input_files_01)
 create_tbl_tree_collection <- function(input_files, no_noisy_ents=0.9, 
-                                       max_num_clones=7){
+    max_num_clones=7){
     altered_entity <- n <- NULL
     stopifnot(is.vector(input_files))
     stopifnot(is.numeric(no_noisy_ents))
     stopifnot(is.numeric(max_num_clones))
     sanity_check <- lapply(input_files, 
-                           function(x){stopifnot(is.character(x)); 
+        function(x){stopifnot(is.character(x)); 
     stopifnot(file.exists(x))})
   
     num_files <- length(input_files)
     message("Found a collection of tree inferences of ", 
         num_files, " input files.")
   
-    ## go over the files, create a tibble with the additional information from 
-    ## which tree collection the tbl is
+    ## go over the files, create a tibble with the additional information 
+    ## from which tree collection the tbl is
     all_tbl_list <- list()
     for(i in seq_len(num_files)){
         this_tbl <- suppressMessages(create_tbl_ent_clones(input_files[i], 
             max_num_clones=max_num_clones))
        all_tbl_list[[i]] <- this_tbl %>% dplyr::mutate(tree_id=i)
     }
-    ## this is now the clone tibble from just that patient but from all tree 
-    ## inferences
+    ## this is now the clone tibble from just that patient but 
+    ## from all tree inferences
     all_trees_clone_tbl <- do.call("rbind", all_tbl_list)
   
     ## now exclude genes that occur in less than 90% of the trees, 
@@ -282,7 +283,8 @@ compute_rates_clon_excl <- function(pat_tbl){
 
 
 
-#' Compute the rate of mutated gene/pathway pairs being in different branches.
+#' Compute the rate of mutated gene/pathway pairs being in different 
+#' branches.
 #'
 #' Given the output of a tool that identifies clones within tumors and their 
 #' phylogenetic history, this function computes the rate of mutated 
@@ -292,8 +294,8 @@ compute_rates_clon_excl <- function(pat_tbl){
 #' pairs.
 #'
 #' @title Compute rate of being in different branches/clones.
-#' @param clone_tbl A tibble containing the columns 'altered_entity', and then 
-#' a column for each clone
+#' @param clone_tbl A tibble containing the columns 'altered_entity', and 
+#' then a column for each clone
 #' @author Ariane L. Moore
 #' in the tumor, e.g. 'clone1', 'clone2', 'clone3'. This tibble can be 
 #' generated e.g. from the \code{Cloe} output.
@@ -359,10 +361,12 @@ get_rate_diff_branch_ent_pair <- function(clone_tbl) {
                                                      clone_tbl))})
         stopifnot(is.logical(all_pairs_branch_info))
     
-        ## get the number and rate of pairs being in different branches/clones
+        ## get the number and rate of pairs being in 
+        ## different branches/clones
         num_pairs_diff_branch <- sum(unlist(all_pairs_branch_info))
         rate_pairs_diff_branch <- num_pairs_diff_branch/num_pairs
-        stopifnot(rate_pairs_diff_branch >= 0 && rate_pairs_diff_branch <= 1)
+        stopifnot(rate_pairs_diff_branch >= 0 && 
+            rate_pairs_diff_branch <= 1)
       
         ## message to user
         message("Of ", num_pairs, " total gene/pathway pairs, ", 
@@ -512,7 +516,8 @@ get_hist_clon_excl <- function(clone_tbl) {
         clone_tbl <- clone_tbl %>% dplyr::select(-patient_id)
     
         message("Found ", num_trees, 
-        " different tree instances in the gene-to-clone tibble from patient ", 
+        " different tree instances in the gene-to-clone tibble",
+        " from patient ", 
         pat_id, ", ",
         "and ", num_ents, " different mutated genes/pathways in total.")
         stopifnot(length(pat_id) == 1)
@@ -617,7 +622,7 @@ get_hist_clon_excl <- function(clone_tbl) {
 #'     clone4=c(sample(c(0,1), 10, replace=TRUE)),
 #'     tree_id=c(rep(5, 5), rep(10, 5)) ) ))
 #' get_hist_clon_excl_this_pat_this_pair("gene1", "gene2", clone_tbl)
-get_hist_clon_excl_this_pat_this_pair <- function(entA, entB, clone_tbl){
+get_hist_clon_excl_this_pat_this_pair<-function(entA, entB, clone_tbl){
     altered_entity <- tree_id <- NULL
     stopifnot(is.character(entA))
     stopifnot(is.character(entB))
@@ -656,14 +661,15 @@ get_hist_clon_excl_this_pat_this_pair <- function(entA, entB, clone_tbl){
         this_tree_clone_tbl <- clone_tbl %>% 
             dplyr::filter(tree_id == x) %>% 
             dplyr::select(-tree_id)
-        all_ents_this_tree <- as.character(this_tree_clone_tbl$altered_entity)
+        all_ents_this_tree <- 
+            as.character(this_tree_clone_tbl$altered_entity)
         if(entA %in% all_ents_this_tree && 
         entB %in% all_ents_this_tree){
             this_pair_occurs <- 1
         this_pair_clon_excl <- 
-           sum(suppressMessages(is_diff_branch_ent_pair(entA, 
-               entB, 
-               this_tree_clone_tbl)))
+            sum(suppressMessages(is_diff_branch_ent_pair(entA, 
+                entB, 
+                this_tree_clone_tbl)))
         } else {
         this_pair_occurs <- this_pair_clon_excl <- 0
         }
@@ -686,7 +692,8 @@ get_hist_clon_excl_this_pat_this_pair <- function(entA, entB, clone_tbl){
 
 
 
-#' Merge clone profile of identical entities in clone tibble from one patient
+#' Merge clone profile of identical entities in clone tibble from 
+#' one patient
 #'
 #' Given a clone tibble as created with \code{\link{create_tbl_ent_clones}} 
 #' from one patient and where the entities were possibly mapped from genes 
@@ -1072,10 +1079,11 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
     mutated_in <- pairs_res_pats[1,]
     clonally_exclusive_in <- pairs_res_pats[2,]
 
-    res_tbl <- tibble::as_tibble(cbind(as.data.frame(pairs_of_interest_tbl), 
+    res_tbl<-tibble::as_tibble(cbind(as.data.frame(pairs_of_interest_tbl), 
         cbind(mutated_in, clonally_exclusive_in)))
     res_tbl$mutated_in <- as.character(res_tbl$mutated_in)
-    res_tbl$clonally_exclusive_in <- as.character(res_tbl$clonally_exclusive_in)
+    res_tbl$clonally_exclusive_in <- 
+        as.character(res_tbl$clonally_exclusive_in)
     return(res_tbl)
 }
 
@@ -1093,7 +1101,8 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
 #' genes/pathways. More precisely, it contains the columns
 #' 'entity_A' and 'entity_B'.
 #' @param all_genes_tbl A tibble with all genes ensembl id's and 
-#' hgnc symbols. Can be created with \code{\link{create_ensembl_gene_tbl_hg}}.
+#' hgnc symbols. Can be created with 
+#' \code{\link{create_ensembl_gene_tbl_hg}}.
 #' @author Ariane L. Moore
 #' @return A tibble similar to the input \code{pairs_of_interest_tbl} 
 #' but with two additional columns, namely 'hgnc_gene_A', and 'hgnc_gene_B'. 
@@ -1111,7 +1120,7 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
 #' map_pairs_to_hgnc_symbols(pairs_of_interest, all_genes_tbl)
 #' }
 map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl, 
-                                      all_genes_tbl){
+    all_genes_tbl){
     entity_A <- entity_B  <- ensembl_gene_id <- 
     hgnc_symbol <-  NULL
     stopifnot(dplyr::is.tbl(pairs_of_interest_tbl))
@@ -1192,7 +1201,7 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
 #' write_res_pairs_to_disk(sig_pairs, avg_rates_m, "test.tsv")
 #' file.remove("test.tsv")
 write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m, 
-                                    tsv_file, num_digits=2){
+    tsv_file, num_digits=2){
     stopifnot(dplyr::is.tbl(sig_pairs))
     stopifnot("hgnc_gene_A" %in% colnames(sig_pairs))
     stopifnot("hgnc_gene_B" %in% colnames(sig_pairs))
@@ -1381,7 +1390,8 @@ pairs_in_patients_hist <- function(clone_tbl){
   
     message("The maximum number of patients that a pair is ",
         "mutated in is ", 
-    max_num_pat_pairs, ". Please run the function 'generate_ecdf_test_stat' ",
+    max_num_pat_pairs, ". Please run the function",
+    " 'generate_ecdf_test_stat' ",
     "with ",
     "num_pat_pair_max=", max_num_pat_pairs, ".")
     return(num_pairs_num_pats_tally)

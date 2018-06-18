@@ -47,7 +47,8 @@ altered_entity=c("ENSG00000134086",
 "ENSG00000141510"),
 clone1=c(1,0),
 clone2=c(0,1))
-convert_ensembl_to_reactome_pw_tbl(mutated_gene_tbl, ensg_reactome_path_map)
+convert_ensembl_to_reactome_pw_tbl(mutated_gene_tbl, 
+    ensg_reactome_path_map)
 }
 \author{
 Ariane L. Moore

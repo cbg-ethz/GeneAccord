@@ -7,15 +7,16 @@
 get_rate_diff_branch_ent_pair(clone_tbl)
 }
 \arguments{
-\item{clone_tbl}{A tibble containing the columns 'altered_entity', and then 
-a column for each clone}
+\item{clone_tbl}{A tibble containing the columns 'altered_entity', and 
+then a column for each clone}
 }
 \value{
 The rate of occurrence of mutated gene/pathway pairs being in 
 different clones.
 }
 \description{
-Compute the rate of mutated gene/pathway pairs being in different branches.
+Compute the rate of mutated gene/pathway pairs being in different 
+branches.
 }
 \details{
 Given the output of a tool that identifies clones within tumors and their 

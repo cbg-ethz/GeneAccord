@@ -31,7 +31,8 @@ not matter and only needs to stay fixed within each patient and
 tree inference.
 }
 \description{
-Read in the patient's gene-to-clone assignment across a collection of trees
+Read in the patient's gene-to-clone assignment across a collection of 
+trees
 }
 \details{
 Creates a tibble containing the information of which genes/pathways are 
