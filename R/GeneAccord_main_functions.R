@@ -138,25 +138,25 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     num_entries <- dim(clone_tbl)[1]
     all_tree_ids <- unique(as.character(clone_tbl$tree_id))
     num_trees <- length(all_tree_ids)
-    message(paste0("There were ", num_trees, 
+    message("There were ", num_trees, 
     " different tree inferences per patient.\n",
     num_entries, 
-    " alterations in total found in the provided tibble."))
+    " alterations in total found in the provided tibble.")
     num_genes_of_interest <- length(genes_of_interest)
     spec_genes <- FALSE # should only a specific set of genes be tested? 
     if(num_genes_of_interest == 1 && genes_of_interest != "ALL"){
-        message(paste("There is one gene of interest provided, namely ", 
-        genes_of_interest, ".", sep=""))
+        message("There is one gene of interest provided, namely ", 
+        genes_of_interest, ".")
         if(AND_OR == "AND"){
-            message(paste0("Since there is only one gene of interest provided,",
+            message("Since there is only one gene of interest provided,",
             " the AND_OR parameter has to be 'OR',",
-            " otherwise no gene pairs are left"))
+            " otherwise no gene pairs are left")
             AND_OR <- "OR"
         }
         spec_genes <- TRUE
     } else if (num_genes_of_interest > 1){
-        message(paste("There are ", num_genes_of_interest, 
-        " genes of interest provided.", sep=""))
+        message("There are ", num_genes_of_interest, 
+        " genes of interest provided.")
         spec_genes <- TRUE
     }
     
@@ -210,7 +210,7 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     rownames(all_pairs) <- NULL
     num_pairs <- dim(all_pairs)[1]
     
-    message(paste0("Found in total ", num_ents, 
+    message("Found in total ", num_ents, 
     " different mutated genes/pathways in the provided tibble.\n",
     "Found ", num_pats, 
     " different patient id's in the provided tibble.\n",
@@ -218,14 +218,14 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     " pairs of genes/pathways is mutated in at least one patient.\n",
     "And ", num_pairs, 
     " pairs of genes/pathways are mutated in at least ", 
-    min_num_pat," patients."))
+    min_num_pat," patients.")
     
     ## as an additional safety mechanism, we check what is the maximum n 
     ## that pairs are mutated in how many patients
     max_num_pat_pairs <- 
         max(as.numeric(as.character(all_pairs_all_pats_one_string_minPat$n)))
     if(length(ecdf_list) < max_num_pat_pairs){
-        message(paste0("The maximum number of patients that a pair is mutated in ",
+        message("The maximum number of patients that a pair is mutated in ",
         "is ", max_num_pat_pairs,
         ", which is higher than the number of ECDF's provided.",
         "This may be problematic.\n",
@@ -236,13 +236,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         "one of the pairs that will be tested is actually mutated ",
         "in so many patients.\n",
         "Maybe all pairs tested will be mutated in less patients,",
-        "and you're fine.\n"))
+        "and you're fine.\n")
     }
-    
-    ## get all pairs of entities efficiently
-    ##num_pairs <- num_ents*(num_ents-1)/2
-    ##all_pairs <- caTools::combs(all_ents, 2)
-    ##stopifnot(num_pairs == dim(all_pairs)[1])
     
     ## distinguish between the case where all genes should be tested 
     ## or where only a specific subset should be tested
@@ -252,16 +247,16 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         ## the genes in the tibble
         for (this_gene in genes_of_interest){
             if(! this_gene %in% all_ents){
-                warning(paste0("The gene " , this_gene, 
+                warning("The gene " , this_gene, 
                 " is among the genes of interest, but is not among the",
                 "genes in the clone tibble.",
-                " Are you sure that there is no typo in this gene?"))
+                " Are you sure that there is no typo in this gene?")
             }
         }
         ## now filter the pairs according to the genes of interest and the AND_OR
         if(AND_OR == "AND"){
-            message(paste("Only pairs will be tested, where both genes are",
-            " in the set of genes of interest.", sep=""))
+            message("Only pairs will be tested, where both genes are",
+            " in the set of genes of interest.")
             pairs_to_test <- apply(all_pairs, 1, function(x){
                 this_ent_A <- x[1]
                 this_ent_B <- x[2]
@@ -272,8 +267,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
                 }
             })
         } else if(AND_OR == "OR"){
-            message(paste("Only pairs will be tested, where at least one ",
-            "of the genes is in the set of genes of interest.", sep=""))
+            message("Only pairs will be tested, where at least one ",
+            "of the genes is in the set of genes of interest.")
             pairs_to_test <- apply(all_pairs, 1, function(x){
                 this_ent_A <- x[1]
                 this_ent_B <- x[2]
@@ -289,8 +284,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     
     ## remove the NULL entries
     if(is.null(pairs_to_test)){
-        message(paste0("There are no pairs that fulfill the restriction ",
-        "with genes_of_interest and the AND_OR."))
+        message("There are no pairs that fulfill the restriction ",
+        "with genes_of_interest and the AND_OR.")
         message("No test will be done.")
         res_all_pairs <- tibble::tibble(entity_A=character(), 
             entity_B=character(),
@@ -308,8 +303,8 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
                 function(x){!is.null(x)}))]), ncol=2, byrow=TRUE)
         }
         num_pairs_to_test <- dim(pairs_to_test)[1]
-        message(paste("", num_pairs_to_test, 
-        " gene/pathway pairs will be processed.", sep=""))
+        message("", num_pairs_to_test, 
+        " gene/pathway pairs will be processed.")
       
         ## then use apply on the pairs with a function that takes both entities, 
         ## the clone tbl, and
@@ -355,10 +350,6 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
             dplyr::filter(num_patients == 0))[1]
         num_pairs_in_one_pat <- dim(res_all_pairs %>% 
             dplyr::filter(num_patients == 1))[1]
-        ##message(paste("There were ", num_pairs_in_zero_pats, 
-        ## " pairs that were mutated together in zero patients.", sep=""))
-        ##message(paste("And ", num_pairs_in_one_pat, 
-        ## " pairs that were mutated together in one patient.", sep=""))
         res_all_pairs_minNumPat2 <- res_all_pairs %>% 
             dplyr::filter(num_patients >= 2)
         num_pairs_in_two_or_more_pats <- dim(res_all_pairs_minNumPat2)[1]
@@ -372,15 +363,15 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
             final_res_pairs <- res_all_pairs_minNumPat2 %>%
                 dplyr::filter(mle_delta > 0)
             num_pairs_deltaGT0 <- dim(final_res_pairs)[1]
-            message(paste0(num_pairs_in_two_or_more_pats ,
+            message(num_pairs_in_two_or_more_pats ,
             " pairs were mutated in more than one patient and for them",
             "the delta was computed.\n",
             "There were ", num_pairs_deltaGT0, 
-            " pairs where delta is > 0 and for which the p-value was computed."))
+            " pairs where delta is > 0 and for which the p-value was computed.")
         } else {
-            message(paste(num_pairs_in_two_or_more_pats ,
+            message(num_pairs_in_two_or_more_pats ,
             " pairs were mutated in more than one patient and ",
-            "for them the delta and the p-value was computed.", sep=""))
+            "for them the delta and the p-value was computed.")
             final_res_pairs <- res_all_pairs_minNumPat2
         }
       

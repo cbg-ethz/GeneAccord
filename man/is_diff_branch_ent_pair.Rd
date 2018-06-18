@@ -33,7 +33,7 @@ the pair is mutated in different branches/clones.
 }
 \examples{
 clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
-    altered_entity=c(paste("gene", seq(1,10), sep="")),
+    altered_entity=c(paste("gene", seq_len(10), sep="")),
     clone1=c(rep(0,10)),
     clone2=c(sample(c(0,1), 10, replace=TRUE)),
     clone3=c(sample(c(0,1), 10, replace=TRUE)),

@@ -33,7 +33,7 @@ clone_tbl <- tibble::as_tibble(cbind("file_name" =
     rep("fn1", 10),
     "patient_id"=rep("pat1", 10),
     "altered_entity"=paste0("gene", 
-    LETTERS[seq(1, 10)]),
+    LETTERS[seq_len(10)]),
     "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
     "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
     "tree_id"=c(rep(1, 5), rep(2, 5))))

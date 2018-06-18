@@ -211,4 +211,20 @@ test_that("pairs_in_patients_hist", {
   assert_that("patient_count" %in% colnames(this_res))
   expect_equal(this_res$patient_count, 2)
   expect_equal(this_res$pairs_count, 3)
+  
+  clone_tbl <- tibble::as_tibble(cbind("file_name" =
+                                         rep(c(rep(c("fn1", "fn2"), each = 3)), 2),
+                                       "patient_id" = rep(c(rep(c("pat1", "pat2"), each = 3)), 2),
+                                       "altered_entity" = c("geneA", "geneB", "geneC",
+                                                            "geneC", "geneB", "geneA",
+                                                            "geneC", "geneB", "geneA",
+                                                            "geneA", "geneB", "geneC"),
+                                       "clone1" = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
+                                       "clone2" = c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
+                                       "tree_id" = c(rep(5, 6), rep(10, 6))))
+  this_res <- pairs_in_patients_hist(clone_tbl)
+  assert_that("pairs_count" %in% colnames(this_res))
+  assert_that("patient_count" %in% colnames(this_res))
+  expect_equal(this_res$patient_count, 2)
+  expect_equal(this_res$pairs_count, 3)
 })

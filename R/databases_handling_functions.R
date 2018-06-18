@@ -31,12 +31,12 @@
 #' create_ensembl_gene_tbl_hg()
 #' }
 create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
-    message(paste("GRCh version: ", 
+    message("GRCh version: ", 
         GRCh, ", 
         and Ensembl Genes version: ", 
-        ensembl_version, sep=""))
-    message(paste0("Obtain a tibble with various gene id's",
-    " and their genomic coordinates..."))
+        ensembl_version)
+    message("Obtain a tibble with various gene id's",
+    " and their genomic coordinates...")
     all_genes_tbl <- tryCatch(
     {
         ensembl <- 
@@ -69,8 +69,8 @@ create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
         
     },
     error=function(cond) {
-        message(paste0("BiomaRt function call did not work. Possibly",
-        " biomart or ensembl are currently down."))
+        message("BiomaRt function call did not work. Possibly",
+        " biomart or ensembl are currently down.")
         message("Here's the original error message:")
         message(cond)
         message("\nLoad 'all_genes_tbl' from the GeneAccord saved data:")
@@ -78,8 +78,8 @@ create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
         return(all_genes_tbl)
     },
     warning=function(cond) {
-        message(paste0("BiomaRt function call caused a warning. Possibly",
-        " biomart or ensembl are currently down."))
+        message("BiomaRt function call caused a warning. Possibly",
+        " biomart or ensembl are currently down.")
         message("Here's the original warning message:")
         message(cond)
         message("\nLoad 'all_genes_tbl' from the GeneAccord saved data:")
@@ -129,22 +129,22 @@ ensembl_to_hgnc <- function(this_ensembl, all_genes_tbl){
     num_gene_symbols=length(this_hgnc_character)
   
     if (num_gene_symbols == 0){  ## i.e., if there was no such ensembl id
-        message(paste("Ensembl id ", this_ensembl," 
-        cannot be found in the tibble!", sep=""))
+        message("Ensembl id ", this_ensembl," 
+        cannot be found in the tibble!")
         return(this_ensembl)
     } else {
         if (num_gene_symbols > 1){
-            warning(paste("Ensembl id ", this_ensembl,
-            " was mapped to several HGNC symbols:", sep=""))
-            for (i in seq(1, num_gene_symbols)){
+            warning("Ensembl id ", this_ensembl,
+            " was mapped to several HGNC symbols:")
+            for (i in seq_len(num_gene_symbols)){
                 warning(this_hgnc_character[i])
             }
             warning("Which one to choose? Will return ensembl id instead.")
             return(this_ensembl)
         } else {  ## mapped to exactly one gene symbol
             if (this_hgnc_character == ""){
-                message(paste("The HGNC symbol for this Ensembl id ", 
-                this_ensembl," is empty!"))
+                message("The HGNC symbol for this Ensembl id ", 
+                this_ensembl," is empty!")
                 return(this_ensembl)
             } else{
                 return(this_hgnc_character)
@@ -198,22 +198,17 @@ hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
     if (num_ensembl_ids == 0){  ## i.e., if there was no 
         ## such ensembl id or the entrez id
         ## was empty
-        message(paste("hgnc symbol ", 
+        message("hgnc symbol ", 
         this_hgnc,
-        " cannot be found in the tibble or there was no matching ensembl id!"
-        , sep=""))
+        " cannot be found in the tibble or there was no matching ensembl id!")
         return(this_hgnc)
     } else {
         if (num_ensembl_ids > 1){
-            warning(paste("hgnc symbol ", 
+            warning("hgnc symbol ", 
             this_hgnc,
-            " was mapped to several ensembl id's.", 
-            sep=""))
-            toReturn <- this_ensembl_character[1]
-            for (i in 2:num_ensembl_ids){
-                toReturn <- paste(toReturn, ";", 
-                this_ensembl_character[i], sep="")
-            }
+            " was mapped to several ensembl id's.")
+            toReturn <- 
+                paste(this_ensembl_character, collapse=";")
             return(toReturn)
         } else {  ## mapped to exactly one gene id
             return(this_ensembl_character)
@@ -264,7 +259,7 @@ hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
 #' convert_ensembl_to_reactome_pw_tbl(mutated_gene_tbl, ensg_reactome_path_map)
 convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl, 
                                                ensg_reactome_path_map){
-    altered_entity <- NULL
+    file_name <- patient_id <- altered_entity <- NULL
     stopifnot(dplyr::is.tbl(mutated_gene_tbl))
     stopifnot(dplyr::is.tbl(ensg_reactome_path_map))
     stopifnot("file_name" %in% colnames(mutated_gene_tbl))
@@ -275,26 +270,28 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
     stopifnot("ensembl_gene_id" %in% colnames(ensg_reactome_path_map))
     stopifnot("reactome_pw_name" %in% colnames(ensg_reactome_path_map))
     if("tree_id" %in% colnames(mutated_gene_tbl)){
-        stop(paste0("Please do the gene-to-pathway mapping separately"," 
-        for each tree inference."))
+        stop("Please do the gene-to-pathway mapping separately"," 
+        for each tree inference.")
     }
   
-    ## sanity check: to see whether the entities really are ensembl gene id's
+    ## sanity check: to see whether the entities really are ensembl gene id's 
+    ## and whether there are no ensembl gene id's double in there
     all_unique_ents <- unique(mutated_gene_tbl$altered_entity)
     which_ones_ENS <- sum(vapply(all_unique_ents, 
         function(x){grep("ENS", x)}, 
         integer(length=1)))
     num_all_unique_ents <- length(all_unique_ents)
+    all_ents <- mutated_gene_tbl$altered_entity
     stopifnot(which_ones_ENS == num_all_unique_ents)
+    stopifnot(length(all_ents) == num_all_unique_ents)
     
     ## make sure that this is just from one patient
     this_pat <- unique(as.character(mutated_gene_tbl$patient_id))
     stopifnot(length(this_pat) == 1)
   
     ## message to user
-    message(paste("Found ", num_all_unique_ents, 
-    " different Ensembl gene id's in the provided alteration tibble.",
-    sep=""))
+    message("Found ", num_all_unique_ents, 
+    " different Ensembl gene id's in the provided alteration tibble.")
   
     ## check how many clones are in the tibble
     ## minus the columns for file_name, patient_id, and altered_entity
@@ -309,30 +306,48 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
         ensg_reactome_path_map))
     })
     names(ensembl_to_pw_list) <- all_unique_ents
-  
+    ## if there is no pathway to be found, the ensembl id is retained
     num_unmapped <- sum(grepl("ENS", unlist(ensembl_to_pw_list)))
-    message(paste("", num_unmapped, 
-    " could not be mapped to a reactome pathway.", sep=""))
+    message(num_unmapped, 
+    " could not be mapped to a reactome pathway.")
   
-    ## convert each row of the gene tibble to a tibble itself where the gene id is 
-    ## replaced by thepathways
-    converted_tbl_list <- apply(mutated_gene_tbl, 1,
-    function(y) {
-        these_pws <- ensembl_to_pw_list[[y['altered_entity']]]
+    ## convert each row of the gene tibble to a tibble itself where the
+    ## gene id is replaced by the pathways
+    ## this assumes that each altered entity only occurs once in the
+    ## tibble
+    converted_tbl_list <- lapply(all_unique_ents, function(this_ent){
+        these_pws <- ensembl_to_pw_list[[this_ent]]
+        ## extract the tibble row with just this gene and
+        ## create two tibbles, one with the info of 
+        ## file_name and patient_id, and one with
+        ## the clones
+        mutated_gene_tbl_this_ent_pat_file_info <- 
+            mutated_gene_tbl %>%
+            dplyr::filter(altered_entity == this_ent) %>%
+            dplyr::select(file_name, patient_id)
+        mutated_gene_tbl_this_ent_only_clones <- 
+            mutated_gene_tbl %>%
+            dplyr::filter(altered_entity == this_ent) %>%
+            dplyr::select(-file_name, -patient_id, -altered_entity)
+        
+        ## this gene is just once in the tibble
+        stopifnot(dim(mutated_gene_tbl_this_ent_pat_file_info)[1] == 1)
+        stopifnot(dim(mutated_gene_tbl_this_ent_only_clones)[1] == 1)
+        
+        ## convert the pathways into a data frame
+        these_pws_df <- data.frame(altered_entity=these_pws)
+        
+        ## now we create a new tibble with the column 
+        ## 'altered_entity' again, but with the pathways
+        ## of this gene
         this_converted_tbl <- dplyr::as.tbl(as.data.frame(cbind(
-        file_name=y['file_name'],
-        patient_id=y['patient_id'],
-        altered_entity=these_pws)))
-        for(i in seq(1, num_clones)){
-            clone_name <- paste("clone", i, sep="")
-            this_converted_tbl <- this_converted_tbl %>%
-            tibble::add_column(new_col=as.integer(y[clone_name]))
-            names(this_converted_tbl)[names(this_converted_tbl) == "new_col"] <- 
-            clone_name
-        }
+            mutated_gene_tbl_this_ent_pat_file_info,
+            altered_entity=these_pws_df,
+            mutated_gene_tbl_this_ent_only_clones)))
+        
+        stopifnot(dim(this_converted_tbl)[1] == length(these_pws))
         return(this_converted_tbl)
     })
-    ## append the list of tibbles to one big tibble
     converted_tbl <- do.call("rbind", converted_tbl_list)
   
     ## now it could be that several genes were mapped to the same pathway
@@ -357,14 +372,13 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
     num_pws <- dim(merged_converted_tbl %>% 
         dplyr::filter(!grepl("ENS", altered_entity)) %>%
         dplyr::select(altered_entity))[1]
-    message(paste("The remaining ", 
+    message("The remaining ", 
         num_all_unique_ents-num_unmapped_ids, 
         " different Ensembl gene id's were",
         " mapped to ", num_pws_unique, 
         " different reactome pathways.",
         "\nThere are ", num_pws, 
-        " clone-pathway associations in the converted tibble.", 
-        sep=""))
+        " clone-pathway associations in the converted tibble.")
         
     return(merged_converted_tbl)
 }
@@ -418,15 +432,14 @@ ensembl_to_reactome <- function(this_ensembl,
   
     if (num_pws == 0){  ## i.e., if there was no such 
         ## ensembl id in the tibble
-        message(paste("The ensembl ID ", this_ensembl,
-        " could not be mapped to a reactome pathway."
-        , sep=""))
+        message("The ensembl ID ", this_ensembl,
+        " could not be mapped to a reactome pathway.")
         return(this_ensembl)
     } else {
-        message(paste("The ensembl ID ", 
+        message("The ensembl ID ", 
         this_ensembl,
         " was mapped to ", num_pws, 
-        " reactome pathways.", sep=""))
+        " reactome pathways.")
         return(these_pws)
     }
 }

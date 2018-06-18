@@ -44,8 +44,7 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
     num_pats <- length(unique(as.character(clone_tbl$patient_id)))
     stopifnot(num_pats == length(avg_rates_m))
     ## message to user
-    message(paste("There are rates from ", num_pats, " patients.", 
-        sep=""))
+    message("There are rates from ", num_pats, " patients.")
     
     all_trees_num_clones <- c(rep(0, num_pats))
     for (this_tree in all_tree_ids){
@@ -83,9 +82,9 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
         dplyr::filter(pat_ids_r == pat_ids_c)
     stopifnot(dim(rates_and_clones_tbl)[1] == num_pats)
     ## message to user
-    message(paste("The average rate of clonal exclusivity is between ", 
+    message("The average rate of clonal exclusivity is between ", 
     round(min(avg_rates_m), digits=2), 
-    "-", round(max(avg_rates_m), digits=2), sep=""))
+    "-", round(max(avg_rates_m), digits=2))
     
     ## this is to set the order among the ggplot bars
     rates_and_clones_tbl$pat_ids_r <- factor(rates_and_clones_tbl$pat_ids_r, 
@@ -177,8 +176,7 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
     num_ecdfs_to_plot <- length(plot_idx)
     ## the first list entry is just set to NULL!
     real_num_ecdfs <- num_ecdfs-1
-    message(paste("Found ", num_ecdfs_to_plot, " ECDF's to plot.", 
-        sep=""))
+    message("Found ", num_ecdfs_to_plot, " ECDF's to plot.")
   
     stopifnot(num_panel_rows <= num_ecdfs_to_plot)
     stopifnot(num_panel_rows > 0)
@@ -189,9 +187,9 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
     if( num_panel_cols != round(num_panel_cols, digits=0) || 
     num_panel_rows != round(num_panel_rows, digits=0) ||
     (num_panel_rows*num_panel_cols < num_ecdfs_to_plot)){
-        stop(paste0("The number of rows and columns for the panels needs to",
+        stop("The number of rows and columns for the panels needs to",
         "be integers and need to multiply to a number which is greater or",
-        " equal to the number of ECDF's to plot!"))
+        " equal to the number of ECDF's to plot!")
     }
   
     if(output_pdf != "direct"){
@@ -207,8 +205,8 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
     for (i in plot_idx){
         if(i == 1){ ## the first ecdf is just NULL
             if(is.null(ecdf_list[[i]])){
-                stop(paste0("Cannot plot the first ECDF of the list because by",
-                " default, it is set to NULL."))
+                stop("Cannot plot the first ECDF of the list because by",
+                " default, it is set to NULL.")
             }
         }
         this_ecdf <- ecdf_list[[i]]
@@ -299,16 +297,18 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
         num_patients_colors <- c(RColorBrewer::brewer.pal(8, "Dark2"))
     }
   
-  
+    ## all unqiue numbers of patients, e.g. 2, 3, 4, ...
+    all_unique_num_pats <- unique(as.numeric(as.character(num_patients_tally$num_patients)))
+    
     ## first num_patients
-    this_num_patients <- as.numeric(num_patients_tally[1,1])
+    this_num_patients <- all_unique_num_pats[1]
     this_num_pat_pvals <- 
         as.numeric(as.vector(as.data.frame(res_sim %>% 
         dplyr::filter(num_patients == this_num_patients) %>%
         dplyr::select(pval))[,1]))
     this_num_p_values <- length(this_num_pat_pvals)
   
-    p_vals_idx <- seq(1, this_num_p_values)
+    p_vals_idx <- seq_len(this_num_p_values)
     max_points <- 5000
     if (this_num_p_values > max_points){
         p_vals_idx <- sample(p_vals_idx, max_points)
@@ -330,7 +330,7 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
                 dplyr::filter(num_patients == this_num_patients) %>%
                 dplyr::select(pval))[,1]))
             this_num_p_values <- length(this_num_pat_pvals)
-            p_vals_idx <- seq(1, this_num_p_values)
+            p_vals_idx <- seq_along(this_num_pat_pvals)
             max_points <- 5000
             if (this_num_p_values > max_points){
                 p_vals_idx <- sample(p_vals_idx, max_points)
@@ -442,8 +442,8 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot(is.logical(first_clone_is_N))
     if("tree_id" %in% colnames(clone_tbl)){
-        stop(paste("Can only plot for one tree at a time. Make sure",
-        " that the clone tbl is just from one tree id, and does not contain the column 'tree_id'", sep=""))
+        stop("Can only plot for one tree at a time.\nMake sure",
+        " that the clone tbl is just from one tree id, and does not contain the column 'tree_id'")
     }
   
     ## extract the genes
@@ -521,11 +521,12 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
         dplyr::filter(patient_id == this_pat) %>%
         dplyr::select(-altered_entity, -patient_id)
   
-        ## here we remove columns from the end that are just clone zero in this current patient, for plotting
+        ## here we remove columns from the end that are just clone zero 
+        ## in this current patient, for plotting
         tbl_to_plot_just_clones <- tbl_to_plot %>% 
             dplyr::select(-hgnc_symbols)
         col_sums_clones <- colSums(tbl_to_plot_just_clones)
-        idx_clones_this_pat <- seq(1, max( which(col_sums_clones != 0 )))
+        idx_clones_this_pat <- seq_len(max( which(col_sums_clones != 0 )))
         tbl_to_plot_nonzero_clones <- cbind(tbl_to_plot['hgnc_symbols'],
             tbl_to_plot_just_clones[, idx_clones_this_pat])
       
@@ -571,7 +572,7 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
             paste(LETTERS, ".4", sep=""),
             paste(LETTERS, ".5", sep=""))
     } else {
-        my_letters <- LETTERS[seq(1, cnt)]
+        my_letters <- LETTERS[seq_len(cnt)]
     }
     plot_altogether <- ggpubr::ggarrange(plotlist=plot_list, 
         ncol=cnt, labels=my_letters)

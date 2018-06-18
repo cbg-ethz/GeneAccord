@@ -95,10 +95,10 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
         num_pats_total)
     stopifnot(is.numeric(beta_distortion))
     if(beta_distortion < 50){
-        warning(paste("A beta_distortion value of ", beta_distortion, 
+        warning("A beta_distortion value of ", beta_distortion, 
         " is not recommended as it will distort the rates a lot.",
         " Please consider choosing a higher value, e.g. 100,",
-        " or 1000.", sep=""))
+        " or 1000.")
     }
     num_pat_pair_max <- min(c(num_pat_pair_max, num_pats_total)) 
     ## the number of patients that the simulated pairs are mutated in 
@@ -106,43 +106,43 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
     
     ## also make sure that the rates and the lists with histogram are in 
     ## the same patient order:
-    for (i in seq(1, num_pats_total) ){
+    for (i in seq_len(num_pats_total) ){
         if((names(avg_rates_m)[i] != 
             names(list_of_clon_excl_frac_trees_all_pats[[1]])[i]) ||
             (names(avg_rates_m)[i] != 
             names(list_of_clon_excl_frac_trees_all_pats[[2]])[i]) ){
-            stop(paste("[Function: generate_ecdf_test_stat]: The rates seem to",
-            " be in a different patient order than the ",
-            "lists with patient's histograms list_of_num_trees_all_pats,",
-            " list_of_clon_excl_all_pats. See for example the entry",
+            stop("[Function: generate_ecdf_test_stat]: The rates seem to",
+            " be\nin a different patient order than the ",
+            "lists with patient's histograms\nlist_of_num_trees_all_pats,",
+            " list_of_clon_excl_all_pats. See for example\nthe entry",
             " number ",
-            i , " of the rates. Make sure that patients rates and the",
-            " lists of histogram is ",
-            "in the same patient order!", sep=""))
+            i , " of the rates.\nMake sure that patients rates and the",
+            " lists of histogram are ",
+            "in the same patient order!")
         }
     }
     
     ## message to user
-    message(paste0("There were ", num_pats_total, " rates of average clonal 
-    exclusivity provided.\n",
+    message("There were ", num_pats_total, " rates of ",
+    "average clonal exclusivity provided.\n",
     "The average rates will be distorted with a beta",
-    " distribution and M=alpha + beta=", beta_distortion,
+    " distribution and M=alpha+beta=", beta_distortion,
     ".\n", 
     "Additionally, from the ", num_pats_total, 
-    " patients, the values from the data for all pairs of",
+    " patients, the values from the data\nfor all pairs of",
     " # clon. excl./ # occurrence across all trees are",
     " provided.\n",
     "From those, it will be sampled ", num_pairs_sim, 
     " times to obtain the test statistic under the null.\n",
-    "This procedure is done for num_patients=2, ... ",
-    num_pat_pair_max , "."))
+    "This procedure is done for num_patients=2,...",
+    num_pat_pair_max , ".")
     ecdf_lrtest_stat <- list()
     ecdf_lrtest_stat[[1]] <- NULL
     
     ## loop over the number of patients 2, 3, ..., num_pat_pair_max
     for (i in seq(2, num_pat_pair_max)){
-        message(paste("Generate ECDF for the case where a gene pair",
-        " is mutated together in ", i, " patient(s).", sep=""))
+        message("Generate ECDF for the case where a gene pair",
+        " is mutated together in ", i, " patient(s).")
       
         ## generate samples of the test statistic under null for i patients
         this_test_stat_hist <- 
@@ -278,52 +278,51 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
     stopifnot(length(list_of_clon_excl_frac_trees_all_pats[[2]]) == num_rates)
     stopifnot(is.numeric(beta_distortion))
     if(beta_distortion < 50){
-        warning(paste("A beta_distortion value of ", beta_distortion, 
+        warning("A beta_distortion value of ", beta_distortion, 
         " is not recommended as it will distort the rates a lot.",
         " Please consider choosing a higher value, e.g. 100,",
-        " or 1000.", sep=""))
+        " or 1000.")
     }
     num_pat_pair_max <- min(c(num_pat_pair_max, num_rates))
     
     ## also make sure that the rates and the lists with histogram are in the 
     ## same patient order:
-    for (i in seq(1, num_rates) ){
+    for (i in seq_len(num_rates) ){
         if((names(avg_rates_m)[i] != 
         names(list_of_clon_excl_frac_trees_all_pats[[1]])[i]) ||
         (names(avg_rates_m)[i] != 
         names(list_of_clon_excl_frac_trees_all_pats[[2]])[i]) ){
-            stop(paste("[Function: generate_test_stat_hist]: The rates seem to be",
-            " in a different patient order than the ",
-            "lists with patient's histograms list_of_num_trees_all_pats,",
-            " list_of_clon_excl_all_pats. See for example the entry number ",
-            i , " of the rates. Make sure that patients rates and the lists",
+            stop("[Function: generate_test_stat_hist]: The rates seem to be",
+            "\nin a different patient order than the ",
+            "lists with patient's histograms\nlist_of_num_trees_all_pats,",
+            " list_of_clon_excl_all_pats. See for example\nthe entry number ",
+            i , " of the rates.\nMake sure that patients rates and the lists",
             " of histogram is ",
-            "in the same patient order!", sep=""))
+            "in the same patient order!")
         }
     }
     
     ## message to user
-    message(paste("There were ", num_rates, " rates of average clonal ",
-        "exclusivity provided.", sep=""))
-    message(paste("The average rates will be distorted with a beta",
-        " distribution and M=alpha + beta=", beta_distortion,
-        sep=""))
-    message(paste("Additionally, from the ", num_rates, " patients,",
+    message("There were ", num_rates, " rates of average clonal ",
+        "exclusivity provided.")
+    message("The average rates will be distorted with a beta",
+        " distribution and M=alpha + beta=", beta_distortion)
+    message("Additionally, from the ", num_rates, " patients,",
         " the values from the data for all pairs of",
         " # clon. excl./ # occurrence across all trees is ",
-        "provided.", sep=""))
-    message(paste("From those, it will be sampled ", num_pairs_sim, 
+        "provided.")
+    message("From those, it will be sampled ", num_pairs_sim, 
         " times to obtain the test statistics and the p-values",
-        " under the null.", sep=""))
-    message(paste("This procedure is done for num_patients=2, ... ", 
-        num_pat_pair_max, sep=""))
+        " under the null.")
+    message("This procedure is done for num_patients=2,...,", 
+        num_pat_pair_max)
     
     lrtest_stat_list <- list()
     lrtest_stat_list[[1]] <- NULL
     ## loop over the number of patients 1, 2, ..., num_pat_pair_max
     for (i in seq(2, num_pat_pair_max)){
-        message(paste("Generate ECDF for the case where a gene pair is ",
-        "mutated together in ", i, " patient(s).", sep=""))
+        message("Generate ECDF for the case where a gene pair is ",
+        "mutated together in ", i, " patient(s).")
       
         ## generate samples of the test statistic under null for i patients
         this_test_stat_hist <- 
@@ -331,7 +330,6 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
             list_of_clon_excl_frac_trees_all_pats, 
             num_pat_pair=i, num_pairs_sim=num_pairs_sim,
             beta_distortion=beta_distortion))
-        ##print(this_test_stat_hist)
         stopifnot(dim(this_test_stat_hist)[2] == (2+i*4))
       
         stopifnot(dplyr::is.tbl(this_test_stat_hist))
@@ -453,32 +451,31 @@ build_null_test_statistic <- function(avg_rates_m,
         num_pat_rates)
     stopifnot(length(list_of_clon_excl_frac_trees_all_pats[[2]]) ==
         num_pat_rates)
-    message(paste("There were ", num_pat_rates,
+    message("There were ", num_pat_rates,
     " rates of average clonal exclusivity provided. From those and from",
     " the list with observed values for num_clon_excl/num_trees,",
-    " it will be sampled ", num_pat_pair," times in each iteration.", 
-    sep=""))
+    " it will be sampled ", num_pat_pair," times in each iteration.")
     stopifnot(num_pat_rates >= num_pat_pair)
-    message(paste("The average rates will be distorted with a beta ",
-    "distribution and M=alpha + beta=", beta_distortion, sep=""))
+    message("The average rates will be distorted with a beta ",
+    "distribution and M=alpha+beta=", beta_distortion)
   
     ## get the number of pairs there are in each patient
     num_pairs_per_pat <- 
     unlist(lapply(list_of_clon_excl_frac_trees_all_pats[[1]], 
         function(x){length(x)}))
     stopifnot(length(num_pairs_per_pat) == num_pat_rates)
-    message(paste("On average, a patient has ", mean(num_pairs_per_pat), 
-    " pairs. (max of all trees)", sep=""))
+    message("On average, a patient has ", mean(num_pairs_per_pat), 
+    " pairs. (max of all trees)")
   
     ## message to user
-    message(paste("Requested number of gene pairs in simulation: ", 
-    num_pairs_sim, sep=""))
-    message(paste("Number of patients the gene pairs are mutated in: ", 
-    num_pat_pair, sep=""))
+    message("Requested number of gene pairs in simulation: ", 
+    num_pairs_sim)
+    message("Number of patients the gene pairs are mutated in: ", 
+    num_pat_pair)
   
     these_rates_m <- avg_rates_m
     num_pats_real <- length(these_rates_m)
-    message(paste("Found ", num_pats_real, " different rates.", sep=""))
+    message("Found ", num_pats_real, " different rates.")
   
     ## each pair is mutated in num_pat_pair patients
     pairs_num_pat <- c(rep(num_pat_pair, num_pairs_sim))
@@ -490,9 +487,7 @@ build_null_test_statistic <- function(avg_rates_m,
     ## randomly for each of the pairs
     ## these indices indicate in which patients the pairs are mutated in
     pairs_indices_pats_list <- vapply(pairs_num_pat, function(x){
-        ##sample(these_rates_m, x, replace=TRUE)
         stopifnot(x == num_pat_pair)
-        ##sample(num_pats_real, x) ## sample without replacement
         sample(num_pats_real, x, prob=num_pairs_per_pat) 
         ## sample without replacement and by weighting the pats 
         ## according to their num pairs
@@ -529,57 +524,48 @@ build_null_test_statistic <- function(avg_rates_m,
             ## distort the actual rates with a beta distribution that is 
             ## peaked around the actual rate
             ## this makes sure that the ecdf is smooth
-            beta_distorted_rates <- c()
-            cnt <- 0
-            for (this_rate in these_rate_this_pair){ ## there is 
-                ## actually only one rate here because num_pat_pair == 1
-                cnt <- cnt + 1
-                this_alpha <- this_rate * beta_distortion
-                this_beta <- (1-this_rate) * beta_distortion
-                this_beta_distored_rate <- rbeta(1, shape1=this_alpha, 
-                    shape2=this_beta)
-                beta_distorted_rates <- c(beta_distorted_rates, 
-                    this_beta_distored_rate)
-                ## sanity checks
-                stopifnot(this_beta_distored_rate >= 0 && 
-                    this_beta_distored_rate <= 1)
-                if(this_beta_distored_rate == 0 && 
-                num_clon_excl_this_pair[cnt] == num_trees_this_pair[cnt]){
-                    stop(paste("[Function: build_null_test_statistic]:",
-                    " The beta distorted rate is 0,",
-                    " but there is a pair which is clonally ",
-                    "exclusive across ALL trees, i.e. num_clon_excl ",
-                    "== num_trees_pair, which is == ", 
-                    num_trees_this_pair[cnt],
-                    ". The computation of the delta will not be",
-                    " possible since the likelihood is zero. ",
-                    "Make sure that the rates are not distorted",
-                    " too much by the beta distribution.",
-                    "The original rate of the current simulated pair was ",
-                    this_rate,
-                    sep=""))
-                } else if (this_beta_distored_rate == 1 && 
-                num_clon_excl_this_pair[cnt] == 0){
-                    stop(paste("[Function: build_null_test_statistic]: ",
-                    "The beta distorted rate is 1,", 
-                    ", but there is a pair which is clonally ",
-                    "exclusive across ALL trees, i.e. num_clon_excl",
-                    " == num_trees_pair, which is == ",
-                    num_trees_this_pair[cnt],
-                    ". The computation of the delta will not be possible",
-                    " since the likelihood is zero. ",
-                    "Make sure that the rates are not distorted too",
-                    " much by the beta distribution.",
-                    "The original rate of the current simulated pair was ",
-                    this_rate,
-                    sep=""))
-                }
+            stopifnot(length(these_rate_this_pair) == 1)
+            this_rate <- these_rate_this_pair
+            cnt <- 1
+            this_alpha <- this_rate * beta_distortion
+            this_beta <- (1-this_rate) * beta_distortion
+            this_beta_distored_rate <- rbeta(1, shape1=this_alpha, 
+                shape2=this_beta)
+            beta_distorted_rates <- this_beta_distored_rate
+            
+            ## sanity checks
+            stopifnot(this_beta_distored_rate >= 0 && 
+                this_beta_distored_rate <= 1)
+            if(this_beta_distored_rate == 0 && 
+            num_clon_excl_this_pair[cnt] == num_trees_this_pair[cnt]){
+                stop("[Function: build_null_test_statistic]:",
+                " The beta distorted rate is 0,",
+                "\nbut there is a pair which is clonally ",
+                "exclusive across ALL trees,\ni.e. num_clon_excl ",
+                "== num_trees_pair, which is == ", 
+                num_trees_this_pair[cnt],
+                ". The computation of the delta\nwill not be",
+                " possible since the likelihood is zero. ",
+                "Make sure that the rates\nare not distorted",
+                " too much by the beta distribution.",
+                "The original rate of\nthe current simulated pair was ",
+                this_rate)
+            } else if (this_beta_distored_rate == 1 && 
+            num_clon_excl_this_pair[cnt] == 0){
+                stop("[Function: build_null_test_statistic]: ",
+                "The beta distorted rate is 1,", 
+                ",\nbut there is a pair which is clonally ",
+                "exclusive across ALL trees,\ni.e. num_clon_excl",
+                " == num_trees_pair, which is == ",
+                num_trees_this_pair[cnt],
+                ". The computation of the delta\nwill not be possible",
+                " since the likelihood is zero. ",
+                "Make sure that the rates\nare not distorted too",
+                " much by the beta distribution.",
+                "The original rate of\nthe current simulated pair was ",
+                this_rate)
             }
-                    
-        
-            ##this_lr_test_res <- 
-            ## suppressMessages(compute_test_stat_avg_rate(these_rate_this_pair, 
-            ## num_trees_this_pair, num_clon_excl_this_pair))
+            
             this_lr_test_res <- 
                 suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates, 
                 num_trees_this_pair, num_clon_excl_this_pair))
@@ -607,13 +593,13 @@ build_null_test_statistic <- function(avg_rates_m,
     
         ## extract num_patients, expected_num_co, observed_num_co
         all_pairs_num_pat <- unlist(lr_test_res_list[3,])
-        for (this_num in seq(1, num_pairs_sim)){
+        for (this_num in seq_len(num_pairs_sim)){
             stopifnot(all_pairs_num_pat[this_num] == num_pat_pair)
         }
     
         ## get the general rates of clonal exclusivity
         all_pairs_pat_rates[[1]] <- unlist(lr_test_res_list[4,])
-        for (this_rate in seq(1, num_pairs_sim)){
+        for (this_rate in seq_len(num_pairs_sim)){
             stopifnot(all_pairs_pat_rates[[1]][this_rate] >= 0)
             stopifnot(all_pairs_pat_rates[[1]][this_rate] <= 1)
         }
@@ -623,13 +609,13 @@ build_null_test_statistic <- function(avg_rates_m,
     
         ## get the number of times a pair was clonally exclusive across trees
         all_pairs_num_clon_excl[[1]] <- unlist(lr_test_res_list[6,])
-        for (this_sim in seq(1, num_pairs_sim)){
+        for (this_sim in seq_len(num_pairs_sim)){
             stopifnot(all_pairs_num_clon_excl[[1]][this_sim] <=
                 all_pairs_num_trees[[1]][this_sim])
         }
         ## get the beta distorted rates of clonal exclusivity
         all_pairs_pat_rates_beta_distorted[[1]] <- unlist(lr_test_res_list[7,])
-        for (this_rate in seq(1, num_pairs_sim)){
+        for (this_rate in seq_len(num_pairs_sim)){
             stopifnot(all_pairs_pat_rates_beta_distorted[[1]][this_rate] >= 0)
             stopifnot(all_pairs_pat_rates_beta_distorted[[1]][this_rate] <= 1)
         }
@@ -657,57 +643,51 @@ build_null_test_statistic <- function(avg_rates_m,
             num_trees_this_pair <- this_hist_sample[1,]
             num_clon_excl_this_pair <- this_hist_sample[2,]
         
-            ## distort the actual rates with a beta distribution that is peaked around the actual rate
+            ## distort the actual rates with a beta distribution that is peaked 
+            ## around the actual rate
             ## this makes sure that the ecdf is smooth
-            beta_distorted_rates <- c()
-            cnt <- 0
-            for (this_rate in these_rate_this_pair){ 
-                cnt <- cnt + 1
-                this_alpha <- this_rate * beta_distortion
-                this_beta <- (1-this_rate) * beta_distortion
-                this_beta_distored_rate <- 
-                    rbeta(1, shape1=this_alpha, shape2=this_beta)
-                beta_distorted_rates <- c(beta_distorted_rates, 
-                    this_beta_distored_rate)
-                ## sanity checks
-                stopifnot(this_beta_distored_rate >= 0 && 
-                    this_beta_distored_rate <= 1)
-                if(this_beta_distored_rate == 0 && 
-                num_clon_excl_this_pair[cnt] == num_trees_this_pair[cnt]){
-                    stop(paste("[Function: build_null_test_statistic]: The beta",
-                    " distorted rate is 0,",
-                    " but there is a pair which is clonally ",
-                    "exclusive across ALL trees, i.e. num_clon_excl",
-                    " == num_trees_pair, which is == ", 
-                    num_trees_this_pair[cnt],
-                    ". The computation of the delta will not be",
-                    " possible since the likelihood is zero. ",
-                    "Make sure that the rates are not distorted too",
-                    " much by the beta distribution.",
-                    "The original rate of the current simulated pair was ",
-                    this_rate,
-                    sep=""))
-                } else if (this_beta_distored_rate == 1 && 
-                num_clon_excl_this_pair[cnt] == 0){
-                    stop(paste("[Function: build_null_test_statistic]: ",
-                    " The beta distorted rate is 1,", 
-                    ", but there is a pair which is clonally ",
-                    "exclusive across ALL trees, i.e. num_clon_excl",
-                    " == num_trees_pair, which is == ",
-                    num_trees_this_pair[cnt],
-                    ". The computation of the delta will not be",
-                    " possible since the likelihood is zero. ",
-                    "Make sure that the rates are not distorted too",
-                    " much by the beta distribution.",
-                    "The original rate of the current simulated pair was ",
-                    this_rate,
-                    sep=""))
-                }
-            }
-        
-            ##this_lr_test_res <- 
-            ## suppressMessages(compute_test_stat_avg_rate(these_rate_this_pair, 
-            ## num_trees_this_pair, num_clon_excl_this_pair))
+            beta_distorted_rates<-vapply(these_rate_this_pair, 
+                function(this_rate){
+                    cnt <- which(these_rate_this_pair == this_rate)
+                    this_alpha <- this_rate * beta_distortion
+                    this_beta <- (1-this_rate) * beta_distortion
+                    this_beta_distored_rate <- 
+                        rbeta(1, shape1=this_alpha, shape2=this_beta)
+                    ## sanity checks
+                    stopifnot(this_beta_distored_rate >= 0 && 
+                        this_beta_distored_rate <= 1)
+                    if(this_beta_distored_rate == 0 && 
+                        num_clon_excl_this_pair[cnt] == num_trees_this_pair[cnt]){
+                        stop("[Function: build_null_test_statistic]: The beta",
+                            " distorted rate is 0,",
+                            "\nbut there is a pair which is clonally ",
+                            "exclusive across ALL trees,\ni.e. num_clon_excl",
+                            " == num_trees_pair, which is == ", 
+                            num_trees_this_pair[cnt],
+                            ". The computation of the delta\nwill not be",
+                            " possible since the likelihood is zero. ",
+                            "Make sure that the rates\nare not distorted too",
+                            " much by the beta distribution.",
+                            "The original rate of\nthe current simulated pair was ",
+                            this_rate)
+                    } else if (this_beta_distored_rate == 1 && 
+                        num_clon_excl_this_pair[cnt] == 0){
+                        stop("[Function: build_null_test_statistic]: ",
+                            " The beta distorted rate is 1,", 
+                            ",\nbut there is a pair which is clonally ",
+                            "exclusive across ALL trees,\ni.e. num_clon_excl",
+                            " == num_trees_pair, which is == ",
+                            num_trees_this_pair[cnt],
+                            ". The computation of the delta\nwill not be",
+                            " possible since the likelihood is zero. ",
+                            "Make sure that the rates\nare not distorted too",
+                            " much by the beta distribution.",
+                            "The original rate of\nthe current simulated pair was ",
+                            this_rate)
+                    }
+                    return(this_beta_distored_rate)
+            }, numeric(1))
+            
             this_lr_test_res <- 
                 suppressMessages(compute_test_stat_avg_rate(beta_distorted_rates, 
                 num_trees_this_pair, 
@@ -734,7 +714,7 @@ build_null_test_statistic <- function(avg_rates_m,
             function(x){x[[3]]}))
   
         ## get the general rates of clonal exclusivity
-        for(i in seq(1, num_pat_pair)){
+        for(i in seq_len(num_pat_pair)){
             all_pairs_pat_rates[[i]] <- unlist(lapply(lr_test_res_list, 
                 function(x){x[[4]][i]}))
             all_pairs_num_trees[[i]] <-  unlist(lapply(lr_test_res_list,
@@ -759,7 +739,7 @@ build_null_test_statistic <- function(avg_rates_m,
         mle_delta=all_pairs_delta))
     ## now add the num_pat_pair columns with the rates of average clonal 
     ## exclusivity
-    for(i in seq(1, num_pat_pair)){
+    for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, sep="")
         res_all_pairs <- res_all_pairs %>%
             tibble::add_column(new_col=all_pairs_pat_rates[[i]])
@@ -767,7 +747,7 @@ build_null_test_statistic <- function(avg_rates_m,
     }
     ## now add the all_pairs_num_trees columns with the number of trees 
     ## the pairs were mutated
-    for(i in seq(1, num_pat_pair)){
+    for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_num_trees", sep="")
         res_all_pairs <- res_all_pairs %>%
           tibble::add_column(new_col=all_pairs_num_trees[[i]])
@@ -775,7 +755,7 @@ build_null_test_statistic <- function(avg_rates_m,
     }
     ## now add the all_pairs_num_clon_excl columns with the number of 
     ## times the pair was clonally exclusive across trees
-    for(i in seq(1, num_pat_pair)){
+    for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_num_clon_excl", sep="")
         res_all_pairs <- res_all_pairs %>%
             tibble::add_column(new_col=all_pairs_num_clon_excl[[i]])
@@ -783,7 +763,7 @@ build_null_test_statistic <- function(avg_rates_m,
     }
     ## now add the num_pat_pair columns with the rates of average clonal 
     ## exclusivity that were distorted by the beta distribution
-    for(i in seq(1, num_pat_pair)){
+    for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_beta_distorted", sep="")
         res_all_pairs <- res_all_pairs %>%
             tibble::add_column(new_col=all_pairs_pat_rates_beta_distorted[[i]])

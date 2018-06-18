@@ -40,7 +40,7 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     num_shared_pats <- length(avg_rates_m)
     stopifnot(num_shared_pats == length(num_trees_pair))
     stopifnot(num_shared_pats == length(num_clon_excl))
-    for (i in seq(1, num_shared_pats)){
+    for (i in seq_along(avg_rates_m)){
         stopifnot(num_clon_excl[i] <= num_trees_pair[i])
         stopifnot(num_trees_pair[i]>0)
     }
@@ -49,17 +49,16 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     ## this should anyways not be the case. If the rate is 0, there should 
     ## be no pair that is clonally exclusive
     ## at all
-    for(i in seq(1, num_shared_pats)){
+    for(i in seq_along(avg_rates_m)){
         if(avg_rates_m[i] == 0 && num_clon_excl[i] == num_trees_pair[i]){
-            stop(paste("[Function: compute_test_stat_avg_rate]: The rate is 0,",
-            " but there is a pair which is clonally ",
-            "exclusive across ALL trees, i.e. num_clon_excl ==",
+            stop("[Function: compute_test_stat_avg_rate]: The rate is 0,",
+            "\nbut there is a pair which is clonally ",
+            "exclusive across ALL trees,\ni.e. num_clon_excl ==",
             " num_trees_pair, which is == ", num_trees_pair[i],
-            ". This is not possible. Make sure that the rates are ",
-            "in the same patient order as the ",
-            "histogram of pairs across trees, or that the rates are",
-            " not distorted too much by the beta distribution.",
-            sep=""))
+            ". This is\nnot possible. Make sure that the rates are ",
+            "in the same patient\norder as the ",
+            "histogram of pairs across trees, or that the rates\nare",
+            " not distorted too much by the beta distribution.")
         }
     }
   
@@ -93,7 +92,7 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     l_null_factors <- apply(cbind(num_clon_excl, num_trees_pair, avg_rates_m),
         1, function(x){compute_weighted_p(x[1], x[2], x[3])})
     l_null <- prod(l_null_factors)
-    message(paste("l_null=", l_null, sep=""))
+    message("l_null=", l_null)
     stopifnot(l_null >= 0 && l_null <= 1)
   
   
@@ -110,8 +109,8 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     ## They should be identical: i.e. if delta is zero, m and m_star should 
     ## be the same
     if(abs((gtools::inv.logit(logit_avg_rates_m))[1] - avg_rates_m[1]) >= 0.01){
-        stop(paste0("The sanity check with delta=0 did not have the right",
-        " result. m should be identical to m_star if delta=0!!"))
+        stop("The sanity check with delta=0 did not have the right",
+        " result. m should be identical to m_star if delta=0!!")
     }
   
     ## define the log-likelihood function
@@ -126,8 +125,8 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     ## get the mle estimate of the delta
     mle <- maxLik::maxLik(logLik=this_LL, start=c(this_delta=0))
     mle_delta <- stats::coef(mle)
-    message(paste("Maximum likelihood estimate of delta given the data is: ", 
-        mle_delta, sep=""))
+    message("Maximum likelihood estimate of delta given the data is: ", 
+        mle_delta)
   
     ## compute the alternative likelihood
     avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + mle_delta)
@@ -135,7 +134,7 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
         apply(cbind(num_clon_excl, num_trees_pair, avg_rates_m_star), 1, 
         function(x){compute_weighted_p(x[1], x[2], x[3])})
     l_alt <- prod(l_alt_factors)
-    message(paste("l_alt=", l_alt, sep=""))
+    message("l_alt=", l_alt)
   
     ## compute the test statistic
     lr_test_statistic <- -2 * log( l_null / l_alt )
@@ -237,14 +236,12 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     all_pats <- unique(as.character(clone_tbl$patient_id))
     num_pats <- length(all_pats)
     stopifnot(length(avg_rates_m) == num_pats)
-    message(paste("There were ", num_pats, " different patient ids.", 
-        sep=""))
+    message("There were ", num_pats, " different patient ids.")
   
     ## get the number of trees
     all_tree_ids <- unique(as.character(clone_tbl$tree_id))
     num_trees <- length(all_tree_ids)
-    message(paste("There were ", num_trees, " different tree inferences.",
-        sep=""))
+    message("There were ", num_trees, " different tree inferences.")
     
     ## check in which patients the current pair is mutated, and in wich trees
     ## this is the list of trees, where each list entry is the vector of 
@@ -266,36 +263,7 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         ## now only those where both of them are mutated
         these_pats_both_ents_mutated <- intersect(these_pats_mutated[[1]], 
                                                 these_pats_mutated[[2]])
-        ##num_shared_pats <- length(these_pats_both_ents_mutated)
     })
-    
-    
-    ## ## check in which patients the current pair is mutated, and in wich 
-    ## trees
-    ## cnt=0
-    ## tree_to_pats_ent_pair <- list() ## this is the list of trees, where each 
-    ## list entry is the vector of patient ids
-    ## ## in which both of them are mutated
-    ## for (this_tree in all_tree_ids){
-    ##   cnt <- cnt + 1
-    ##   ## select a specific tree
-    ##   clone_tbl_this_tree <- clone_tbl %>% dplyr::filter(tree_id == this_tree)
-    ## 
-    ##   these_pats_mutated <- lapply(c(entA, entB), function(this_ent){
-    ##     this_ent_pats_tbl <- clone_tbl_this_tree %>%
-    ##       dplyr::filter(altered_entity == this_ent) %>%
-    ##       dplyr::select(patient_id)
-    ##     this_ent_pats <- 
-    ## unique(as.vector(as.data.frame(this_ent_pats_tbl)[,1]))
-    ##     stopifnot(dim(this_ent_pats_tbl)[1] == length(this_ent_pats))
-    ##     this_ent_pats
-    ##   })
-    ##   ## now only those where both of them are mutated
-    ##   these_pats_both_ents_mutated <- intersect(these_pats_mutated[[1]], 
-    ## these_pats_mutated[[2]])
-    ##   ##num_shared_pats <- length(these_pats_both_ents_mutated)
-    ##   tree_to_pats_ent_pair[[cnt]] <- these_pats_both_ents_mutated
-    ## }
   
     ## the number of patients in which they are both mutated
     ## (maximum of all trees)
@@ -304,14 +272,14 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
   
     ## if there are no patients in which both of them are mutated
     if(num_shared_pats_total == 0){
-        message(paste("The current gene/pathway pair: ", entA, ", " , entB,
+        message("The current gene/pathway pair: ", entA, ", " , entB,
         " is never mutated in the same patient.\n",
-        "No test will be performed.", sep=""))
+        "No test will be performed.")
         return(list(".", 0, ".", "."))
     } else if (num_shared_pats_total == 1) {
-        message(paste("The current gene/pathway pair: ", entA, ", " , entB,
+        message("The current gene/pathway pair: ", entA, ", " , entB,
         " is only mutated once in the same patient.\n",
-        "Currently, no test will be performed.", sep=""))
+        "Currently, no test will be performed.")
         return(list(".", 1, ".", "."))
     } else {
         ## if they share enough patient(s)
@@ -349,11 +317,11 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         mle_delta <- res_lr_test[[2]]
         
         if(alternative == "greater" && mle_delta <= 0){
-            message(paste("The current gene/pathway pair: ", entA, ", " , 
+            message("The current gene/pathway pair: ", entA, ", " , 
             entB,
             " has a delta of ", mle_delta, ".\n",
             "Since the alternative is 'greater', no test will be ",
-            "performed.", sep=""))
+            "performed.")
             return(list(pval=".", num_patients=num_shared_pats_total, 
             mle_delta=mle_delta, test_statistic=test_stat))
         } else {
@@ -362,29 +330,29 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
             ## for that, the ecdf with num_shared_pats is taken. It is the 
             ## num_shared_pats'th ecdf in the list
             if(num_shared_pats_total > length(ecdf_list)){
-                stop(paste("[Function: ecdf_lr_test_clon_excl_avg_rate] The ",
-                "length of the ecdf list is not long enough. The current ",
+                stop("[Function: ecdf_lr_test_clon_excl_avg_rate] The ",
+                "length of the ecdf list\nis not long enough. The current ",
                 "pair ", entA, " and ", entB, " seems to be mutated ",
-                "together in more than ",length(ecdf_list),
+                "together\nin more than ",length(ecdf_list),
                 " patients. More precisely, they are mutated together in ",
-                num_shared_pats_total,". ",
+                num_shared_pats_total,".\n",
                 "Please re-run the step for generating the ecdf and use",
-                " a higher value for num_pat_pair_max ",
-                "(at least ", num_shared_pats_total,").", sep=""))
+                " a higher value for\nnum_pat_pair_max ",
+                "(at least ", num_shared_pats_total,").")
             }
-            message(paste("Test statistic is ", test_stat, sep=""))
-            message(paste("The number of patients in which both genes are mutated:",
-            num_shared_pats_total, sep=""))
+            message("Test statistic is ", test_stat)
+            message("The number of patients in which both genes are mutated: ",
+            num_shared_pats_total)
             this_ecdf <- ecdf_list[[num_shared_pats_total]]
     
             ## compute a p-value given the ecdf of the test statistic ecdf(T) 
             ## from the null distribution
             ## p_value=P(T>t | H_0 true)=1-ecdf(t) #### (upper-tailed test)
-            message(paste("The value of the ecdf at the test statistic: ", 
-            this_ecdf(test_stat), sep=""))
+            message("The value of the ecdf at the test statistic: ", 
+            this_ecdf(test_stat))
     
             p_val <- 1-this_ecdf(test_stat)
-            message(paste("p_val=", p_val, sep=""))
+            message("p_val=", p_val)
       
             return(list(p_val=p_val, num_patients=num_shared_pats_total, 
             mle_delta=mle_delta, test_statistic=test_stat))
