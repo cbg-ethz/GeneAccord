@@ -23,9 +23,9 @@
 #' 13 for example, would be specified with "13".
 #' @param GRCh The human genome version. Default: 37.
 #' @param ensembl_version The version of the ensembl data base. Default: 88.
-#' @import 
-#' biomaRt
-#' dplyr
+#' @export
+#' @importFrom dplyr as.tbl
+#' @importFrom biomaRt getBM useEnsembl
 #' @examples
 #' \dontrun{
 #' create_ensembl_gene_tbl_hg()
@@ -40,13 +40,13 @@ create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
     all_genes_tbl <- tryCatch(
     {
         ensembl <- 
-        biomaRt::useEnsembl(biomart="ensembl", 
+        useEnsembl(biomart="ensembl", 
             dataset="hsapiens_gene_ensembl",
             GRCh=GRCh, version=ensembl_version)
         message("Retrieve ensembl gene",
             " id's and hgnc symbols from biomart...")
         all_genes <- 
-            biomaRt::getBM(attributes=c('ensembl_gene_id', 
+            getBM(attributes=c('ensembl_gene_id', 
             'hgnc_symbol', 
             'entrezgene', 
             'uniprotswissprot',
@@ -63,7 +63,7 @@ create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
         stopifnot(is.character(all_genes[,5]))
         stopifnot(is.numeric(all_genes[,6]))
         stopifnot(is.numeric(all_genes[,7]))
-        all_genes_tbl <- dplyr::as.tbl(all_genes)
+        all_genes_tbl <- as.tbl(all_genes)
         stopifnot(dim(all_genes_tbl)[1] == dim(all_genes)[1])
         stopifnot(dim(all_genes_tbl)[2] == dim(all_genes)[2])
         all_genes_tbl
@@ -107,8 +107,10 @@ create_ensembl_gene_tbl_hg <- function(GRCh=37, ensembl_version=88) {
 #' and hgnc symbols.
 #' @author Ariane L. Moore
 #' @return The matching hgnc gene symbol.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl filter select distinct
+#' pull 
 #' @examples
 #' \dontrun{
 #' all_genes_tbl <- create_ensembl_gene_tbl_hg()
@@ -119,14 +121,17 @@ ensembl_to_hgnc <- function(this_ensembl, all_genes_tbl){
     ensembl_gene_id <- hgnc_symbol <- NULL
     stopifnot(is.character(this_ensembl))
     stopifnot(length(this_ensembl) == 1)
-    stopifnot(dplyr::is.tbl(all_genes_tbl))
+    stopifnot(is.tbl(all_genes_tbl))
     stopifnot("ensembl_gene_id" %in% colnames(all_genes_tbl))
     stopifnot("hgnc_symbol" %in% colnames(all_genes_tbl))
-    this_hgnc_tbl <- all_genes_tbl %>% 
-        dplyr::filter(ensembl_gene_id == this_ensembl) %>%
-        dplyr::select(hgnc_symbol)
-    this_hgnc_character <- 
-        unique(as.vector(as.data.frame(this_hgnc_tbl)[,1]))
+
+    ## translate ensembl into gene id
+    this_hgnc_character <- all_genes_tbl %>% 
+        filter(ensembl_gene_id == this_ensembl) %>%
+        select(hgnc_symbol) %>%
+        distinct() %>% 
+        pull(hgnc_symbol)
+    
     num_gene_symbols=length(this_hgnc_character)
     
     if (num_gene_symbols == 0){  ## i.e., if there was no such ensembl id
@@ -171,8 +176,9 @@ ensembl_to_hgnc <- function(this_ensembl, all_genes_tbl){
 #' @return The matching ensembl gene id. In case several
 #' ensembl gene id's were found, they
 #' are all returned with ";" as a separator.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl filter select distinct pull
 #' @examples
 #' \dontrun{
 #' all_genes_tbl <- create_ensembl_gene_tbl_hg()
@@ -183,17 +189,18 @@ hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
     ensembl_gene_id <- hgnc_symbol <- NULL
     stopifnot(is.character(this_hgnc))
     stopifnot(length(this_hgnc) == 1)
-    stopifnot(dplyr::is.tbl(all_genes_tbl))
+    stopifnot(is.tbl(all_genes_tbl))
     stopifnot("ensembl_gene_id" %in% colnames(all_genes_tbl))
     stopifnot("hgnc_symbol" %in% colnames(all_genes_tbl))
-    this_ensembl_tbl <- all_genes_tbl %>% 
-        dplyr::filter(hgnc_symbol == this_hgnc) %>%
-        dplyr::select(ensembl_gene_id)
+
+    ## translate gene symbol into ensembl
+    this_ensembl_character <- all_genes_tbl %>% 
+        filter(hgnc_symbol == this_hgnc) %>%
+        select(ensembl_gene_id) %>%
+        distinct() %>%
+        filter(ensembl_gene_id != "") %>%
+        pull(ensembl_gene_id)
     
-    this_ensembl_character <- 
-        unique(as.vector(as.data.frame(this_ensembl_tbl)[,1]))
-    this_ensembl_character <- 
-        this_ensembl_character[which(this_ensembl_character != "")]
     num_ensembl_ids=length(this_ensembl_character)
     
     if (num_ensembl_ids == 0){  ## i.e., if there was no 
@@ -247,12 +254,13 @@ hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
 #' @author Ariane L. Moore
 #' @return The tibble containing the information of which 
 #' pathway is altered in which clone.
-#' @import
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl filter select as.tbl distinct
 #' @examples
 #' data("ensg_reactome_path_map")
 #' mutated_gene_tbl <- 
-#'   tibble::tibble(file_name=c("pat1.csv", "pat1.csv"),
+#'   dplyr::tibble(file_name=c("pat1.csv", "pat1.csv"),
 #' patient_id=c("1","1"),
 #' altered_entity=c("ENSG00000134086", 
 #' "ENSG00000141510"),
@@ -263,8 +271,8 @@ hgnc_to_ensembl <- function(this_hgnc, all_genes_tbl){
 convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl, 
     ensg_reactome_path_map){
     file_name <- patient_id <- altered_entity <- NULL
-    stopifnot(dplyr::is.tbl(mutated_gene_tbl))
-    stopifnot(dplyr::is.tbl(ensg_reactome_path_map))
+    stopifnot(is.tbl(mutated_gene_tbl))
+    stopifnot(is.tbl(ensg_reactome_path_map))
     stopifnot("file_name" %in% colnames(mutated_gene_tbl))
     stopifnot("patient_id" %in% colnames(mutated_gene_tbl))
     stopifnot("altered_entity" %in% colnames(mutated_gene_tbl))
@@ -327,12 +335,12 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
         ## the clones
         mutated_gene_tbl_this_ent_pat_file_info <- 
             mutated_gene_tbl %>%
-            dplyr::filter(altered_entity == this_ent) %>%
-            dplyr::select(file_name, patient_id)
+            filter(altered_entity == this_ent) %>%
+            select(file_name, patient_id)
         mutated_gene_tbl_this_ent_only_clones <- 
             mutated_gene_tbl %>%
-            dplyr::filter(altered_entity == this_ent) %>%
-            dplyr::select(-file_name, -patient_id, -altered_entity)
+            filter(altered_entity == this_ent) %>%
+            select(-file_name, -patient_id, -altered_entity)
         
         ## this gene is just once in the tibble
         stopifnot(dim(mutated_gene_tbl_this_ent_pat_file_info)[1] == 1)
@@ -344,15 +352,20 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
         ## now we create a new tibble with the column 
         ## 'altered_entity' again, but with the pathways
         ## of this gene
-        this_converted_tbl <- dplyr::as.tbl(as.data.frame(cbind(
+        this_converted_tbl <- as.data.frame(cbind(
             mutated_gene_tbl_this_ent_pat_file_info,
             altered_entity=these_pws_df,
-            mutated_gene_tbl_this_ent_only_clones)))
-            
+            mutated_gene_tbl_this_ent_only_clones))
+        
+        ## in order to use bind_rows, we have to make sure that 
+        ## the altered ent is character and not factor
+        this_converted_tbl$altered_entity <-
+            as.character(this_converted_tbl$altered_entity)
+        
         stopifnot(dim(this_converted_tbl)[1] == length(these_pws))
         return(this_converted_tbl)
     })
-    converted_tbl <- do.call("rbind", converted_tbl_list)
+    converted_tbl <- as.tbl(bind_rows(converted_tbl_list))
     
     ## now it could be that several genes were mapped to the same pathway
     ## i.e. we have in the same patient the same mutated entity 
@@ -363,19 +376,19 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
     
     ## sanity check how many ensembl id's could not be mapped
     num_unmapped_ids <- dim(merged_converted_tbl %>% 
-        dplyr::filter(grepl("ENS", altered_entity)) %>%
-        dplyr::select(altered_entity) %>% 
-        dplyr::distinct())[1]
+        filter(grepl("ENS", altered_entity)) %>%
+        select(altered_entity) %>% 
+        distinct())[1]
     stopifnot(num_unmapped_ids == num_unmapped)
     
     ## message to user
     num_pws_unique <- dim(merged_converted_tbl %>% 
-        dplyr::filter(!grepl("ENS", altered_entity)) %>%
-        dplyr::select(altered_entity) %>% 
-        dplyr::distinct())[1]
+        filter(!grepl("ENS", altered_entity)) %>%
+        select(altered_entity) %>% 
+        distinct())[1]
     num_pws <- dim(merged_converted_tbl %>% 
-        dplyr::filter(!grepl("ENS", altered_entity)) %>%
-        dplyr::select(altered_entity))[1]
+        filter(!grepl("ENS", altered_entity)) %>%
+        select(altered_entity))[1]
     message("The remaining ", 
         num_all_unique_ents-num_unmapped_ids, 
         " different Ensembl gene id's were",
@@ -408,8 +421,9 @@ convert_ensembl_to_reactome_pw_tbl <- function(mutated_gene_tbl,
 #' @author Ariane L. Moore
 #' @return The pathways that contain this gene as a character 
 #' vector.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl filter select
 #' @examples
 #' data("ensg_reactome_path_map")
 #' ensg_gene <- "ENSG00000134086"
@@ -419,15 +433,15 @@ ensembl_to_reactome <- function(this_ensembl,
     reactome_pw_name <- ensembl_gene_id <- NULL
     stopifnot(is.character(this_ensembl))
     stopifnot(length(this_ensembl) == 1)
-    stopifnot(dplyr::is.tbl(ensg_reactome_path_map))
+    stopifnot(is.tbl(ensg_reactome_path_map))
     stopifnot("ensembl_gene_id" %in% colnames(ensg_reactome_path_map))
     stopifnot("reactome_pw_name" %in% colnames(ensg_reactome_path_map))
     
     
     ## retrieve the corresponding reactome pathways
     these_pws_tbl <- ensg_reactome_path_map %>% 
-        dplyr::filter(ensembl_gene_id == this_ensembl) %>%
-        dplyr::select(reactome_pw_name)
+        filter(ensembl_gene_id == this_ensembl) %>%
+        select(reactome_pw_name)
     ## convert to character vector
     these_pws<-
         unique(as.character(as.vector(these_pws_tbl$reactome_pw_name)))
@@ -448,7 +462,3 @@ ensembl_to_reactome <- function(this_ensembl,
         return(these_pws)
     }
 }
-
-
-
-

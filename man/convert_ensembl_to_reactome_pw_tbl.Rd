@@ -41,7 +41,7 @@ be mapped with this function to the pathways from
 \examples{
 data("ensg_reactome_path_map")
 mutated_gene_tbl <- 
-  tibble::tibble(file_name=c("pat1.csv", "pat1.csv"),
+  dplyr::tibble(file_name=c("pat1.csv", "pat1.csv"),
 patient_id=c("1","1"),
 altered_entity=c("ENSG00000134086", 
 "ENSG00000141510"),

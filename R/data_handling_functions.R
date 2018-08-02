@@ -25,9 +25,11 @@
 #' number of clones (Default: until 'clone7'). Note that the labelling 
 #' of the clones does not matter and only needs to stay fixed within each 
 #' patient and tree inference.
-#' @import
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom tibble tibble add_column
+#' @importFrom dplyr is.tbl
+#' @importFrom magrittr "%>%"
+#' @importFrom utils tail read.csv
 #' @examples
 #' ext_data_dir <- system.file('extdata', package='GeneAccord')
 #' create_tbl_ent_clones(paste(ext_data_dir, 
@@ -40,14 +42,13 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
     message("Found the file ", path_to_file)
 
     ## create tibble
-    fn <- path_to_file
-    file_name_tibble <- paste(tail(unlist(strsplit(fn, "/")), n=2), 
+    file_name_tibble <- paste(tail(unlist(strsplit(path_to_file, "/")), n=2), 
         collapse="/")
-    this_csv <- read.csv(fn)
+    this_csv <- read.csv(path_to_file)
     all_ents <- as.character(as.vector(this_csv[,1]))
-    this_clone_tbl <- tibble::tibble(file_name=file_name_tibble,
+    this_clone_tbl <- tibble(file_name=file_name_tibble,
         patient_id=sub(".csv", "", 
-        basename(fn)),
+        basename(path_to_file)),
         altered_entity=all_ents)
     num_mutated_ents <- dim(this_clone_tbl)[1]
     ## minus the columns for file_name, patient_id, and altered_entity
@@ -56,7 +57,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
     for(i in seq_len(num_clones)){
         clone_name <- paste("clone", i, sep="")
         this_clone_tbl <- this_clone_tbl %>%
-            tibble::add_column(new_col=as.integer(this_csv[,(i+1)]))
+            add_column(new_col=as.integer(this_csv[,(i+1)]))
         names(this_clone_tbl)[names(this_clone_tbl) == "new_col"] <- 
             clone_name
     }
@@ -71,7 +72,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
         for(i in seq(next_clone, max_num_clones)){
             clone_name <- paste("clone", i, sep="")
             this_clone_tbl <- this_clone_tbl %>%
-                tibble::add_column(new_col=as.integer(rep(0, 
+                add_column(new_col=as.integer(rep(0, 
                     num_mutated_ents)))
             names(this_clone_tbl)[names(this_clone_tbl) == "new_col"] <-
                 clone_name
@@ -80,7 +81,7 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
     
     final_clone_tbl <- this_clone_tbl
 
-    stopifnot(dplyr::is.tbl(final_clone_tbl))
+    stopifnot(is.tbl(final_clone_tbl))
     num_entries <- dim(final_clone_tbl)[1]
     num_clones <- dim(final_clone_tbl)[2] - 3
     stopifnot(num_clones == max_num_clones)
@@ -127,8 +128,9 @@ create_tbl_ent_clones <- function(path_to_file, max_num_clones=7){
 #' tree the assignment was found. Note that the labelling of the clones does 
 #' not matter and only needs to stay fixed within each patient and 
 #' tree inference. 
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr select filter mutate bind_rows tally group_by pull is.tbl
 #' @examples
 #' ext_data_dir <- system.file('extdata', package='GeneAccord')
 #' this_patient <- "01"
@@ -156,27 +158,28 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents=0.9,
     for(i in seq_len(num_files)){
         this_tbl <- suppressMessages(create_tbl_ent_clones(input_files[i], 
             max_num_clones=max_num_clones))
-       all_tbl_list[[i]] <- this_tbl %>% dplyr::mutate(tree_id=i)
+       all_tbl_list[[i]] <- this_tbl %>% mutate(tree_id=i)
     }
     ## this is now the clone tibble from just that patient but 
     ## from all tree inferences
-    all_trees_clone_tbl <- do.call("rbind", all_tbl_list)
+    all_trees_clone_tbl <- bind_rows(all_tbl_list)
   
     ## now exclude genes that occur in less than 90% of the trees, 
     ## e.g. less than 18 of 20
     all_ents <- unique(all_trees_clone_tbl$altered_entity)
     histogram_ents <- all_trees_clone_tbl %>% 
-        dplyr::select(altered_entity) %>%
-        dplyr::group_by(altered_entity) %>% 
-        dplyr::tally()
+        select(altered_entity) %>%
+        group_by(altered_entity) %>% 
+        tally()
     noisy_ent_thresh <- no_noisy_ents*num_files
     ## get a vector with all genes that are stably assigned to the trees
-    stable_ents <- as.data.frame(histogram_ents %>% 
-        dplyr::filter(n >= noisy_ent_thresh) %>% 
-        dplyr::select(altered_entity))$altered_entity
+    stable_ents <- histogram_ents %>% 
+        filter(n >= noisy_ent_thresh) %>% 
+        pull(altered_entity)
+    
     ## filter such that only those are included
     all_trees_clone_tbl <- all_trees_clone_tbl %>% 
-        dplyr::filter(altered_entity %in% stable_ents)
+        filter(altered_entity %in% stable_ents)
     num_genes_filtered_out <- length(all_ents)-length(stable_ents)
     if (num_genes_filtered_out == 1){
         message("Removed ", num_genes_filtered_out, 
@@ -188,7 +191,7 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents=0.9,
         (num_files-noisy_ent_thresh) ," of gene-to-clone assignments.")
     }
   
-    stopifnot(dplyr::is.tbl(all_trees_clone_tbl))
+    stopifnot(is.tbl(all_trees_clone_tbl))
     num_entries <- dim(all_trees_clone_tbl)[1]
     num_clones <- dim(all_trees_clone_tbl)[2] - 4
     stopifnot(num_clones == max_num_clones)
@@ -218,22 +221,24 @@ create_tbl_tree_collection <- function(input_files, no_noisy_ents=0.9,
 #' \code{\link{create_tbl_tree_collection}}. 
 #' @author Ariane L. Moore
 #' @return A vector with all rates of clonal exclusivity from all tree 
-#' inferences. 
-#' @import 
-#' dplyr
+#' inferences.
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl filter select
+#' @importFrom stats median
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name" =
+#' clone_tbl <- dplyr::tibble(file_name =
 #'     rep("fn1", 10),
 #'     "patient_id"=rep("pat1", 10),
 #'     "altered_entity"=paste0("gene", 
 #'     LETTERS[seq_len(10)]),
 #'     "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1),
 #'     "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1),
-#'     "tree_id"=c(rep(1, 5), rep(2, 5))))
+#'     "tree_id"=c(rep(1, 5), rep(2, 5)))
 #' compute_rates_clon_excl(clone_tbl)
 compute_rates_clon_excl <- function(pat_tbl){
     tree_id <- file_name <- patient_id <- NULL
-    stopifnot(dplyr::is.tbl(pat_tbl))
+    stopifnot(is.tbl(pat_tbl))
     stopifnot("patient_id" %in% colnames(pat_tbl))
     stopifnot("file_name" %in% colnames(pat_tbl))
     stopifnot("altered_entity" %in% colnames(pat_tbl))
@@ -258,8 +263,8 @@ compute_rates_clon_excl <- function(pat_tbl){
     ## compute the rate of clonal exclusivity for each tree inference
     all_rates_across_tree_collection<-vapply(all_trees, function(this_tree){
         this_tree_pat_tbl_wo_pat_name <- pat_tbl %>%
-            dplyr::filter(tree_id == this_tree) %>%
-            dplyr::select(-file_name, -patient_id, -tree_id)
+            filter(tree_id == this_tree) %>%
+            select(-file_name, -patient_id, -tree_id)
         this_tree_rate_this_pat <- 
             suppressMessages(
             get_rate_diff_branch_ent_pair(this_tree_pat_tbl_wo_pat_name))
@@ -301,20 +306,20 @@ compute_rates_clon_excl <- function(pat_tbl){
 #' generated e.g. from the \code{Cloe} output.
 #' @return The rate of occurrence of mutated gene/pathway pairs being in 
 #' different clones.
-#' @import 
-#' caTools
-#' dplyr
+#' @export
+#' @importFrom dplyr is.tbl tibble
+#' @importFrom caTools combs
 #' @examples
-#' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     altered_entity=c(paste("gene", seq_len(10), sep="")),
 #'     clone1=c(rep(0,10)),
 #'     clone2=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone3=c(sample(c(0,1), 10, replace=TRUE)),
-#'     clone4=c(sample(c(0,1), 10, replace=TRUE))) ) )
+#'     clone4=c(sample(c(0,1), 10, replace=TRUE)))
 #' get_rate_diff_branch_ent_pair(clone_tbl)
 get_rate_diff_branch_ent_pair <- function(clone_tbl) {
     altered_entity <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot("clone1" %in% colnames(clone_tbl))
     if("patient_id" %in% colnames(clone_tbl) || 
@@ -347,7 +352,7 @@ get_rate_diff_branch_ent_pair <- function(clone_tbl) {
     
         ## get the number of pairs
         num_pairs <- num_ents*(num_ents-1)/2
-        all_pairs <- caTools::combs(all_ents, 2)
+        all_pairs <- combs(all_ents, 2)
         stopifnot(dim(all_pairs)[1] == num_pairs)
     
         ## then use apply on the pairs with a function that takes two 
@@ -397,21 +402,22 @@ get_rate_diff_branch_ent_pair <- function(clone_tbl) {
 #' @return \code{TRUE} or \code{FALSE} for whether or not the 
 #' pair is mutated in different clones/in different
 #' branches of the tree.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl filter select
 #' @examples
-#' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     altered_entity=c(paste("gene", seq_len(10), sep="")),
 #'     clone1=c(rep(0,10)),
 #'     clone2=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone3=c(sample(c(0,1), 10, replace=TRUE)),
-#'     clone4=c(sample(c(0,1), 10, replace=TRUE))) ) )
+#'     clone4=c(sample(c(0,1), 10, replace=TRUE)))
 #' is_diff_branch_ent_pair("gene1", "gene2", clone_tbl)
 is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
     altered_entity <- NULL
     stopifnot(is.character(ent1))
     stopifnot(is.character(ent2))
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot("clone1" %in% colnames(clone_tbl))
     if("patient_id" %in% colnames(clone_tbl) || 
@@ -424,11 +430,11 @@ is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
   
     ## extract the clone profiles of the two entities
     ent1_profile_tbl <- clone_tbl %>% 
-        dplyr::filter(altered_entity == ent1) %>% 
-        dplyr::select(-altered_entity)
+        filter(altered_entity == ent1) %>% 
+        select(-altered_entity)
     ent2_profile_tbl <- clone_tbl %>% 
-        dplyr::filter(altered_entity == ent2) %>% 
-        dplyr::select(-altered_entity)
+        filter(altered_entity == ent2) %>% 
+        select(-altered_entity)
   
     ## turn into a vector
     ent1_profile <- as.numeric(as.vector(unlist(ent1_profile_tbl[1,])))
@@ -479,22 +485,24 @@ is_diff_branch_ent_pair <- function(ent1, ent2, clone_tbl) {
 #' how often they were clonally exclusive. The order of these 
 #' two vectors is matching, i.e. the ith entry in each
 #' vector refers to the same gene pair.
-#' @import
-#' caTools
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom caTools combs
+#' @importFrom dplyr is.tbl select tibble
+#' @importFrom stats median
 #' @examples
-#' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     altered_entity=c(paste("gene", seq_len(10), sep="")),
 #'     clone1=c(rep(0,10)),
 #'     clone2=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone3=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone4=c(sample(c(0,1), 10, replace=TRUE)),
-#'     tree_id=c(rep(5, 5), rep(10, 5)) ) ))
+#'     tree_id=c(rep(5, 5), rep(10, 5)) )
 #' get_hist_clon_excl(clone_tbl)
 get_hist_clon_excl <- function(clone_tbl) {
     altered_entity <- tree_id <- patient_id <- 
         file_name <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot("clone1" %in% colnames(clone_tbl))
     stopifnot("tree_id" %in% colnames(clone_tbl))
@@ -513,7 +521,7 @@ get_hist_clon_excl <- function(clone_tbl) {
     if("patient_id" %in% colnames(clone_tbl)){
         ## extract patient id
         pat_id <- unique(clone_tbl$patient_id)
-        clone_tbl <- clone_tbl %>% dplyr::select(-patient_id)
+        clone_tbl <- clone_tbl %>% select(-patient_id)
     
         message("Found ", num_trees, 
         " different tree instances in the gene-to-clone tibble",
@@ -527,7 +535,7 @@ get_hist_clon_excl <- function(clone_tbl) {
         "and ", num_ents, " different mutated genes/pathways in total.")
     }
     if("file_name" %in% colnames(clone_tbl)){
-        clone_tbl <- clone_tbl %>% dplyr::select(-file_name)
+        clone_tbl <- clone_tbl %>% select(-file_name)
     }
  
     message("Will compute the histograms for all pairs of how often ",
@@ -536,7 +544,7 @@ get_hist_clon_excl <- function(clone_tbl) {
   
     # get the number of pairs
     num_pairs <- num_ents*(num_ents-1)/2
-    all_pairs <- caTools::combs(all_ents, 2)
+    all_pairs <- combs(all_ents, 2)
     stopifnot(dim(all_pairs)[1] == num_pairs)
   
     ## then use apply on the pairs with a function that takes two 
@@ -611,22 +619,23 @@ get_hist_clon_excl <- function(clone_tbl) {
 #' @author Ariane L. Moore
 #' @return A vector with the values of in how many trees the pair 
 #' was mutated, and in how many of those it was clonally exclusive.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl filter select tibble
 #' @examples
-#' clone_tbl <- dplyr::as.tbl( as.data.frame( cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     altered_entity=c(paste("gene", seq_len(10), sep="")),
 #'     clone1=c(rep(0,10)),
 #'     clone2=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone3=c(sample(c(0,1), 10, replace=TRUE)),
 #'     clone4=c(sample(c(0,1), 10, replace=TRUE)),
-#'     tree_id=c(rep(5, 5), rep(10, 5)) ) ))
+#'     tree_id=c(rep(5, 5), rep(10, 5)) )
 #' get_hist_clon_excl_this_pat_this_pair("gene1", "gene2", clone_tbl)
 get_hist_clon_excl_this_pat_this_pair<-function(entA, entB, clone_tbl){
     altered_entity <- tree_id <- NULL
     stopifnot(is.character(entA))
     stopifnot(is.character(entB))
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot("clone1" %in% colnames(clone_tbl))
     stopifnot("tree_id" %in% colnames(clone_tbl))
@@ -659,8 +668,8 @@ get_hist_clon_excl_this_pat_this_pair<-function(entA, entB, clone_tbl){
     ## get the info of num_trees and clon excl
     this_pair_across_trees <- vapply(all_tree_ids, function(x){
         this_tree_clone_tbl <- clone_tbl %>% 
-            dplyr::filter(tree_id == x) %>% 
-            dplyr::select(-tree_id)
+            filter(tree_id == x) %>% 
+            select(-tree_id)
         all_ents_this_tree <- 
             as.character(this_tree_clone_tbl$altered_entity)
         if(entA %in% all_ents_this_tree && 
@@ -714,11 +723,11 @@ get_hist_clon_excl_this_pat_this_pair<-function(entA, entB, clone_tbl){
 #' identical 'altered_entities' with different clone profiles. These 
 #' profiles would be merged by this function because the pathway is 
 #' affected in the union of clones were the two genes were mutated.
-#' @import 
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl filter select as.tbl
 #' @examples
-#' clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     file_name=c(rep("fn1", 4)),
 #'     patient_id=c(rep("pat1", 4)),
 #'     altered_entity=c("pw1", "pw1", 
@@ -726,11 +735,11 @@ get_hist_clon_excl_this_pat_this_pair<-function(entA, entB, clone_tbl){
 #'     clone1=c(1, 0, 1, 0),
 #'     clone2=c(0, 1, 0, 1),
 #'     clone3=c(1, 1, 0, 1),
-#'     clone4=c(0, 1, 0, 0))))
+#'     clone4=c(0, 1, 0, 0))
 #' merge_clones_identical_ents(clone_tbl)
 merge_clones_identical_ents <- function(clone_tbl) {
     patient_id <- file_name <- altered_entity <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("patient_id" %in% colnames(clone_tbl))
     stopifnot("file_name" %in% colnames(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
@@ -772,8 +781,8 @@ merge_clones_identical_ents <- function(clone_tbl) {
         ## extract the tibble with just the clone profiles for 
         ## the current entity
         this_ent_tbl <- clone_tbl %>% 
-            dplyr::filter(altered_entity == x) %>%
-            dplyr::select(-file_name, -patient_id, -altered_entity)
+            filter(altered_entity == x) %>%
+            select(-file_name, -patient_id, -altered_entity)
         ## make sure that the clone indicators 0 and 1 are 
         ## integers and not factors
         this_ent_tbl <- apply(this_ent_tbl[, seq_len(num_clones)], 2, 
@@ -787,24 +796,32 @@ merge_clones_identical_ents <- function(clone_tbl) {
         stopifnot(length(merged_clone_profile) == num_clones)
         
         # convert the merged_clone_profile to a dataframe
-        merged_clone_profile_df<-t(as.data.frame(merged_clone_profile))
+        merged_clone_profile_df<-as.data.frame(t(merged_clone_profile))
         
         ## create the merged tibble
-        this_ent_merged_tbl <- dplyr::as.tbl(as.data.frame(cbind(
+        ## the clone columns are now double instead of factor
+        this_ent_merged_tbl <- as.data.frame(cbind(
             file_name=this_file_name,
             patient_id=this_pat,
             altered_entity=x,
-            merged_clone_profile_df)))
+            merged_clone_profile_df))
+        
+        ## in order to use bind_rows, we have to make sure that 
+        ## the altered ent is a factor with all levels from all 
+        ## patients
+        this_ent_merged_tbl$altered_entity <-
+            factor(this_ent_merged_tbl$altered_entity, 
+            levels = all_sorted_unique_ents)
         
         ## return the final merged tibble for the current entity
         this_ent_merged_tbl
     })
   
     ## append the list of tibbles to one big tibble
-    final_merged_clone_tbl <- do.call("rbind", 
-        merged_ents_clone_tbl_list)
+    final_merged_clone_tbl <- 
+        as.tbl(bind_rows(merged_ents_clone_tbl_list))
   
-    stopifnot(dplyr::is.tbl(final_merged_clone_tbl))
+    stopifnot(is.tbl(final_merged_clone_tbl))
     num_entries <- dim(final_merged_clone_tbl)[1]
     num_cols <- dim(final_merged_clone_tbl)[2]
     stopifnot(num_cols == (num_clones + 3))
@@ -834,21 +851,22 @@ merge_clones_identical_ents <- function(clone_tbl) {
 #' @return A named vector with the number of clones 
 #' in each patient. The name of each element is the respective
 #' patient_id.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl select distinct pull filter
 #' @examples
-#' clone_tbl <- dplyr::as.tbl(as.data.frame(cbind(
+#' clone_tbl <- dplyr::tibble(
 #'     file_name=c(rep("fn1", 2), rep("fn2", 2)),
 #'     patient_id=c(rep("pat1", 2), rep("pat2", 2)),
 #'     altered_entity=c("pw1", "pw2", "pw1", "pw3"),
 #'     clone1=c(0, 0, 0, 0),
 #'     clone2=c(0, 1, 0, 1),
 #'     clone3=c(1, 1, 0, 1),
-#'     clone4=c(1, 0, 0, 0))))
+#'     clone4=c(1, 0, 0, 0))
 #' extract_num_clones_tbl(clone_tbl)
 extract_num_clones_tbl <- function(clone_tbl) {
     patient_id <- altered_entity <- file_name <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("patient_id" %in% colnames(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
     stopifnot("file_name" %in% colnames(clone_tbl))
@@ -867,16 +885,16 @@ extract_num_clones_tbl <- function(clone_tbl) {
         " is assumed to be the upper bound of number of clones.")
 
     ## extract all the patient id's
-    all_pats_tbl <- clone_tbl %>% 
-        dplyr::select(patient_id) %>% 
-        dplyr::distinct()
-    all_pats <- as.vector(as.data.frame(all_pats_tbl)[,1])
+    all_pats <- clone_tbl %>% 
+        select(patient_id) %>% 
+        distinct() %>%
+        pull(patient_id)
     num_pats <- length(all_pats)
             
     num_clones <- vapply(all_pats, function(x){
         this_pat_clone_tbl <- clone_tbl %>% 
-            dplyr::filter(patient_id == x) %>%
-            dplyr::select(-file_name, -patient_id, -altered_entity)
+            filter(patient_id == x) %>%
+            select(-file_name, -patient_id, -altered_entity)
         ## make sure that the clone indicators 0 and 1 are integers 
         ## and not factors
         this_pat_clone_tbl <- 
@@ -937,11 +955,12 @@ extract_num_clones_tbl <- function(clone_tbl) {
 #' contains the semicolon separated patient id's of the ones in 
 #' which the pairs was also clonally exclusive in the majority of 
 #' the trees in the collection of tree inferences.
-#' @import 
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble distinct filter select group_by 
+#' tally pull is.tbl bind_cols
 #' @examples
-#' clone_tbl <- tibble::tibble(file_name=rep(c(rep(c("fn1", "fn2"), 
+#' clone_tbl <- dplyr::tibble(file_name=rep(c(rep(c("fn1", "fn2"), 
 #'     each=3)), 2),
 #'     patient_id=rep(c(rep(c("pat1", "pat2"), 
 #'     each=3)), 2),
@@ -952,7 +971,7 @@ extract_num_clones_tbl <- function(clone_tbl) {
 #'     clone2=c(1, 0, 1, 0, 1, 1, 1, 
 #'     0, 0, 1, 0, 1),
 #'     tree_id=c(rep(5, 6), rep(10, 6)))
-#' pairs_of_interest <- tibble::tibble(entity_A=c("geneA", "geneB"), 
+#' pairs_of_interest <- dplyr::tibble(entity_A=c("geneA", "geneB"), 
 #'     entity_B=c("geneB", "geneC"))
 #' take_pairs_and_get_patients(clone_tbl, pairs_of_interest)
 take_pairs_and_get_patients <- function(clone_tbl_all_trees, 
@@ -960,7 +979,7 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
     
     entity_A <- entity_B <- patient_id <- tree_id <- file_name  <-
     n <- altered_entity <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl_all_trees))
+    stopifnot(is.tbl(clone_tbl_all_trees))
     stopifnot("patient_id" %in% colnames(clone_tbl_all_trees))
     stopifnot("file_name" %in% colnames(clone_tbl_all_trees))
     stopifnot("altered_entity" %in% colnames(clone_tbl_all_trees))
@@ -971,9 +990,9 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
     stopifnot("entity_B" %in% colnames(pairs_of_interest_tbl))
   
     ## message to user
-    all_tree_ids <- unique(as.character(clone_tbl_all_trees$tree_id))
+    all_tree_ids <- unique(clone_tbl_all_trees %>% pull(tree_id))
     num_pats <- 
-        length(unique(as.character(clone_tbl_all_trees$patient_id)))
+        length(unique(clone_tbl_all_trees %>% pull(patient_id)))
     num_trees <- length(all_tree_ids)
     num_pairs <- dim(pairs_of_interest_tbl)[1]
     message("Found ", num_pairs, 
@@ -995,18 +1014,17 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
         
         ## get the patients in which they are both mutated
         this_pair_pats_and_trees <- clone_tbl_all_trees %>%
-            dplyr::filter(altered_entity %in% x) %>%
-            dplyr::select(patient_id, tree_id)
+            filter(altered_entity %in% x) %>%
+            select(patient_id, tree_id)
         pat_ids_all_trees <- lapply(all_tree_ids, function(y){
-            this_tree_tbl <- this_pair_pats_and_trees %>% 
-                dplyr::filter(tree_id == y)
-            pat_ids_in_which_both_mutated <- 
-            as.character(as.vector(as.data.frame(this_tree_tbl %>%
-                dplyr::select(patient_id) %>%
-                dplyr::group_by(patient_id) %>%
-                dplyr::tally() %>%
-                dplyr::filter(n == 2) %>%
-                dplyr::select(patient_id))[,1]))
+            pat_ids_in_which_both_mutated <-
+                this_pair_pats_and_trees %>% 
+                filter(tree_id == y) %>% 
+                select(patient_id) %>%
+                group_by(patient_id) %>%
+                tally() %>%
+                filter(n == 2) %>%
+                pull(patient_id)
             return(pat_ids_in_which_both_mutated)
         })
         these_pats_mut <- unique(as.vector(unlist(pat_ids_all_trees)))
@@ -1015,8 +1033,8 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
         ## now we extract from the clone tbl only the patients 
         ## in which they are both mutated
         this_pair_pats_mut_clon_tbl <- clone_tbl_all_trees %>%
-            dplyr::filter(altered_entity %in% x) %>%
-            dplyr::filter(patient_id %in% these_pats_mut)
+            filter(altered_entity %in% x) %>%
+            filter(patient_id %in% these_pats_mut)
 
         ## for each pat in which they are mutated, get number of 
         ## times it was clonally exclusive
@@ -1024,8 +1042,8 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
         pair_num_clon_excl <- vapply(these_pats_mut, function(y){
             ## take the clone tibble
             this_clone_tbl <- this_pair_pats_mut_clon_tbl %>%  
-                dplyr::filter(patient_id == y) %>%      
-                dplyr::select(-file_name, -patient_id)
+                filter(patient_id == y) %>%      
+                select(-file_name, -patient_id)
             
             sanity_check <- lapply(colnames(this_clone_tbl), 
             function(this_col){
@@ -1079,11 +1097,9 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
     mutated_in <- pairs_res_pats[1,]
     clonally_exclusive_in <- pairs_res_pats[2,]
 
-    res_tbl<-tibble::as_tibble(cbind(as.data.frame(pairs_of_interest_tbl), 
-        cbind(mutated_in, clonally_exclusive_in)))
-    res_tbl$mutated_in <- as.character(res_tbl$mutated_in)
-    res_tbl$clonally_exclusive_in <- 
-        as.character(res_tbl$clonally_exclusive_in)
+    res_tbl<-bind_cols(pairs_of_interest_tbl, 
+        mutated_in=mutated_in, 
+        clonally_exclusive_in=clonally_exclusive_in)
     return(res_tbl)
 }
 
@@ -1108,12 +1124,12 @@ take_pairs_and_get_patients <- function(clone_tbl_all_trees,
 #' but with two additional columns, namely 'hgnc_gene_A', and 'hgnc_gene_B'. 
 #' The column 'hgnc_gene_A' contains the hgnc gene symbol of 'entity_A', 
 #' and the column 'hgnc_gene_B' the one of 'entity_B'.
-#' @import 
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl pull bind_cols
 #' @examples
 #' \dontrun{
-#' pairs_of_interest <- tibble::tibble(
+#' pairs_of_interest <- dplyr::tibble(
 #'     entity_A=c("ENSG00000181143", "ENSG00000163939"),
 #'     entity_B=c("ENSG00000141510", "ENSG00000163930"))
 #' all_genes_tbl <- create_ensembl_gene_tbl_hg()
@@ -1123,8 +1139,8 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
     all_genes_tbl){
     entity_A <- entity_B  <- ensembl_gene_id <- 
     hgnc_symbol <-  NULL
-    stopifnot(dplyr::is.tbl(pairs_of_interest_tbl))
-    stopifnot(dplyr::is.tbl(all_genes_tbl))
+    stopifnot(is.tbl(pairs_of_interest_tbl))
+    stopifnot(is.tbl(all_genes_tbl))
     stopifnot("entity_A" %in% colnames(pairs_of_interest_tbl))
     stopifnot("entity_B" %in% colnames(pairs_of_interest_tbl))
     stopifnot("ensembl_gene_id" %in% colnames(all_genes_tbl))
@@ -1132,9 +1148,8 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
 
 
     ## map the ensembl gene ID's to the gene names
-    these_ens_ids_A <- 
-        as.vector(as.data.frame(pairs_of_interest_tbl %>% 
-        dplyr::select(entity_A))[,1])
+    these_ens_ids_A <- pairs_of_interest_tbl %>% 
+        pull(entity_A)
     hgnc_gene_A <- c()
     for(this_ens in these_ens_ids_A){
         this_hgnc <- 
@@ -1142,9 +1157,8 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
             all_genes_tbl))
         hgnc_gene_A <- c(hgnc_gene_A, this_hgnc)
     }
-    these_ens_ids_B <- 
-        as.vector(as.data.frame(pairs_of_interest_tbl %>% 
-        dplyr::select(entity_B))[,1])
+    these_ens_ids_B <- pairs_of_interest_tbl %>%
+        pull(entity_B)
     hgnc_gene_B <- c()
     for(this_ens in these_ens_ids_B){
         this_hgnc <- 
@@ -1152,12 +1166,13 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
             all_genes_tbl))
         hgnc_gene_B <- c(hgnc_gene_B, this_hgnc)
     }
-
+    
     ## add the columns to the pairs of interest tibble
     pairs_of_interest_tbl_hgnc <- 
-        tibble::as_tibble(cbind(as.data.frame(pairs_of_interest_tbl), 
-            cbind(hgnc_gene_A, hgnc_gene_B)))
-
+        bind_cols(pairs_of_interest_tbl,
+                         hgnc_gene_A=hgnc_gene_A,
+                         hgnc_gene_B=hgnc_gene_B)
+    
     return(pairs_of_interest_tbl_hgnc)
 }
 
@@ -1186,11 +1201,11 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
 #' @return The tibble that is written to disk. It has the columns 'Gene A', 
 #' 'Gene B', 'P-value', 'Adjusted p-value', 
 #' 'Mutated in (rate)', 'Clonally exclusive in'.
-#' @import 
-#' dplyr
-#' utils
+#' @export
+#' @importFrom dplyr is.tbl tibble
+#' @importFrom utils write.table
 #' @examples
-#' sig_pairs <- tibble::tibble(hgnc_gene_A=c("VHL", "BAP1"),
+#' sig_pairs <- dplyr::tibble(hgnc_gene_A=c("VHL", "BAP1"),
 #'     hgnc_gene_B=c("PTEN", "KIT"),
 #'     pval=c(0.001, 0.002),
 #'     qval=c(0.01, 0.02),
@@ -1202,7 +1217,7 @@ map_pairs_to_hgnc_symbols <- function(pairs_of_interest_tbl,
 #' file.remove("test.tsv")
 write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m, 
     tsv_file, num_digits=2){
-    stopifnot(dplyr::is.tbl(sig_pairs))
+    stopifnot(is.tbl(sig_pairs))
     stopifnot("hgnc_gene_A" %in% colnames(sig_pairs))
     stopifnot("hgnc_gene_B" %in% colnames(sig_pairs))
     stopifnot("pval" %in% colnames(sig_pairs))
@@ -1274,7 +1289,7 @@ write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m,
         "Adjusted p-value",
         "Mutated in (rate)", "Clonally exclusive in")
     ## write it to disk
-    utils::write.table(table_to_save,
+    write.table(table_to_save,
         file=tsv_file,
         quote=FALSE, col.names=TRUE, 
         row.names=FALSE, sep="\t")
@@ -1300,23 +1315,25 @@ write_res_pairs_to_disk <- function(sig_pairs, avg_rates_m,
 #' @author Ariane L. Moore
 #' @return The tibble that summarizes the number of pairs that
 #' occur in how many patients.
-#' @import 
-#' dplyr
-#' utils
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr filter select is.tbl mutate distinct pull
+#' tibble bind_rows tally group_by
+#' @importFrom caTools combs
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name" =
+#' clone_tbl <- dplyr::tibble("file_name" =
 #'     rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'     "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'     "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'     "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'     "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'     "tree_id"=c(rep(5, 6), rep(10, 6))))
+#'     "tree_id"=c(rep(5, 6), rep(10, 6)))
 #' pairs_in_patients_hist(clone_tbl)
 pairs_in_patients_hist <- function(clone_tbl){
     patient_id <- altered_entity <- file_name <- 
     tree_id <- pairs <- n <- pairs_count <- 
     patient_count <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("file_name" %in% colnames(clone_tbl))
     stopifnot("patient_id" %in% colnames(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
@@ -1329,30 +1346,30 @@ pairs_in_patients_hist <- function(clone_tbl){
     num_pats <- length(all_pats)
     message("Found ", num_pats, 
         " different patient id's in the provided tibble.")
-  
+    
     ## get the pairs from each patient separately, and then check 
     ## which pairs re-occur across at least two patients
     list_all_pairs_all_pats <- lapply(all_pats, function(x){
-        clone_tbl_this_pat <- clone_tbl %>% 
-            dplyr::filter(patient_id == x)
-        all_ents_this_pat <- 
-            unique(as.character(clone_tbl_this_pat$altered_entity))
+        all_ents_this_pat <- clone_tbl %>% 
+            filter(patient_id == x) %>%
+            select(altered_entity) %>%
+            distinct() %>%
+            pull(altered_entity)
         num_ents_this_pat <- length(all_ents_this_pat)
         num_pairs_this_pat <- 
         num_ents_this_pat*(num_ents_this_pat-1)/2
         ## get all pairs of entities of that patient efficiently
-        all_pairs_this_pat <- caTools::combs(all_ents_this_pat, 2)
+        all_pairs_this_pat <- combs(all_ents_this_pat, 2)
         ## to make sure the gene pairs are all in the same order such that
         ## later, when we check which pairs occur in multiple patients,
         ## that we do not miss pairs just because they are in a different
         ## order
-        all_pairs_this_pat <- t(apply(all_pairs_this_pat, 1, 
-            function(pair){sort(pair)}))
+        all_pairs_this_pat <- as.data.frame(t(apply(all_pairs_this_pat, 1, 
+            function(pair){sort(pair)})))
         stopifnot(num_pairs_this_pat == dim(all_pairs_this_pat)[1])
         return(all_pairs_this_pat)
     })
-    all_pairs_all_pats <- 
-        do.call("rbind", list_all_pairs_all_pats)
+    all_pairs_all_pats <- bind_rows(list_all_pairs_all_pats)
     unique_all_pairs_all_pats <- unique(all_pairs_all_pats)
     num_pairs <- dim(unique_all_pairs_all_pats)[1]
     all_pairs <- unique_all_pairs_all_pats
@@ -1364,18 +1381,19 @@ pairs_in_patients_hist <- function(clone_tbl){
     all_pairs_all_pats_one_string <- apply(all_pairs_all_pats, 1, 
         function(x){paste0(x, collapse="__")})
     pairs_num_pats_tally <- 
-        tibble::tibble(pairs=all_pairs_all_pats_one_string) %>% 
-        dplyr::group_by(pairs) %>% 
-        dplyr::tally() %>%
-        dplyr::mutate(patient_count=n) %>%
-        dplyr::select(pairs, patient_count)
+        tibble(pairs=all_pairs_all_pats_one_string) %>% 
+        group_by(pairs) %>% 
+        tally() %>%
+        mutate(patient_count=n) %>%
+        select(pairs, patient_count)
   
     num_pairs_num_pats_tally <- 
-        pairs_num_pats_tally %>% dplyr::select(patient_count) %>%
-        dplyr::group_by(patient_count) %>%
-        dplyr::tally() %>%
-        dplyr::mutate(pairs_count=n) %>%
-        dplyr::select(pairs_count, patient_count)
+        pairs_num_pats_tally %>% 
+        select(patient_count) %>%
+        group_by(patient_count) %>%
+        tally() %>%
+        mutate(pairs_count=n) %>%
+        select(pairs_count, patient_count)
   
     pairs_c <- num_pairs_num_pats_tally$pairs_count
     patient_c <- num_pairs_num_pats_tally$patient_count

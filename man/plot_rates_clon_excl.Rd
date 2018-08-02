@@ -31,13 +31,13 @@ In addition to the average rate of clonal exclusivity, it also visualizes
 the average number of clones of each patient.
 }
 \examples{
-clone_tbl <- tibble::as_tibble(cbind(
+clone_tbl <- dplyr::tibble(
             "file_name"=rep(c(rep(c("fn1", "fn2"), each=3)), 2),
             "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
             "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
             "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
             "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-            "tree_id"=c(rep(1, 6), rep(2, 6))))
+            "tree_id"=c(rep(1, 6), rep(2, 6)))
 avg_rates_m <- c(pat1=0.014, pat2=0.3)
 plot_rates_clon_excl(avg_rates_m, clone_tbl)
 }

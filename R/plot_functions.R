@@ -16,25 +16,28 @@
 #' generated directly and not to a pdf. Default: "direct"
 #' @author Ariane L. Moore
 #' @return None, the function plots the average rates of clonal exclusivity.
-#' @import 
-#' dplyr
-#' ggplot2
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble is.tbl filter select
+#' @importFrom ggplot2 ggplot aes geom_bar ggtitle ylab xlab
+#' scale_fill_gradient guides guide_colourbar coord_flip
+#' theme_gray
+#' @importFrom grDevices pdf dev.off 
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind(
+#' clone_tbl <- dplyr::tibble(
 #'             "file_name"=rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'             "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'             "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'             "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'             "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'             "tree_id"=c(rep(1, 6), rep(2, 6))))
+#'             "tree_id"=c(rep(1, 6), rep(2, 6)))
 #' avg_rates_m <- c(pat1=0.014, pat2=0.3)
 #' plot_rates_clon_excl(avg_rates_m, clone_tbl)
 plot_rates_clon_excl <- function(avg_rates_m, clone_tbl, 
     output_pdf="direct") {
     tree_id <- pat_ids_c <- rates_m <- num_c <- pat_ids_r <- NULL 
     stopifnot(is.numeric(avg_rates_m))
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("tree_id" %in% colnames(clone_tbl))
     stopifnot(is.character(output_pdf))
     
@@ -49,8 +52,8 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
     all_trees_num_clones <- c(rep(0, num_pats))
     for (this_tree in all_tree_ids){
         clone_tbl_this_tree <- clone_tbl %>% 
-        dplyr::filter(tree_id == this_tree) %>% 
-        dplyr::select(-tree_id)
+        filter(tree_id == this_tree) %>% 
+        select(-tree_id)
         this_tree_num_clones <- 
             suppressMessages(extract_num_clones_tbl(clone_tbl_this_tree))
         ## this counts the number of clones that have at least one
@@ -75,11 +78,11 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
     pat_ids_clones <- pat_ids_clones[match(pat_ids_rates, pat_ids_clones)]
     
     myOrder <- order(nchar(pat_ids_rates), pat_ids_rates)
-    rates_and_clones_tbl <- tibble::tibble(pat_ids_r=pat_ids_rates[myOrder],
+    rates_and_clones_tbl <- tibble(pat_ids_r=pat_ids_rates[myOrder],
         pat_ids_c=pat_ids_clones[myOrder],
         rates_m=avg_rates_m[myOrder],
         num_c=avgNumClones[myOrder]) %>% 
-        dplyr::filter(pat_ids_r == pat_ids_c)
+        filter(pat_ids_r == pat_ids_c)
     stopifnot(dim(rates_and_clones_tbl)[1] == num_pats)
     ## message to user
     message("The average rate of clonal exclusivity is between ", 
@@ -95,19 +98,19 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
     if(output_pdf != "direct")
         pdf(output_pdf, height=10, width=5)
     
-    this_plot <- ggplot2::ggplot(rates_and_clones_tbl, 
-            ggplot2::aes(x=pat_ids_r, 
+    this_plot <- ggplot(rates_and_clones_tbl, 
+            aes(x=pat_ids_r, 
             y=rates_m, fill=num_c)) +
-        ggplot2::geom_bar(stat="identity") +
-        ggplot2::ggtitle("Mean rates of clonal exclusivity in each patient")+
-        ggplot2::ylab("Rate m") +
-        ggplot2::xlab("Patients") +
-        ggplot2::scale_fill_gradient(low="lightblue", high="darkblue", 
+        geom_bar(stat="identity") +
+        ggtitle("Mean rates of clonal exclusivity in each patient")+
+        ylab("Rate m") +
+        xlab("Patients") +
+        scale_fill_gradient(low="lightblue", high="darkblue", 
             guide="colourbar") +
-        ggplot2::guides(fill=ggplot2::guide_colourbar(title=paste0("Average",
+        guides(fill=guide_colourbar(title=paste0("Average",
             "number of clones"))) +
-        ggplot2::coord_flip() + 
-        ggplot2::theme_gray()
+        coord_flip() + 
+        theme_gray()
     print(this_plot)
     if(output_pdf != "direct"){
         dev.off()
@@ -144,8 +147,9 @@ plot_rates_clon_excl <- function(avg_rates_m, clone_tbl,
 #' generated directly and not to a pdf. Default: "direct".
 #' @author Ariane L. Moore
 #' @return None, the function plots ecdf curves.
-#' @import 
-#' graphics
+#' @export
+#' @importFrom graphics plot par grid
+#' @importFrom grDevices pdf dev.off
 #' @examples
 #' avg_rates_m <- c(pat1=0.1, pat2=0.034, pat3=0.21, pat4=0.063)
 #' list_of_num_trees_all_pats <- list(pat1=c(20, 20, 19), 
@@ -210,7 +214,7 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
             }
         }
         this_ecdf <- ecdf_list[[i]]
-        graphics::plot(this_ecdf, 
+        plot(this_ecdf, 
             main=paste("ECDF (Number of patients a pair",
             " is mutated in=", i,")", 
             sep=""))
@@ -253,18 +257,23 @@ plot_ecdf_test_stat <- function(ecdf_list, plot_idx=c(2,3),
 #' generated directly and not to a pdf. Default: "direct"
 #' @author Ariane L. Moore
 #' @return None, the function plots a p-value histogram.
-#' @import 
-#' dplyr
-#' RColorBrewer
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl select group_by tally filter pull 
+#' tibble
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom grDevices pdf rainbow dev.off 
+#' @importFrom graphics par hist points abline grid legend
+#' @importFrom stats runif
 #' @examples
-#' res_sim <- tibble::tibble(num_patients=c(rep(2,100), 
+#' res_sim <- dplyr::tibble(num_patients=c(rep(2,100), 
 #'                           rep(3,100), rep(4,100)),
 #'                           pval=c(runif(300)))
 #' vis_pval_distr_num_pat(res_sim)
 vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     pval <- num_patients <- NULL
     stopifnot(is.character(output_pdf))
-    stopifnot(dplyr::is.tbl(res_sim))
+    stopifnot(is.tbl(res_sim))
     stopifnot("pval" %in% colnames(res_sim))
     stopifnot("num_patients" %in% colnames(res_sim))
     
@@ -287,15 +296,15 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     ## check how many observations there are for the different 
     ## num_patients
     num_patients_tally <- res_sim %>% 
-        dplyr::select(num_patients) %>% 
-        dplyr::group_by(num_patients) %>% 
-        dplyr::tally()
+        select(num_patients) %>% 
+        group_by(num_patients) %>% 
+        tally()
     number_different_patients <- dim(num_patients_tally)[1]
     num_patients_colors <- c()
     if(number_different_patients > 8){
         num_patients_colors <- rainbow(number_different_patients)
     } else {
-        num_patients_colors <- c(RColorBrewer::brewer.pal(8, "Dark2"))
+        num_patients_colors <- c(brewer.pal(8, "Dark2"))
     }
     
     ## all unqiue numbers of patients, e.g. 2, 3, 4, ...
@@ -304,10 +313,9 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     
     ## first num_patients
     this_num_patients <- all_unique_num_pats[1]
-    this_num_pat_pvals <- 
-        as.numeric(as.vector(as.data.frame(res_sim %>% 
-        dplyr::filter(num_patients == this_num_patients) %>%
-        dplyr::select(pval))[,1]))
+    this_num_pat_pvals <- res_sim %>% 
+        filter(num_patients == this_num_patients) %>%
+        pull(pval)
     this_num_p_values <- length(this_num_pat_pvals)
     
     p_vals_idx <- seq_len(this_num_p_values)
@@ -327,10 +335,9 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
     if(number_different_patients > 1){
         for(i in seq(2, number_different_patients)){
             this_num_patients <- as.numeric(num_patients_tally[i,1])
-            this_num_pat_pvals <- 
-            as.numeric(as.vector(as.data.frame(res_sim %>% 
-                dplyr::filter(num_patients == this_num_patients) %>%
-                dplyr::select(pval))[,1]))
+            this_num_pat_pvals <- res_sim %>% 
+                filter(num_patients == this_num_patients) %>%
+                pull(pval)
             this_num_p_values <- length(this_num_pat_pvals)
             p_vals_idx <- seq_along(this_num_pat_pvals)
             max_points <- 5000
@@ -407,22 +414,26 @@ vis_pval_distr_num_pat <- function(res_sim, output_pdf="direct"){
 #' generated directly and not to a pdf. Default: "direct"
 #' @author Ariane L. Moore
 #' @return None, the function plots a gene-to-clone assignment heatmap.
-#' @import 
-#' dplyr
-#' ggplot2
-#' ggpubr
-#' reshape2
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr is.tbl tibble select filter pull bind_cols
+#' group_by tally
+#' @importFrom ggplot2 ggplot geom_tile aes scale_fill_manual
+#' theme_minimal theme labs ggtitle element_text
+#' @importFrom ggpubr ggarrange
+#' @importFrom reshape2 melt
+#' @importFrom grDevices pdf dev.off 
 #' @examples
-#' pairs_of_interest <- tibble::tibble(entity_A="SETD2",
+#' pairs_of_interest <- dplyr::tibble(entity_A="SETD2",
 #'                            entity_B="BAP1")
-#' clone_tbl <- tibble::tibble(
+#' clone_tbl <- dplyr::tibble(
 #'                file_name=c("X.csv", "X.csv", "Y.csv", "Y.csv"),
 #'                patient_id=c("X", "X", "Y", "Y"),
 #'                altered_entity=c("SETD2", "BAP1", "SETD2", "BAP1"),
 #'                clone1=c(0, 1, 1, 0),
 #'                clone2=c(1, 0, 0, 1))
 #' \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
-#' all_genes_tbl_example <- tibble::tibble(
+#' all_genes_tbl_example <- dplyr::tibble(
 #'                  ensembl_gene_id=c("ENSG00000181555", 
 #'                  "ENSG00000163930"),
 #'                  hgnc_symbol=c("SETD2", "BAP1"))
@@ -434,9 +445,9 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     output_pdf="direct"){
     file_name <- patient_id <- entity_A <- entity_B <- variable <- 
         altered_entity <- value <- n <- NULL
-    stopifnot(dplyr::is.tbl(pairs_of_interest))
-    stopifnot(dplyr::is.tbl(clone_tbl))
-    stopifnot(dplyr::is.tbl(all_genes_tbl))
+    stopifnot(is.tbl(pairs_of_interest))
+    stopifnot(is.tbl(clone_tbl))
+    stopifnot(is.tbl(all_genes_tbl))
     stopifnot(is.character(output_pdf))
     stopifnot("entity_A" %in% colnames(pairs_of_interest))
     stopifnot("entity_B" %in% colnames(pairs_of_interest))
@@ -480,19 +491,19 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     ## here we remove columns that are just clone zero in all patients,
     ## for plotting
     filterd_clone_tbl_just_clones <- clone_tbl %>% 
-        dplyr::select(-file_name, -patient_id, -altered_entity)
+        select(-file_name, -patient_id, -altered_entity)
     filterd_clone_tbl_nonzero_clones <- cbind(clone_tbl['patient_id'],
         clone_tbl['altered_entity'],
     filterd_clone_tbl_just_clones[, 
         colSums(filterd_clone_tbl_just_clones) > 0])
     ## extract from the clone tbl just the entries with the genes of interest
     filterd_clone_tbl_goi <- filterd_clone_tbl_nonzero_clones %>% 
-        dplyr::filter(altered_entity %in% genes_of_interest)
+        filter(altered_entity %in% genes_of_interest)
     
     
     ## map the ensembl gene ID's to the gene names
-    these_ens_ids <- as.vector(as.data.frame(filterd_clone_tbl_goi %>% 
-        dplyr::select(altered_entity))[,1])
+    these_ens_ids <- filterd_clone_tbl_goi %>% 
+        pull(altered_entity)
     hgnc_symbols <- c()
     for(this_ens in these_ens_ids){
         this_hgnc <- 
@@ -500,22 +511,22 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
         hgnc_symbols <- c(hgnc_symbols, this_hgnc)
     }
     filterd_clone_tbl_goi_gene_names <- 
-        cbind(as.data.frame(filterd_clone_tbl_goi), hgnc_symbols)
+        bind_cols(filterd_clone_tbl_goi, 
+        hgnc_symbols=hgnc_symbols)
     
     ## plot the heatmap of gene pairs of interest
     
     ## do the heatmap for each patient separate, and 
     ## then arrange them together to one plot
     all_pats <- 
-        unique(as.character(as.vector(as.data.frame(
-            filterd_clone_tbl_goi_gene_names %>%
-        dplyr::select(patient_id) %>%
-        dplyr::group_by(patient_id) %>%
-        dplyr::tally() %>%
-        dplyr::filter(n >= 2) %>%
-        dplyr::select(patient_id))[,1])))
+        filterd_clone_tbl_goi_gene_names %>%
+        select(patient_id) %>%
+        group_by(patient_id) %>%
+        tally() %>%
+        filter(n >= 2) %>%
+        pull(patient_id)
+    stopifnot(length(all_pats) == length(unique(all_pats)))
     num_pats_to_plot <- length(all_pats)
-    
     
     ## define the pdf output
     if(output_pdf != "direct")
@@ -526,48 +537,47 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     
     for (this_pat in all_pats){
         tbl_to_plot <- filterd_clone_tbl_goi_gene_names %>%
-        dplyr::filter(patient_id == this_pat) %>%
-        dplyr::select(-altered_entity, -patient_id)
+        filter(patient_id == this_pat) %>%
+        select(-altered_entity, -patient_id)
         
         ## here we remove columns from the end that are just clone zero 
         ## in this current patient, for plotting
         tbl_to_plot_just_clones <- tbl_to_plot %>% 
-            dplyr::select(-hgnc_symbols)
+            select(-hgnc_symbols)
         col_sums_clones <- colSums(tbl_to_plot_just_clones)
         idx_clones_this_pat <- seq_len(max( which(col_sums_clones != 0 )))
         tbl_to_plot_nonzero_clones <- cbind(tbl_to_plot['hgnc_symbols'],
             tbl_to_plot_just_clones[, idx_clones_this_pat])
         
-        
         cnt <- cnt + 1
         
         tbl_to_plot_melted <- 
-            suppressMessages(reshape2::melt(tbl_to_plot_nonzero_clones))
-        
+            suppressMessages(melt(tbl_to_plot_nonzero_clones))
+              
         colors <- rev(c("darkblue", "lightblue"))
-        this_plot <- ggplot2::ggplot() +
-            ggplot2::geom_tile(data=tbl_to_plot_melted, 
-                ggplot2::aes(x=hgnc_symbols, 
+        this_plot <- ggplot() +
+            geom_tile(data=tbl_to_plot_melted, 
+                aes(x=hgnc_symbols, 
                 y=variable, 
                 fill=factor(value))) +
-            ggplot2::geom_tile(data=tbl_to_plot_melted, 
-               ggplot2::aes(x=hgnc_symbols, 
+            geom_tile(data=tbl_to_plot_melted, 
+               aes(x=hgnc_symbols, 
                y=variable), 
                size=1, fill=NA, color="black") +
-            ggplot2::scale_fill_manual(values=colors, 
+            scale_fill_manual(values=colors, 
                 name="Mutation status") +
-            ggplot2::theme_minimal() +
-            ggplot2::theme(axis.text.x=ggplot2::element_text(angle=90, 
+            theme_minimal() +
+            theme(axis.text.x=element_text(angle=90, 
                 vjust=0.5, hjust=1)) + 
         ## Vertical text on x axis
-        ggplot2::labs(x="") + ggplot2::labs(y="") +
-        ggplot2::ggtitle(paste("Patient ", this_pat, sep="")) +
-        ggplot2::theme(plot.title=ggplot2::element_text(size=14,
+        labs(x="") + labs(y="") +
+        ggtitle(paste("Patient ", this_pat, sep="")) +
+        theme(plot.title=element_text(size=14,
             face="bold"),
-            text=ggplot2::element_text(size=14),
-            axis.title=ggplot2::element_text(size=14),
-            axis.text.x=ggplot2::element_text(size=14),
-            axis.text.y=ggplot2::element_text(size=14))
+            text=element_text(size=14),
+            axis.title=element_text(size=14),
+            axis.text.x=element_text(size=14),
+            axis.text.y=element_text(size=14))
         plot_list[[cnt]] <- this_plot
     }
     
@@ -583,7 +593,7 @@ heatmap_clones_gene_pat <- function(pairs_of_interest, clone_tbl,
     } else {
         my_letters <- LETTERS[seq_len(cnt)]
     }
-    plot_altogether <- ggpubr::ggarrange(plotlist=plot_list, 
+    plot_altogether <- ggarrange(plotlist=plot_list, 
         ncol=cnt, labels=my_letters)
     print(plot_altogether)
     if(output_pdf != "direct"){

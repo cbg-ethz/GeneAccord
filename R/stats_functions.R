@@ -22,10 +22,10 @@
 #' clonally exclusive in the trees in each patient.
 #' Has to be the same order as \code{avg_rates_m}.
 #' @author Ariane L. Moore
-#' @import 
-#' gtools
-#' maxLik
-#' stats
+#' @export
+#' @importFrom gtools logit inv.logit
+#' @importFrom maxLik maxLik
+#' @importFrom stats coef
 #' @return A list with the test statistic of the clonal exclusivity test 
 #' (lrtest), and the maximum likelihood estimate of delta.
 #' @examples
@@ -109,13 +109,13 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     ## the data for a given delta
     
     ## get the logits of the m's: logit(m_i)=m_i/(1-m_i)
-    logit_avg_rates_m <- gtools::logit(avg_rates_m) 
+    logit_avg_rates_m <- logit(avg_rates_m) 
     ## without the gtools function, this crashes when one 
     ## of the rates is 1.0
     
     ## They should be identical: i.e. if delta is zero, m and m_star should 
     ## be the same
-    if(abs((gtools::inv.logit(logit_avg_rates_m))[1]
+    if(abs((inv.logit(logit_avg_rates_m))[1]
         - avg_rates_m[1]) >= 0.01){
         stop("The sanity check with delta=0 did not have the right",
         " result. m should be identical to m_star if delta=0!!")
@@ -123,7 +123,7 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     
     ## define the log-likelihood function
     this_LL <- function(this_delta) {
-        avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + 
+        avg_rates_m_star <- inv.logit(logit_avg_rates_m + 
             this_delta)
         l_alt_factors <- apply(cbind(num_clon_excl, num_trees_pair, 
             avg_rates_m_star), 1, 
@@ -132,13 +132,13 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
     }
     
     ## get the mle estimate of the delta
-    mle <- maxLik::maxLik(logLik=this_LL, start=c(this_delta=0))
-    mle_delta <- stats::coef(mle)
+    mle <- maxLik(logLik=this_LL, start=c(this_delta=0))
+    mle_delta <- coef(mle)
     message("Maximum likelihood estimate of delta given the data is: ", 
         mle_delta)
     
     ## compute the alternative likelihood
-    avg_rates_m_star <- gtools::inv.logit(logit_avg_rates_m + mle_delta)
+    avg_rates_m_star <- inv.logit(logit_avg_rates_m + mle_delta)
     l_alt_factors <- 
         apply(cbind(num_clon_excl, num_trees_pair, avg_rates_m_star), 1, 
         function(x){compute_weighted_p(x[1], x[2], x[3])})
@@ -189,16 +189,17 @@ compute_test_stat_avg_rate <- function(avg_rates_m, num_trees_pair,
 #' i.e. a list with the p-value, the number of patients in which both of 
 #' the genes/pathways were mutated, the maximum likelihood estimate of
 #' the delta, and the test statistic.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble filter is.tbl pull select
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name"=
+#' clone_tbl <- dplyr::tibble("file_name"=
 #'            rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'           "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'           "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'           "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'           "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'           "tree_id"=c(rep(5, 6), rep(10, 6))))
+#'           "tree_id"=c(rep(5, 6), rep(10, 6)))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -230,7 +231,7 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     altered_entity <- patient_id <- file_name <- tree_id <- NULL
     stopifnot(is.character(entA))
     stopifnot(is.character(entB))
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("file_name" %in% colnames(clone_tbl))
     stopifnot("patient_id" %in% colnames(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
@@ -255,21 +256,20 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
     message("There were ", num_trees, " different tree inferences.")
     
     ## check in which patients the current pair is mutated, and in wich 
-    ## treesthis is the list of trees, where each list entry is the 
+    ## trees
+    ## this is the list of trees, where each list entry is the 
     ## vector of patient ids
     ## in which both of them are mutated
     tree_to_pats_ent_pair <- lapply(all_tree_ids, function(this_tree){
         ## select a specific tree
         clone_tbl_this_tree <- clone_tbl %>% 
-            dplyr::filter(tree_id == this_tree)
+            filter(tree_id == this_tree)
       
         these_pats_mutated <- lapply(c(entA, entB), function(this_ent){
-            this_ent_pats_tbl <- clone_tbl_this_tree %>%
-                dplyr::filter(altered_entity == this_ent) %>%
-                dplyr::select(patient_id)
-            this_ent_pats <- 
-                unique(as.vector(as.data.frame(this_ent_pats_tbl)[,1]))
-            stopifnot(dim(this_ent_pats_tbl)[1] == length(this_ent_pats))
+            this_ent_pats <- clone_tbl_this_tree %>%
+                filter(altered_entity == this_ent) %>%
+                pull(patient_id)
+            stopifnot(length(unique(this_ent_pats)) == length(this_ent_pats))
             this_ent_pats
         })
         ## now only those where both of them are mutated
@@ -306,8 +306,8 @@ ecdf_lr_test_clon_excl_avg_rate <- function(entA, entB, clone_tbl,
         function(x){
         ## take the clone tibble ## just for the current patient
         this_clone_tbl <- clone_tbl %>%                     
-            dplyr::filter(patient_id == x) %>%                      
-            dplyr::select(-file_name, -patient_id)
+            filter(patient_id == x) %>%                      
+            select(-file_name, -patient_id)
         num_trees_num_clon_excl_this_pat <- 
             suppressMessages(get_hist_clon_excl_this_pat_this_pair(entA, 
             entB, 

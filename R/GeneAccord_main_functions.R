@@ -71,18 +71,20 @@
 #' after multiple testing
 #' correction with Benjamini-Hochberg.
 #' @author Ariane L. Moore, \email{ariane.moore@@bsse.ethz.ch} 
-#' @import 
-#' caTools
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom caTools combs
+#' @importFrom dplyr tibble filter is.tbl group_by tally mutate 
+#' bind_rows
+#' @importFrom stats p.adjust
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name"=
+#' clone_tbl <- dplyr::tibble("file_name"=
 #'    rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'    "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'    "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'    "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'    "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'    "tree_id"=c(rep(5, 6), rep(10, 6))))
+#'    "tree_id"=c(rep(5, 6), rep(10, 6)))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -120,7 +122,7 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     genes_of_interest="ALL", AND_OR="OR"){
     patient_id <- altered_entity <- file_name <- tree_id <- qval <- 
         pval <- mle_delta <- num_patients <- pairs <- n <- NULL
-    stopifnot(dplyr::is.tbl(clone_tbl))
+    stopifnot(is.tbl(clone_tbl))
     stopifnot("file_name" %in% colnames(clone_tbl))
     stopifnot("patient_id" %in% colnames(clone_tbl))
     stopifnot("altered_entity" %in% colnames(clone_tbl))
@@ -175,23 +177,23 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     ## get the pairs from each patient separately, and then 
     ## check which pairs re-occur across at least two patients
     list_all_pairs_all_pats <- lapply(all_pats, function(x){
-        clone_tbl_this_pat <- clone_tbl %>% dplyr::filter(patient_id == x)
+        clone_tbl_this_pat <- clone_tbl %>% filter(patient_id == x)
         all_ents_this_pat <- 
             unique(as.character(clone_tbl_this_pat$altered_entity))
         num_ents_this_pat <- length(all_ents_this_pat)
         num_pairs_this_pat <- num_ents_this_pat*(num_ents_this_pat-1)/2
         ## get all pairs of entities of that patient efficiently
-        all_pairs_this_pat <- caTools::combs(all_ents_this_pat, 2)
+        all_pairs_this_pat <- combs(all_ents_this_pat, 2)
         ## to make sure the gene pairs are all in the same order such that
         ## later, when we check which pairs occur in multiple patients,
         ## that we do not miss pairs just because they are in a different
         ## order
-        all_pairs_this_pat <- t(apply(all_pairs_this_pat, 1, 
-            function(pair){sort(pair)}))
+        all_pairs_this_pat <- as.data.frame(t(apply(all_pairs_this_pat, 1, 
+            function(pair){sort(pair)})))
         stopifnot(num_pairs_this_pat == dim(all_pairs_this_pat)[1])
         return(all_pairs_this_pat)
     })
-    all_pairs_all_pats <- do.call("rbind", list_all_pairs_all_pats)
+    all_pairs_all_pats <- bind_rows(list_all_pairs_all_pats)
     unique_all_pairs_all_pats <- unique(all_pairs_all_pats)
     num_pairs <- dim(unique_all_pairs_all_pats)[1]
     all_pairs <- unique_all_pairs_all_pats
@@ -203,10 +205,10 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
     all_pairs_all_pats_one_string <- apply(all_pairs_all_pats, 1, 
         function(x){paste0(x, collapse="__")})
     all_pairs_all_pats_one_string_minPat <- 
-        tibble::tibble(pairs=all_pairs_all_pats_one_string) %>% 
-        dplyr::group_by(pairs) %>% 
-        dplyr::tally() %>% 
-        dplyr::filter(n>=min_num_pat)
+        tibble(pairs=all_pairs_all_pats_one_string) %>% 
+        group_by(pairs) %>% 
+        tally() %>% 
+        filter(n>=min_num_pat)
     all_pairs <- t(vapply(all_pairs_all_pats_one_string_minPat$pairs, 
         function(x){unlist(strsplit(x, "__"))}, character(2)))
     rownames(all_pairs) <- NULL
@@ -290,7 +292,7 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         message("There are no pairs that fulfill the restriction ",
         "with genes_of_interest and the AND_OR.")
         message("No test will be done.")
-        res_all_pairs <- tibble::tibble(entity_A=character(), 
+        res_all_pairs <- tibble(entity_A=character(), 
             entity_B=character(),
             num_patients=numeric(),
             pval=numeric(),
@@ -341,20 +343,20 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         ## create final tibble to return
         ## contains the columns 'entity_A', 'entity_B', 'num_patients', 
         ## 'pval', 'mle_delta', 'test_statistic', 'qval'
-        res_all_pairs <- dplyr::as.tbl(data.frame(entity_A=pairs_to_test[,1], 
+        res_all_pairs <- tibble(entity_A=pairs_to_test[,1], 
             entity_B=pairs_to_test[,2],
             num_patients=all_pairs_num_pat,
             pval=all_pairs_pval,
             mle_delta=these_deltas,
-            test_statistic=these_test_stats))
+            test_statistic=these_test_stats)
       
         ## now filter out the pairs where no test was performed
         num_pairs_in_zero_pats <- dim(res_all_pairs %>% 
-            dplyr::filter(num_patients == 0))[1]
+            filter(num_patients == 0))[1]
         num_pairs_in_one_pat <- dim(res_all_pairs %>% 
-            dplyr::filter(num_patients == 1))[1]
+            filter(num_patients == 1))[1]
         res_all_pairs_minNumPat2 <- res_all_pairs %>% 
-            dplyr::filter(num_patients >= 2)
+            filter(num_patients >= 2)
         num_pairs_in_two_or_more_pats <- dim(res_all_pairs_minNumPat2)[1]
         ## convert the delta to numeric such that it can be 
         ## filtered according to delta
@@ -365,7 +367,7 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
             ## filter out the pairs where delta <= 0, 
             ## because they were not tested
             final_res_pairs <- res_all_pairs_minNumPat2 %>%
-                dplyr::filter(mle_delta > 0)
+                filter(mle_delta > 0)
             num_pairs_deltaGT0 <- dim(final_res_pairs)[1]
             message(num_pairs_in_two_or_more_pats ,
             " pairs were mutated in more than one patient and for them",
@@ -381,14 +383,12 @@ GeneAccord <- function(clone_tbl, avg_rates_m, ecdf_list,
         }
       
         ## perform correction for multiple testing
-        all_pvals <- 
-            as.numeric(as.vector(as.data.frame(final_res_pairs %>% 
-            dplyr::select(pval))[,1]))
+        all_pvals <- as.numeric(final_res_pairs$pval)
         qvals_BH <- p.adjust(all_pvals, method="BH")
         stopifnot(length(qvals_BH) == dim(final_res_pairs)[1])
         final_res_pairs_pval_corrected <- 
         final_res_pairs %>% 
-            dplyr::mutate(qval=qvals_BH)
+            mutate(qval=qvals_BH)
       
         return(final_res_pairs_pval_corrected)
     }

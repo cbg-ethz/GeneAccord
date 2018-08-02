@@ -32,7 +32,7 @@ be mapped to the corresponding hgnc symbols.
 }
 \examples{
 \dontrun{
-pairs_of_interest <- tibble::tibble(
+pairs_of_interest <- dplyr::tibble(
     entity_A=c("ENSG00000181143", "ENSG00000163939"),
     entity_B=c("ENSG00000141510", "ENSG00000163930"))
 all_genes_tbl <- create_ensembl_gene_tbl_hg()

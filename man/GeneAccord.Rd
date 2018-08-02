@@ -90,13 +90,13 @@ clones. Hence it also allows to detect significant clonal co-occurrence.
 An additional option is to test only a specific subset of genes.
 }
 \examples{
-clone_tbl <- tibble::as_tibble(cbind("file_name"=
+clone_tbl <- dplyr::tibble("file_name"=
    rep(c(rep(c("fn1", "fn2"), each=3)), 2),
    "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
    "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
    "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
    "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-   "tree_id"=c(rep(5, 6), rep(10, 6))))
+   "tree_id"=c(rep(5, 6), rep(10, 6)))
 clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)

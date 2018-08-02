@@ -50,16 +50,16 @@ the gene clone
 heatmap for significant gene pairs.
 }
 \examples{
-pairs_of_interest <- tibble::tibble(entity_A="SETD2",
+pairs_of_interest <- dplyr::tibble(entity_A="SETD2",
                            entity_B="BAP1")
-clone_tbl <- tibble::tibble(
+clone_tbl <- dplyr::tibble(
                file_name=c("X.csv", "X.csv", "Y.csv", "Y.csv"),
                patient_id=c("X", "X", "Y", "Y"),
                altered_entity=c("SETD2", "BAP1", "SETD2", "BAP1"),
                clone1=c(0, 1, 1, 0),
                clone2=c(1, 0, 0, 1))
 \dontrun{all_genes_tbl <- create_ensembl_gene_tbl_hg()}
-all_genes_tbl_example <- tibble::tibble(
+all_genes_tbl_example <- dplyr::tibble(
                  ensembl_gene_id=c("ENSG00000181555", 
                  "ENSG00000163930"),
                  hgnc_symbol=c("SETD2", "BAP1"))

@@ -44,17 +44,19 @@
 #' Default: 1000.
 #' @author Ariane L. Moore
 #' @return The return value is a list with ECDF's. The first list entry 
-#' is just set to NULL for technical reasons. 
-#' @import
-#' dplyr
+#' is just set to NULL for technical reasons.
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble filter is.tbl pull
+#' @importFrom stats ecdf
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name" =
+#' clone_tbl <- dplyr::tibble("file_name" =
 #'    rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'    "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'    "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'    "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'    "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'    "tree_id"=c(rep(5, 6), rep(10, 6))))
+#'    "tree_id"=c(rep(5, 6), rep(10, 6)))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -156,14 +158,13 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
             beta_distortion=beta_distortion))
         stopifnot(dim(this_test_stat_hist)[2] == (2+i*4))
       
-        stopifnot(dplyr::is.tbl(this_test_stat_hist))
+        stopifnot(is.tbl(this_test_stat_hist))
         stopifnot("test_statistic" %in% colnames(this_test_stat_hist))
         stopifnot(dim(this_test_stat_hist)[1] == num_pairs_sim)
-      
+        
         ## build the ecdf
         ecdf_lrtest_stat[[i]] <- 
-            ecdf(as.numeric(as.vector(as.data.frame(this_test_stat_hist %>%
-            dplyr::select(test_statistic))[,1])))
+            ecdf(this_test_stat_hist %>% pull(test_statistic))
     }
     
     return(ecdf_lrtest_stat)
@@ -223,16 +224,17 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
 #' clonally exclusive. The tibble also contains a column 'pval' with the
 #' p-value of the simulated pair. The list of tibbles is of length 
 #' min{num_pat_pair_max, length(avg_rates_m)}.
-#' @import 
-#' dplyr
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble filter is.tbl pull mutate
 #' @examples
-#' clone_tbl <- tibble::as_tibble(cbind("file_name" =
+#' clone_tbl <- dplyr::tibble("file_name" =
 #'        rep(c(rep(c("fn1", "fn2"), each=3)), 2),
 #'        "patient_id"=rep(c(rep(c("pat1", "pat2"), each=3)), 2),
 #'        "altered_entity"=c(rep(c("geneA", "geneB", "geneC"), 4)),
 #'        "clone1"=c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0),
 #'        "clone2"=c(1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1),
-#'        "tree_id"=c(rep(5, 6), rep(10, 6))))
+#'        "tree_id"=c(rep(5, 6), rep(10, 6)))
 #' clone_tbl_pat1 <- dplyr::filter(clone_tbl, patient_id == "pat1")
 #' clone_tbl_pat2 <- dplyr::filter(clone_tbl, patient_id == "pat2")
 #' rates_exmpl_1 <- compute_rates_clon_excl(clone_tbl_pat1)
@@ -254,7 +256,7 @@ generate_ecdf_test_stat <- function(avg_rates_m, list_of_num_trees_all_pats,
 #'                            list_of_clon_excl_all_pats,
 #'                            num_pat_pair_max, num_pairs_sim)
 #' sim_res <- generate_test_stat_hist(avg_rates_m, 
-#'                                  list_of_num_trees_all_pats, 
+#'                                   list_of_num_trees_all_pats, 
 #'                                   list_of_clon_excl_all_pats, 
 #'                                   ecdf_list, 
 #'                                   num_pat_pair_max, 
@@ -335,7 +337,7 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
             beta_distortion=beta_distortion))
         stopifnot(dim(this_test_stat_hist)[2] == (2+i*4))
         
-        stopifnot(dplyr::is.tbl(this_test_stat_hist))
+        stopifnot(is.tbl(this_test_stat_hist))
         stopifnot("test_statistic" %in% colnames(this_test_stat_hist))
         stopifnot(dim(this_test_stat_hist)[1] == num_pairs_sim)
         ## as a null reference ecdf, the pre-computed ecdf of the test 
@@ -347,16 +349,16 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
         ## compute a p-value given the ecdf of the test statistic ecdf(T) 
         ## from the null distribution
         ## p_value=P(T>t | H_0 true)=1-ecdf(t) #### (upper-tailed test)
-        all_test_stats <- 
-            as.numeric(as.vector(as.data.frame(this_test_stat_hist %>% 
-            dplyr::select(test_statistic))[,1]))
+        all_test_stats <- this_test_stat_hist %>% 
+            pull(test_statistic)
+        
         all_pvals <- vapply(all_test_stats, function(x){
             this_pval <- 1-this_ecdf(x)
         }, numeric(1))
         
         this_test_stat_hist <- this_test_stat_hist %>% 
-            dplyr::mutate(pval=unlist(all_pvals)) %>% 
-            dplyr::mutate(num_pat_pair=i)
+            mutate(pval=unlist(all_pvals)) %>% 
+            mutate(num_pat_pair=i)
         
         lrtest_stat_list[[i]] <- this_test_stat_hist
     }
@@ -416,9 +418,11 @@ generate_test_stat_hist <- function(avg_rates_m, list_of_num_trees_all_pats,
 #' is the test statistic of the likelihood ratio test. The 'mle_delta' is
 #' the maximum likelihood estimate of the delta for the elevated clonal 
 #' exclusivity rate in the alternative model of the likelihood ratio test.
-#' @import 
-#' dplyr
-#' tibble
+#' @export
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr tibble
+#' @importFrom tibble add_column
+#' @importFrom stats rbeta
 #' @examples
 #' avg_rates_m=c(0.4, 0.3)
 #' list_of_clon_excl_frac_trees_all_pats <- list(list(c(5, 4, 5), c(5, 4)), 
@@ -739,15 +743,15 @@ build_null_test_statistic <- function(avg_rates_m,
     ## contains the columns 'test_statistic',
     ## 'mle_delta', and num_pat_pair columns with the respective rates 
     ## that were drawn for each of the patients.
-    res_all_pairs <- dplyr::as.tbl(data.frame(test_statistic=
+    res_all_pairs <- tibble(test_statistic=
         all_pairs_test_stat,
-        mle_delta=all_pairs_delta))
+        mle_delta=all_pairs_delta)
     ## now add the num_pat_pair columns with the rates of average clonal 
     ## exclusivity
     for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, sep="")
         res_all_pairs <- res_all_pairs %>%
-            tibble::add_column(new_col=all_pairs_pat_rates[[i]])
+            add_column(new_col=all_pairs_pat_rates[[i]])
         names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
     }
     ## now add the all_pairs_num_trees columns with the number of trees 
@@ -755,7 +759,7 @@ build_null_test_statistic <- function(avg_rates_m,
     for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_num_trees", sep="")
         res_all_pairs <- res_all_pairs %>%
-          tibble::add_column(new_col=all_pairs_num_trees[[i]])
+          add_column(new_col=all_pairs_num_trees[[i]])
         names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
     }
     ## now add the all_pairs_num_clon_excl columns with the number of 
@@ -763,7 +767,7 @@ build_null_test_statistic <- function(avg_rates_m,
     for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_num_clon_excl", sep="")
         res_all_pairs <- res_all_pairs %>%
-            tibble::add_column(new_col=all_pairs_num_clon_excl[[i]])
+            add_column(new_col=all_pairs_num_clon_excl[[i]])
         names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
     }
     ## now add the num_pat_pair columns with the rates of average clonal 
@@ -771,7 +775,7 @@ build_null_test_statistic <- function(avg_rates_m,
     for(i in seq_len(num_pat_pair)){
         col_name <- paste("pat", i, "_beta_distorted", sep="")
         res_all_pairs <- res_all_pairs %>%
-        tibble::add_column(new_col=all_pairs_pat_rates_beta_distorted[[i]])
+        add_column(new_col=all_pairs_pat_rates_beta_distorted[[i]])
         names(res_all_pairs)[names(res_all_pairs) == "new_col"] <- col_name
     }
     

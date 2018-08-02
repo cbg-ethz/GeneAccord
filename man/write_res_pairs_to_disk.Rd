@@ -37,7 +37,7 @@ input tibble has the columns 'hgnc_gene_A', 'hgnc_gene_B',
 'pval', 'qval', 'mutated_in', 'clonally_exclusive_in'.
 }
 \examples{
-sig_pairs <- tibble::tibble(hgnc_gene_A=c("VHL", "BAP1"),
+sig_pairs <- dplyr::tibble(hgnc_gene_A=c("VHL", "BAP1"),
     hgnc_gene_B=c("PTEN", "KIT"),
     pval=c(0.001, 0.002),
     qval=c(0.01, 0.02),

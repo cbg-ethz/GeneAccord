@@ -39,7 +39,7 @@ Right panel: ecdf of the p-values with different colors for different
  numbers of patients that the pairs were mutated in.
 }
 \examples{
-res_sim <- tibble::tibble(num_patients=c(rep(2,100), 
+res_sim <- dplyr::tibble(num_patients=c(rep(2,100), 
                           rep(3,100), rep(4,100)),
                           pval=c(runif(300)))
 vis_pval_distr_num_pat(res_sim)
