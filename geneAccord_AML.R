@@ -25,5 +25,3 @@ cx_results <- geneAccord(cx_selected)
 #cx_results$q_chisq <- p.adjust(cx_results$p_chisq, method = "BH")
 
 cx_results
-
-
