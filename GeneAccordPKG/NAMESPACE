@@ -1,0 +1,6 @@
+exportPattern("^[[:alpha:]]+")
+import(dplyr)
+import(purrr)
+import(tidyr)
+importFrom("stats", "optimize", "p.adjust", "pchisq", "rbeta", "rbinom")
+importFrom("utils", "data", "tail")

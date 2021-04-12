@@ -1,0 +1,12 @@
+Package: GeneAccord
+Type: Package
+Title: Statistical Test for Clonal Exclusivity in Tumour Evolution
+Version: 1.0.0
+Author: Jack Kuipers, Ariane L. Moore
+Maintainer: Jack Kuipers <jack.kuipers@bsse.ethz.ch>
+Description: This R package has functions to detect clonal exclusivity or co-occurrence patterns of altered genes or pathways in a cohort of cancer patients. Such clonally exclusive gene pairs may uncover synergies between co-existing clones.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr, purrr, tidyr
+RoxygenNote: 7.1.1
