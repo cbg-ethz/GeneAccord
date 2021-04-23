@@ -153,16 +153,20 @@ test_gene_pair <- function(cx_selected, k, exact_limit = 12, filter = TRUE, MC_r
 #' of genes recording the average (over trees) clonal exclusivity.
 #' @param exact_limit Limit above which the asymptotic chi-squared distribution
 #' is employed instead of the exact test which is more computationally intensive.
+#' @param filter Whether to remove untestable gene pairs (TRUE, default) to
+#' reduce multiple testing
+#' @param MC_reps How many repetitions to use for Monte Carlo estimation of
+#' the p-values. When NULL (default) exact or chi-squared testing is used.
 #' @author Jack Kuipers
 #' @export
 #' @return A data fram with the gene pairs, number of observed samples containing
 #' the gene pair, the number of samples with clonal exclusivity, the maximum
 #' likelihood estimate of delta, the LR test statistic of the clonal exclusivity
 #' test and the corresponding p-value and BH corrected q-value.
-geneAccord <- function(clonal_exclusivity_df, exact_limit = 12, filter = TRUE) {
+geneAccord <- function(clonal_exclusivity_df, exact_limit = 12, filter = TRUE, MC_reps = NULL) {
   cx_results <- NULL
   for (kk in 2:ncol(clonal_exclusivity_df) - 1) {
-    cx_results <- rbind(cx_results, test_gene_pair(clonal_exclusivity_df, kk, filter = filter))
+    cx_results <- rbind(cx_results, test_gene_pair(clonal_exclusivity_df, kk, exact_limit = exact_limit, filter = filter, MC_reps = MC_reps))
   }
   if (filter) {
     to_keep <- which(!is.na(cx_results$p))
