@@ -4,7 +4,12 @@
 \alias{geneAccord}
 \title{Perform the geneAccord clonal exclusivity test .}
 \usage{
-geneAccord(clonal_exclusivity_df, exact_limit = 12, filter = TRUE)
+geneAccord(
+  clonal_exclusivity_df,
+  exact_limit = 12,
+  filter = TRUE,
+  MC_reps = NULL
+)
 }
 \arguments{
 \item{clonal_exclusivity_df}{A data frame with one row per sample with
@@ -13,6 +18,12 @@ of genes recording the average (over trees) clonal exclusivity.}
 
 \item{exact_limit}{Limit above which the asymptotic chi-squared distribution
 is employed instead of the exact test which is more computationally intensive.}
+
+\item{filter}{Whether to remove untestable gene pairs (TRUE, default) to
+reduce multiple testing}
+
+\item{MC_reps}{How many repetitions to use for Monte Carlo estimation of
+the p-values. When NULL (default) exact or chi-squared testing is used.}
 }
 \value{
 A data fram with the gene pairs, number of observed samples containing
