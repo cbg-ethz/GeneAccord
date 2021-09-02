@@ -2,10 +2,11 @@
 % Please edit documentation in R/geneAccord_fns.R
 \name{geneAccord}
 \alias{geneAccord}
-\title{Perform the geneAccord clonal exclusivity test .}
+\title{Perform the geneAccord clonal exclusivity test.}
 \usage{
 geneAccord(
   clonal_exclusivity_df,
+  test_type = "standard",
   exact_limit = 12,
   filter = TRUE,
   MC_reps = NULL
@@ -13,8 +14,17 @@ geneAccord(
 }
 \arguments{
 \item{clonal_exclusivity_df}{A data frame with one row per sample with
-the first column containing the and following columns for each pair
+the first column containing the exclusivity rates, the second column
+containing the number of gene pairs and following columns for each pair
 of genes recording the average (over trees) clonal exclusivity.}
+
+\item{test_type}{The type of test to perform with "standard" (default)
+testing the location of each gene pair in the informative trees, "patient"
+testing the selection of patients exhibiting the gene pair, and "combined"
+combining both tests. The "patient" test uses the chi-squared approximation
+to obtain p-values, while the "combined" test is exact unless exact_limit is
+negative when the chi-squared approximation is used. The "standard" test
+takes the following additional parameters:}
 
 \item{exact_limit}{Limit above which the asymptotic chi-squared distribution
 is employed instead of the exact test which is more computationally intensive.}
@@ -26,15 +36,17 @@ reduce multiple testing}
 the p-values. When NULL (default) exact or chi-squared testing is used.}
 }
 \value{
-A data fram with the gene pairs, number of observed samples containing
-the gene pair, the number of samples with clonal exclusivity, the maximum
-likelihood estimate of delta, the LR test statistic of the clonal exclusivity
-test and the corresponding p-value and BH corrected q-value.
+A data frame with the gene pairs, the total number of observed samples
+containing the gene pair, the number of informative topologies, the number of
+samples with clonal exclusivity, the number of linear and star topologies,
+the maximum likelihood estimate of delta, the LR test statistic of the clonal
+exclusivity test and the corresponding p-value and BH corrected q-value.
 }
 \description{
 Takes a data frame of clonal exclusivity patterns with rows representing
 patient sample, a first column giving the overall observed exclusivity
-probability and subsequent columns providing the rate of clonal
+probability a second column of the number of gene pairs in that sample
+and subsequent columns providing the rate of clonal
 exclusivity of the tree(s) of that patient sample.
 }
 \author{

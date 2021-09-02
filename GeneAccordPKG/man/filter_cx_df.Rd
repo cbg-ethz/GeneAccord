@@ -14,13 +14,14 @@ pair of genes recording the average (over trees) clonal exclusivity.}
 }
 \value{
 A filtered dataframe of clonal exclusivity patterns with an additional
-first column of clonal exclusivity probabilities per sample.
+first two columns of clonal exclusivity probabilities and the
+number of gene pairs per sample.
 }
 \description{
 Filter a data frame of pairwise clonal exclusivity patterns
-to select samples with a clonal exclusivity probability strictly
-between 0 and 1 and gene pairs which occur in at least a given
-number of samples.
+to select gene pairs appearing in a minimum number of samples
+with a clonal exclusivity probability strictly
+between 0 and 1.
 }
 \author{
 Jack Kuipers

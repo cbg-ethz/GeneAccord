@@ -8,9 +8,9 @@ clone_df_to_cx_df(clone_df)
 }
 \arguments{
 \item{clone_df}{The dataframe of mutational presence in each clone.
-The first column must be the sample id, the next column an identifier
-of each tree obtained per sample. The third column stores the frequency of each
-clone. The remaining columns are for the genes/positions.
+The first column named "case" must be the sample id, the next column named "tree"
+an identifier of each tree obtained per sample. The third column named "freq"
+stores the frequency of each clone. The remaining columns are for the genes/positions.
 Each row is a clone (per sample and per tree) with its mutation status
 over the genes recorded in binary with 1 representing mutation.}
 }
