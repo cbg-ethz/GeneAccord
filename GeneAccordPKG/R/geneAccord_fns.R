@@ -59,9 +59,7 @@ clone_df_to_cx_df <- function(clone_df) {
 }
 
 #' Filter a data frame of pairwise clonal exclusivity patterns
-#' to select gene pairs appearing in a minimum number of samples
-#' with a clonal exclusivity probability strictly
-#' between 0 and 1.
+#' to select gene pairs appearing in a minimum number of samples.
 #'
 #' @title Filters a clonal exclusivity dataframe.
 #' @param cx_df A dataframe with one row per sample and columns for each
@@ -89,7 +87,7 @@ filter_cx_df <- function(cx_df, k) {
 }
 
 # Test a single gene pair with the LR statistic
-test_gene_pair <- function(cx_df, k, test_type = "standard", exact_limit = 12, filter = TRUE, MC_reps = NULL, nu = 10) {
+test_gene_pair <- function(cx_df, k, test_type = "placement", exact_limit = 12, filter = TRUE, MC_reps = NULL, nu = 10) {
   gene_pair_df <- cx_df[, c(-1, 0, k) + 2] # have probabilities in first column
   probs_all <- gene_pair_df[, 1] # extract the probabilities
   ns <- gene_pair_df[, 2] # and number of gene pairs
@@ -106,11 +104,11 @@ test_gene_pair <- function(cx_df, k, test_type = "standard", exact_limit = 12, f
   n_obs <- length(obs)
   n_cx <- sum(obs)
 
-  if (test_type == "patient") {
+  if (test_type == "occurrence") {
     ll_max <- optimize(ll_w, interval = c(-10, 10), ns = ns, probs = probs_all, obs = obs_all, maximum = TRUE)
   } else if (test_type == "combined") {
     ll_max <- optimize(ll_c, interval = c(-10, 10), ns = ns, probs = probs_all, obs = obs_all, probs_ga = probs, obs_ga = obs, maximum = TRUE)
-  } else if (test_type == "standard") {
+  } else if (test_type == "placement") {
     ll_max <- optimize(ll_delta, interval = c(-10, 10), probs = probs, obs = obs, maximum = TRUE)
   }
 
@@ -148,7 +146,7 @@ test_gene_pair <- function(cx_df, k, test_type = "standard", exact_limit = 12, f
     }
   }
 
-  if (test_type == "standard") {
+  if (test_type == "placement") {
   if (n_obs < exact_limit || !is.null(MC_reps)) {
     tol <- 1e-6
     if (is.null(MC_reps)) { # exact version
@@ -201,12 +199,12 @@ test_gene_pair <- function(cx_df, k, test_type = "standard", exact_limit = 12, f
 #' the first column containing the exclusivity rates, the second column
 #' containing the number of gene pairs and following columns for each pair
 #' of genes recording the average (over trees) clonal exclusivity.
-#' @param test_type The type of test to perform with "standard" (default)
-#' testing the location of each gene pair in the informative trees, "patient"
+#' @param test_type The type of test to perform with "placement" (default)
+#' testing the location of each gene pair in the informative trees, "occurrence"
 #' testing the selection of patients exhibiting the gene pair, and "combined"
-#' combining both tests. The "patient" test uses the chi-squared approximation
+#' combining both tests. The "occurrence" test uses the chi-squared approximation
 #' to obtain p-values, while the "combined" test is exact unless exact_limit is
-#' negative when the chi-squared approximation is used. The "standard" test
+#' negative when the chi-squared approximation is used. The "placement" test
 #' takes the following additional parameters:
 #' @param exact_limit Limit above which the asymptotic chi-squared distribution
 #' is employed instead of the exact test which is more computationally intensive.
@@ -221,7 +219,7 @@ test_gene_pair <- function(cx_df, k, test_type = "standard", exact_limit = 12, f
 #' samples with clonal exclusivity, the number of linear and star topologies,
 #' the maximum likelihood estimate of delta, the LR test statistic of the clonal
 #' exclusivity test and the corresponding p-value and BH corrected q-value.
-geneAccord <- function(clonal_exclusivity_df, test_type = "standard", exact_limit = 12, filter = TRUE, MC_reps = NULL) {
+geneAccord <- function(clonal_exclusivity_df, test_type = "placement", exact_limit = 12, filter = TRUE, MC_reps = NULL) {
   cx_results <- NULL
   for (kk in 3:ncol(clonal_exclusivity_df) - 2) {
     cx_results <- rbind(cx_results, test_gene_pair(clonal_exclusivity_df, kk, test_type = test_type, exact_limit = exact_limit, filter = filter, MC_reps = MC_reps))
