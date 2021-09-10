@@ -19,9 +19,7 @@ number of gene pairs per sample.
 }
 \description{
 Filter a data frame of pairwise clonal exclusivity patterns
-to select gene pairs appearing in a minimum number of samples
-with a clonal exclusivity probability strictly
-between 0 and 1.
+to select gene pairs appearing in a minimum number of samples.
 }
 \author{
 Jack Kuipers

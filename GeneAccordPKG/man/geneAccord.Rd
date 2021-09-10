@@ -6,7 +6,7 @@
 \usage{
 geneAccord(
   clonal_exclusivity_df,
-  test_type = "standard",
+  test_type = "placement",
   exact_limit = 12,
   filter = TRUE,
   MC_reps = NULL
@@ -18,12 +18,12 @@ the first column containing the exclusivity rates, the second column
 containing the number of gene pairs and following columns for each pair
 of genes recording the average (over trees) clonal exclusivity.}
 
-\item{test_type}{The type of test to perform with "standard" (default)
-testing the location of each gene pair in the informative trees, "patient"
+\item{test_type}{The type of test to perform with "placement" (default)
+testing the location of each gene pair in the informative trees, "occurrence"
 testing the selection of patients exhibiting the gene pair, and "combined"
-combining both tests. The "patient" test uses the chi-squared approximation
+combining both tests. The "occurrence" test uses the chi-squared approximation
 to obtain p-values, while the "combined" test is exact unless exact_limit is
-negative when the chi-squared approximation is used. The "standard" test
+negative when the chi-squared approximation is used. The "placement" test
 takes the following additional parameters:}
 
 \item{exact_limit}{Limit above which the asymptotic chi-squared distribution
